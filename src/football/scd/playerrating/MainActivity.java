@@ -5,6 +5,7 @@ import java.util.Locale;
 import football.scd.playerrating.GamesFragment.OnGameFragmentInteractionListener;
 import football.scd.playerrating.PlayersFragment.OnPlayerFragmentInteractionListener;
 import football.scd.playerrating.Statistics.OnStatsFragmentInteractionListener;
+import football.scd.playerrating.contents.GamesContent;
 import football.scd.playerrating.contents.PlayersContent;
 
 import android.app.ActionBar;
@@ -29,6 +30,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public static final String EXTRA_NAME = "football.scd.playerrating.Name";
 	public static final String EXTRA_GIVENNAME = "football.scd.playerrating.Givenname";
 	public static final String EXTRA_ID = "football.scd.playerrating.ID";
+	public static final String EXTRA_OPPONENT = "football.scd.playerrating.Opponent";
+	public static final String EXTRA_SELF_SCORE = "football.scd.playerrating.Self_Score";
+	public static final String EXTRA_OPPONENT_SCORE = "football.scd.playerrating.Opponent_Score";
+	public static final String EXTRA_SELF_NAME = "football.scd.playerrating.Self_Name";
+	public static final String EXTRA_IS_HOME_GAME = "football.scd.playerrating.Is_Home_Game";
+
+
 
 	
 	private static final int PLAYER_TAB = 0;
@@ -221,8 +229,15 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	@Override
 	public void onGameSelected(int id) {
 		// TODO Auto-generated method stub
-		Log.d("Callback", "Selected game with ID " + id);
-	}
+    	Intent intent = new Intent(this,GameActivity.class);
+    	intent.putExtra(MainActivity.EXTRA_TYPE, MainActivity.EXTRA_TYPE_SHOW);
+    	intent.putExtra(MainActivity.EXTRA_ID, GamesContent.GAME_MAP.get(id).getID());
+    	intent.putExtra(MainActivity.EXTRA_OPPONENT, GamesContent.GAME_MAP.get(id).getOpponent());
+    	intent.putExtra(MainActivity.EXTRA_SELF_SCORE, GamesContent.GAME_MAP.get(id).getSelf_goals());
+    	intent.putExtra(MainActivity.EXTRA_OPPONENT_SCORE, GamesContent.GAME_MAP.get(id).getOpponent_goals());
+    	intent.putExtra(MainActivity.EXTRA_SELF_NAME, GamesContent.GAME_MAP.get(id).getSelf_name());
+    	intent.putExtra(MainActivity.EXTRA_IS_HOME_GAME, GamesContent.GAME_MAP.get(id).isHomeGame());
+    	startActivity(intent);	}
 
 	@Override
 	public void onPlayerSelected(int id) {
