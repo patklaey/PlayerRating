@@ -28,11 +28,17 @@ public class Player {
 		this.ID = _ID;
 	}
 
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
-	public String toString()
+	public String toString() {
+		return "Player [ID=" + ID + ", name=" + name + ", givenname="
+				+ givenname + "]";
+	}
+
+	public String fullName()
 	{
 		return this.name + " " + this.givenname;
 	}

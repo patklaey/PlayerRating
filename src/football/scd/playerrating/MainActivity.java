@@ -2,7 +2,8 @@ package football.scd.playerrating;
 
 import java.util.Locale;
 
-import football.scd.playerrating.PlayersFragment.OnFragmentInteractionListener;
+import football.scd.playerrating.GamesFragment.OnGameFragmentInteractionListener;
+import football.scd.playerrating.PlayersFragment.OnPlayerFragmentInteractionListener;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
@@ -15,7 +16,7 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener, OnFragmentInteractionListener {
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener, OnGameFragmentInteractionListener, OnPlayerFragmentInteractionListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -108,11 +109,25 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
         	
-            // Return a PlayersFragment
-            Fragment fragment = new PlayersFragment();
-            Bundle args = new Bundle();
-            fragment.setArguments(args);
-            return fragment;
+        	Bundle args = new Bundle();
+        	
+        	switch (position) {
+			case 0:
+	            // Return a PlayersFragment
+	            Fragment players = new PlayersFragment();
+	            players.setArguments(args);
+	            return players;
+			case 1:
+	            // Return a GamesFragment
+	            Fragment games = new GamesFragment();
+	            games.setArguments(args);
+	            return games;
+			default:
+	            // Return a PlayersFragment
+	            Fragment fragment = new PlayersFragment();
+	            fragment.setArguments(args);
+	            return fragment;
+        	}
         }
 
         @Override
@@ -135,9 +150,15 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             return null;
         }
     }
+	
+	@Override
+	public void onGameSelected(int id) {
+		// TODO Auto-generated method stub
+		Log.d("Callback", "Selected game with ID " + id);
+	}
 
 	@Override
-	public void onFragmentInteraction(int id) {
+	public void onPlayerSelected(int id) {
 		// TODO Auto-generated method stub
 		Log.d("Callback", "Selected player with ID " + id);
 	}

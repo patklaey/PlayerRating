@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import football.scd.playerrating.contents.PlayersContent;
+import football.scd.playerrating.contents.GamesContent;
 
 /**
  * A fragment representing a list of Items.
@@ -16,7 +16,7 @@ import football.scd.playerrating.contents.PlayersContent;
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-public class PlayersFragment extends ListFragment {
+public class GamesFragment extends ListFragment {
 
 	// TODO: Rename parameter arguments, choose names that match
 	// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,11 +27,11 @@ public class PlayersFragment extends ListFragment {
 	private String mParam1;
 	private String mParam2;
 
-	private OnPlayerFragmentInteractionListener mListener;
+	private OnGameFragmentInteractionListener mListener;
 
 	// TODO: Rename and change types of parameters
-	public static PlayersFragment newInstance(String param1, String param2) {
-		PlayersFragment fragment = new PlayersFragment();
+	public static GamesFragment newInstance(String param1, String param2) {
+		GamesFragment fragment = new GamesFragment();
 		Bundle args = new Bundle();
 		args.putString(ARG_PARAM1, param1);
 		args.putString(ARG_PARAM2, param2);
@@ -43,7 +43,7 @@ public class PlayersFragment extends ListFragment {
 	 * Mandatory empty constructor for the fragment manager to instantiate the
 	 * fragment (e.g. upon screen orientation changes).
 	 */
-	public PlayersFragment() {
+	public GamesFragment() {
 	}
 
 	@Override
@@ -56,16 +56,16 @@ public class PlayersFragment extends ListFragment {
 		}
 
 		// TODO: Change Adapter to display your content
-		setListAdapter(new ArrayAdapter<Player>(getActivity(),
+		setListAdapter(new ArrayAdapter<Game>(getActivity(),
 				android.R.layout.simple_list_item_1, android.R.id.text1,
-				PlayersContent.PLAYERS));
+				GamesContent.GAMES));
 	}
 
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		try {
-			mListener = (OnPlayerFragmentInteractionListener) activity;
+			mListener = (OnGameFragmentInteractionListener) activity;
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ " must implement OnFragmentInteractionListener");
@@ -86,7 +86,7 @@ public class PlayersFragment extends ListFragment {
 			// Notify the active callbacks interface (the activity, if the
 			// fragment is attached to one) that an item has been selected.
 			mListener
-					.onPlayerSelected(PlayersContent.PLAYERS.get(position).getID());
+					.onGameSelected(GamesContent.GAMES.get(position).getID());
 		}
 	}
 
@@ -99,10 +99,9 @@ public class PlayersFragment extends ListFragment {
 	 * "http://developer.android.com/training/basics/fragments/communicating.html"
 	 * >Communicating with Other Fragments</a> for more information.
 	 */
-	public interface OnPlayerFragmentInteractionListener {
+	public interface OnGameFragmentInteractionListener {
 		// TODO: Update argument type and name
-		public void onPlayerSelected(int id);
-
+		public void onGameSelected(int id);
 	}
 
 }
