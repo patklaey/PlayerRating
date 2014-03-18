@@ -4,9 +4,11 @@ import java.util.Locale;
 
 import football.scd.playerrating.GamesFragment.OnGameFragmentInteractionListener;
 import football.scd.playerrating.PlayersFragment.OnPlayerFragmentInteractionListener;
+import football.scd.playerrating.Statistics.OnStatsFragmentInteractionListener;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -16,7 +18,7 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener, OnGameFragmentInteractionListener, OnPlayerFragmentInteractionListener {
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener, OnGameFragmentInteractionListener, OnPlayerFragmentInteractionListener, OnStatsFragmentInteractionListener{
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -122,6 +124,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	            Fragment games = new GamesFragment();
 	            games.setArguments(args);
 	            return games;
+			case 2:
+				Fragment stats = new Statistics();
+				stats.setArguments(args);
+	            return stats;
 			default:
 	            // Return a PlayersFragment
 	            Fragment fragment = new PlayersFragment();
@@ -161,5 +167,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public void onPlayerSelected(int id) {
 		// TODO Auto-generated method stub
 		Log.d("Callback", "Selected player with ID " + id);
+	}
+
+	@Override
+	public void onStatsFragmentInteraction(Uri uri) {
+		// TODO Auto-generated method stub
+		Log.d("Callback", "Selected setting with uri " + uri);
 	}
 }
