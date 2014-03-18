@@ -5,9 +5,11 @@ import java.util.Locale;
 import football.scd.playerrating.GamesFragment.OnGameFragmentInteractionListener;
 import football.scd.playerrating.PlayersFragment.OnPlayerFragmentInteractionListener;
 import football.scd.playerrating.Statistics.OnStatsFragmentInteractionListener;
+import football.scd.playerrating.contents.PlayersContent;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,6 +23,14 @@ import android.view.MenuItem;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener, OnGameFragmentInteractionListener, OnPlayerFragmentInteractionListener, OnStatsFragmentInteractionListener{
 
+	public static final String EXTRA_TYPE = "football.scd.playerrating.Type";
+	public static final String EXTRA_TYPE_SHOW = "football.scd.playerrating.Type_Show";
+	public static final String EXTRA_TYPE_NEW = "football.scd.playerrating.Type_New";
+	public static final String EXTRA_NAME = "football.scd.playerrating.Name";
+	public static final String EXTRA_GIVENNAME = "football.scd.playerrating.Givenname";
+	public static final String EXTRA_ID = "football.scd.playerrating.ID";
+
+	
 	private static final int PLAYER_TAB = 0;
 	private static final int GAME_TAB = 1;
 	private static final int STATS_TAB = 2;
@@ -106,7 +116,27 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.action_add:
-                Log.d("Menu","Creating new player " + currentTabSection);
+            	Intent intent;
+            	switch (currentTabSection) {
+					case PLAYER_TAB:
+						intent = new Intent(this,PlayerActivity.class);
+				    	intent.putExtra(MainActivity.EXTRA_TYPE, MainActivity.EXTRA_TYPE_NEW);
+				    	startActivity(intent);
+						break;
+	
+					case GAME_TAB:
+						intent = new Intent(this,PlayerActivity.class);
+				    	intent.putExtra(MainActivity.EXTRA_TYPE, MainActivity.EXTRA_TYPE_NEW);
+				    	startActivity(intent);
+						break;
+						
+					default:
+						intent = new Intent(this,PlayerActivity.class);
+				    	intent.putExtra(MainActivity.EXTRA_TYPE, MainActivity.EXTRA_TYPE_NEW);
+				    	startActivity(intent);
+						break;
+				}
+            	
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -145,25 +175,25 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         	Bundle args = new Bundle();
 
         	switch (position) {
-			case PLAYER_TAB:				
-	            // Return a PlayersFragment
-	            Fragment players = new PlayersFragment();
-	            players.setArguments(args);
-	            return players;
-			case GAME_TAB:
-	            // Return a GamesFragment
-	            Fragment games = new GamesFragment();
-	            games.setArguments(args);
-	            return games;
-			case STATS_TAB:
-				Fragment stats = new Statistics();
-				stats.setArguments(args);
-	            return stats;
-			default:
-	            // Return a PlayersFragment
-	            Fragment fragment = new PlayersFragment();
-	            fragment.setArguments(args);
-	            return fragment;
+				case PLAYER_TAB:				
+		            // Return a PlayersFragment
+		            Fragment players = new PlayersFragment();
+		            players.setArguments(args);
+		            return players;
+				case GAME_TAB:
+		            // Return a GamesFragment
+		            Fragment games = new GamesFragment();
+		            games.setArguments(args);
+		            return games;
+				case STATS_TAB:
+					Fragment stats = new Statistics();
+					stats.setArguments(args);
+		            return stats;
+				default:
+		            // Return a PlayersFragment
+		            Fragment fragment = new PlayersFragment();
+		            fragment.setArguments(args);
+		            return fragment;
         	}
         }
 
@@ -196,8 +226,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
 	@Override
 	public void onPlayerSelected(int id) {
-		// TODO Auto-generated method stub
-		Log.d("Callback", "Selected player with ID " + id);
+    	Intent intent = new Intent(this,PlayerActivity.class);
+    	intent.putExtra(MainActivity.EXTRA_TYPE, MainActivity.EXTRA_TYPE_SHOW);
+    	intent.putExtra(MainActivity.EXTRA_NAME, PlayersContent.PLAYER_MAP.get(id).getName());
+    	intent.putExtra(MainActivity.EXTRA_GIVENNAME, PlayersContent.PLAYER_MAP.get(id).getGivenname());
+    	intent.putExtra(MainActivity.EXTRA_ID, PlayersContent.PLAYER_MAP.get(id).getID());
+    	startActivity(intent);
 	}
 
 	@Override
