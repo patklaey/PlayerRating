@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import football.scd.playerrating.contents.PlayersContent;
-import football.scd.playerrating.dummy.DummyContent;
 
 /**
  * A fragment representing a list of Items.
@@ -87,7 +86,7 @@ public class PlayersFragment extends ListFragment {
 			// Notify the active callbacks interface (the activity, if the
 			// fragment is attached to one) that an item has been selected.
 			mListener
-					.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
+					.onFragmentInteraction(PlayersContent.PLAYERS.get(position).getID());
 		}
 	}
 
@@ -102,7 +101,7 @@ public class PlayersFragment extends ListFragment {
 	 */
 	public interface OnFragmentInteractionListener {
 		// TODO: Update argument type and name
-		public void onFragmentInteraction(String id);
+		public void onFragmentInteraction(int id);
 	}
 
 }
