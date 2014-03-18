@@ -34,12 +34,6 @@ public class Player {
 	 */
 	@Override
 	public String toString() {
-		return "Player [ID=" + ID + ", name=" + name + ", givenname="
-				+ givenname + "]";
-	}
-
-	public String fullName()
-	{
 		return this.name + " " + this.givenname;
 	}
 

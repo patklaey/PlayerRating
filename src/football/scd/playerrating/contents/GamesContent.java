@@ -24,9 +24,9 @@ public class GamesContent
 	
 	// Add all players from the database
 	static {
-		addGame(new Game(1,"Sense Mitte Cb", true));
-		addGame(new Game(2, "Gurmels", false));
-		addGame(new Game(3, "Vully Sport Ca", false));
+		addGame(new Game(1,"SC Düdingen","Sense Mitte Cb", true));
+		addGame(new Game(2,"SC Düdingen", "Gurmels", false));
+		addGame(new Game(3,"SC Düdingen", "Vully Sport Ca", false));
 	}
 	
 	private static void addGame(Game game) {

@@ -59,6 +59,7 @@ public class PlayersFragment extends ListFragment {
 		setListAdapter(new ArrayAdapter<Player>(getActivity(),
 				android.R.layout.simple_list_item_1, android.R.id.text1,
 				PlayersContent.PLAYERS));
+
 	}
 
 	@Override
