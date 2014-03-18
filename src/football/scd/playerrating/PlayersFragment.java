@@ -105,7 +105,6 @@ public class PlayersFragment extends ListFragment {
 	{
 		// TODO: Update argument type and name
 		public void onPlayerSelected(int id);
-
 	}
 
 }

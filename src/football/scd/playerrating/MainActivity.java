@@ -8,6 +8,7 @@ import football.scd.playerrating.Statistics.OnStatsFragmentInteractionListener;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.content.ClipData.Item;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,9 +18,15 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener, OnGameFragmentInteractionListener, OnPlayerFragmentInteractionListener, OnStatsFragmentInteractionListener{
 
+	private static final int PLAYER_TAB = 0;
+	private static final int GAME_TAB = 1;
+	private static final int STATS_TAB = 2;
+	
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -35,6 +42,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      */
     ViewPager mViewPager;
 
+    // Remember the current section as it is important for the menu
+    private int currentTabSection = 0;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +68,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
+            	
+    			// Set the currentTabSection
+            	currentTabSection = position;
+            	invalidateOptionsMenu();
                 actionBar.setSelectedNavigationItem(position);
             }
         });
@@ -79,7 +93,26 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.player, menu);
+        if ( currentTabSection == STATS_TAB )
+        {
+        	menu.findItem(R.id.action_add).setVisible(false);
+        } else
+        {
+        	menu.findItem(R.id.action_add).setVisible(true);
+        }
         return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_add:
+                Log.d("Menu","Creating new player " + currentTabSection);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
     
     @Override
@@ -112,19 +145,19 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             // getItem is called to instantiate the fragment for the given page.
         	
         	Bundle args = new Bundle();
-        	
+
         	switch (position) {
-			case 0:
+			case PLAYER_TAB:				
 	            // Return a PlayersFragment
 	            Fragment players = new PlayersFragment();
 	            players.setArguments(args);
 	            return players;
-			case 1:
+			case GAME_TAB:
 	            // Return a GamesFragment
 	            Fragment games = new GamesFragment();
 	            games.setArguments(args);
 	            return games;
-			case 2:
+			case STATS_TAB:
 				Fragment stats = new Statistics();
 				stats.setArguments(args);
 	            return stats;
@@ -174,4 +207,5 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		// TODO Auto-generated method stub
 		Log.d("Callback", "Selected setting with uri " + uri);
 	}
+
 }
