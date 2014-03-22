@@ -30,18 +30,21 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public static final String EXTRA_NAME = "football.scd.playerrating.Name";
 	public static final String EXTRA_GIVENNAME = "football.scd.playerrating.Givenname";
 	public static final String EXTRA_ID = "football.scd.playerrating.ID";
+	public static final String EXTRA_MINUTES = "football.scd.playerrating.Minutes";
+	public static final String EXTRA_GOALS = "football.scd.playerrating.Goals";
+	public static final String EXTRA_RATING = "football.scd.playerrating.Rating";
 	public static final String EXTRA_OPPONENT = "football.scd.playerrating.Opponent";
 	public static final String EXTRA_SELF_SCORE = "football.scd.playerrating.Self_Score";
 	public static final String EXTRA_OPPONENT_SCORE = "football.scd.playerrating.Opponent_Score";
 	public static final String EXTRA_SELF_NAME = "football.scd.playerrating.Self_Name";
 	public static final String EXTRA_IS_HOME_GAME = "football.scd.playerrating.Is_Home_Game";
 
-
-
 	
 	private static final int PLAYER_TAB = 0;
 	private static final int GAME_TAB = 1;
 	private static final int STATS_TAB = 2;
+	
+	public static int next_free_player_id = 4;
 	
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -246,6 +249,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     	intent.putExtra(MainActivity.EXTRA_NAME, PlayersContent.PLAYER_MAP.get(id).getName());
     	intent.putExtra(MainActivity.EXTRA_GIVENNAME, PlayersContent.PLAYER_MAP.get(id).getGivenname());
     	intent.putExtra(MainActivity.EXTRA_ID, PlayersContent.PLAYER_MAP.get(id).getID());
+    	intent.putExtra(MainActivity.EXTRA_MINUTES, PlayersContent.PLAYER_MAP.get(id).getMinutes());
+    	intent.putExtra(MainActivity.EXTRA_GOALS, PlayersContent.PLAYER_MAP.get(id).getGoals());
+    	intent.putExtra(MainActivity.EXTRA_RATING, PlayersContent.PLAYER_MAP.get(id).getRating());
     	startActivity(intent);
 	}
 

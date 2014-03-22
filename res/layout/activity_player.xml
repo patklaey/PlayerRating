@@ -61,16 +61,6 @@
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
-        android:id="@+id/player_goals_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/player_goals"
-        android:layout_marginLeft="5dp"
-        android:layout_toRightOf="@+id/player_goals"
-        android:text="@string/Zero"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
         android:id="@+id/player_minutes"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
@@ -90,26 +80,6 @@
         android:text="@string/Rating"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView
-        android:id="@+id/player_minutes_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/player_rating"
-        android:layout_marginLeft="5dp"
-        android:layout_toRightOf="@+id/player_minutes"
-        android:text="@string/Zero"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android:id="@+id/player_rating_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/player_rating"
-        android:layout_alignBottom="@+id/player_rating"
-        android:layout_alignLeft="@+id/player_minutes_value"
-        android:text="@string/Zero"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
     <Button
         android:id="@+id/edit_player_button"
         style="?android:attr/buttonStyleSmall"
@@ -118,6 +88,7 @@
         android:layout_alignLeft="@+id/player_rating"
         android:layout_below="@+id/player_rating"
         android:layout_marginTop="30dp"
+        android:onClick="editPlayer"
         android:text="@string/Edit" />
 
     <Button
@@ -128,6 +99,46 @@
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/edit_player_button"
         android:enabled="false"
+        android:onClick="savePlayer"
         android:text="@string/Save" />
+
+    <EditText
+        android:id="@+id/player_goals_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/player_goals"
+        android:layout_alignBottom="@+id/player_goals"
+        android:layout_toRightOf="@+id/player_goals"
+        android:ems="2"
+        android:hint="@string/Zero"
+        android:enabled="false"
+        android:text="@string/Zero"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/player_minutes_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:layout_alignBaseline="@+id/player_minutes"
+        android:layout_alignBottom="@+id/player_minutes"
+        android:layout_alignLeft="@+id/player_goals_value"
+        android:ems="3"
+        android:hint="@string/Zero"
+        android:text="@string/Zero"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/player_rating_values"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/player_rating"
+        android:layout_alignBottom="@+id/player_rating"
+        android:layout_alignLeft="@+id/player_minutes_value"
+        android:ems="4"
+        android:enabled="false"
+        android:text="@string/Zero"
+        android:hint="@string/Zero"
+        android:inputType="numberDecimal" />
 
 </RelativeLayout>
