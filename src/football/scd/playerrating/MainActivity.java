@@ -5,6 +5,8 @@ import java.util.Locale;
 import football.scd.playerrating.GamesFragment.OnGameFragmentInteractionListener;
 import football.scd.playerrating.PlayersFragment.OnPlayerFragmentInteractionListener;
 import football.scd.playerrating.Statistics.OnStatsFragmentInteractionListener;
+import football.scd.playerrating.backend.Backend;
+import football.scd.playerrating.backend.SQLiteBackend;
 import football.scd.playerrating.contents.GamesContent;
 import football.scd.playerrating.contents.PlayersContent;
 
@@ -44,7 +46,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	private static final int GAME_TAB = 1;
 	private static final int STATS_TAB = 2;
 	
-	public static int next_free_player_id = 4;
+	public static int next_free_player_id = 0;
+	
+	private static Backend backend;
 	
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -68,6 +72,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Create the backend
+        MainActivity.backend = new SQLiteBackend(this);
+
+        // Get all players from the backend
+        PlayersContent.addPlayers(MainActivity.backend.getAllPlayers());
 
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();
@@ -106,6 +116,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
+                
     }
 
     @Override
@@ -261,4 +272,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		Log.d("Callback", "Selected setting with uri " + uri);
 	}
 
+	public static Backend getBackend()
+	{
+		return MainActivity.backend;
+	}
+	
 }

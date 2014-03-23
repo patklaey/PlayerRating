@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.annotation.SuppressLint;
+import football.scd.playerrating.MainActivity;
 import football.scd.playerrating.Player;
 
 @SuppressLint("UseSparseArrays") 
@@ -22,16 +23,15 @@ public class PlayersContent
 	 */
 	public static Map<Integer, Player> PLAYER_MAP = new HashMap<Integer, Player>();
 	
-	// Add all players from the database
-	static {
-		addPlayer(new Player(1, "Baeriswyl", "Livio"));
-		addPlayer(new Player(2, "Berniki", "Fitim"));
-		addPlayer(new Player(3, "Kolly", "Claudio"));
-	}
-	
-	public static void addPlayer(Player player) {
+	public static void addPlayer(Player player)
+	{
+		// Add the player to the local maps
 		PLAYERS.add(player);
 		PLAYER_MAP.put(player.getID(), player);
+		
+		// Check if the MainActivity.next_free_player_id needs to be increased
+		if ( player.getID() >= MainActivity.next_free_player_id )
+			MainActivity.next_free_player_id = player.getID() + 1;
 	}
 	
 	public static void updatePlayer(Player player)
@@ -52,6 +52,17 @@ public class PlayersContent
 				return;
 			}
 		}
+	}
+	
+	public static void addPlayers(List<Player> players)
+	{
+		// If players is null return 
+		if ( players == null )
+			return;
+		
+		// Add all players from the list
+		for (Player player : players) 
+			addPlayer(player);
 	}
 
 }

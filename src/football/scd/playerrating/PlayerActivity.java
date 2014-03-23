@@ -124,10 +124,16 @@ public class PlayerActivity extends Activity {
 		{
 			// Save it locally
 			PlayersContent.addPlayer(player);
+			
+			// And save it to the database
+			MainActivity.getBackend().createPlayer(player);
 		} else
 		{
 			// Save it locally
 			PlayersContent.updatePlayer(player);
+			
+			// And save it to the database
+			MainActivity.getBackend().updatePlayer(player);
 		}
 		
 		finish();
