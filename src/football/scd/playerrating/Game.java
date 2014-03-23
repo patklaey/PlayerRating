@@ -15,7 +15,7 @@ public class Game
 	private boolean is_home_game;
 	private int self_goals;
 	private int opponent_goals;
-
+	private boolean finished;
 	
 	
 	/**
@@ -32,6 +32,23 @@ public class Game
 		this.is_home_game = _is_home_game;
 		this.self_goals = 0;
 		this.opponent_goals = 0;
+		this.finished = false;
+	}
+
+	/**
+	 * @return the finished
+	 */
+	public boolean isFinished() 
+	{
+		return finished;
+	}
+
+	/**
+	 * @param finished the finished to set
+	 */
+	public void setFinished(boolean finished) 
+	{
+		this.finished = finished;
 	}
 
 	/* (non-Javadoc)
