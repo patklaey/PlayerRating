@@ -10,10 +10,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.support.v4.app.NavUtils;
-import android.text.Editable;
 
-public class PlayerActivity extends Activity {
-
+public class PlayerActivity extends Activity 
+{	
 	// Define fields used for player
 	private String player_name;
 	private String player_givenname;

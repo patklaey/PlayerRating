@@ -70,7 +70,7 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
     private static final String CREATE_GAMES_TABLE = "CREATE TABLE " + GAMES_TABLE + "("
             + KEY_ID + " INTEGER PRIMARY KEY," + KEY_OPPONENT + " TEXT,"
             + KEY_IS_HOME + " INTEGER," + KEY_SELF_NAME + " TEXT," + KEY_SELF_GOALS + " INTEGER," 
-            + KEY_OPPONENT_GOALS + " INTEGER " + KEY_FINISHED + " INTEGER " + ")"; 
+            + KEY_OPPONENT_GOALS + " INTEGER," + KEY_FINISHED + " INTEGER " + ")"; 
     
     // Drop table strings
     private static final String DROP_PLAYERS_TABLE = "DROP TABLE IF EXISTS " + PLAYERS_TABLE;

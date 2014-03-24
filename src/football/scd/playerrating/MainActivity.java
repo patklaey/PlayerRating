@@ -40,15 +40,17 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public static final String EXTRA_OPPONENT_SCORE = "football.scd.playerrating.Opponent_Score";
 	public static final String EXTRA_SELF_NAME = "football.scd.playerrating.Self_Name";
 	public static final String EXTRA_IS_HOME_GAME = "football.scd.playerrating.Is_Home_Game";
-
 	
 	private static final int PLAYER_TAB = 0;
 	private static final int GAME_TAB = 1;
 	private static final int STATS_TAB = 2;
 	
 	public static int next_free_player_id = 0;
-	
+	public static int next_free_game_id = 0;
+
 	private static Backend backend;
+	
+	public static String MY_TEAM_NAME = "SC Düdingen Cb";
 	
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -78,6 +80,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
         // Get all players from the backend
         PlayersContent.addPlayers(MainActivity.backend.getAllPlayers());
+        
+        // Get all games from the backend
+        GamesContent.addGames(MainActivity.backend.getAllGames());
 
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();
@@ -147,7 +152,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 						break;
 	
 					case GAME_TAB:
-						intent = new Intent(this,PlayerActivity.class);
+						intent = new Intent(this,GameActivity.class);
 				    	intent.putExtra(MainActivity.EXTRA_TYPE, MainActivity.EXTRA_TYPE_NEW);
 				    	startActivity(intent);
 						break;
