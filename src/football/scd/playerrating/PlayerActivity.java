@@ -44,6 +44,9 @@ public class PlayerActivity extends Activity
 			// Disable the edit button
 			((Button)findViewById(R.id.edit_player_button)).setEnabled(false);
 			
+			// Hide the delete button
+			((Button)findViewById(R.id.delete_player_button)).setVisibility(View.INVISIBLE);
+			
 			// Remember that it is a new player
 			this.new_player = true;
 			
@@ -63,7 +66,6 @@ public class PlayerActivity extends Activity
 			((EditText)findViewById(R.id.player_goals_value)).setText("" + this.player_goals);
 			((EditText)findViewById(R.id.player_minutes_value)).setText("" + this.player_minutes);
 			((EditText)findViewById(R.id.player_rating_values)).setText("" + this.player_rating);
-
 			
 			// It is not a new player
 			this.new_player = false;
@@ -134,6 +136,17 @@ public class PlayerActivity extends Activity
 			// And save it to the database
 			MainActivity.getBackend().updatePlayer(player);
 		}
+		
+		finish();
+	}
+	
+	public void deletePlayer(View view)
+	{
+		// Remove the player locally
+		PlayersContent.removePlayer( this.player_id );
+		
+		// Remove the player from the database
+		MainActivity.getBackend().removePlayer(this.player_id);
 		
 		finish();
 	}

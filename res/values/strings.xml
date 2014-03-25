@@ -18,12 +18,14 @@
     <string name="Zero">0</string>
     <string name="Save">Save</string>
     <string name="Edit">Edit</string>
+    <string name="Delete">Delete</string>
     <string name="Cancel">Cancel</string>
     <string name="title_activity_game">GameActivity</string>
     <string name="HomeName">Home Team</string>
     <string name="AwayName">Away Team</string>
     <string name="Colon">:</string>
     <string name="Plus">+</string>
+    <string name="Minus">-</string>
     <string name="Start">Start</string>
     <string name="StartGame">Start Game</string>
     <string name="EndGame">End Game</string>

@@ -64,5 +64,28 @@ public class PlayersContent
 		for (Player player : players) 
 			addPlayer(player);
 	}
+	
+	public static void removePlayer(Player player)
+	{
+		// Delete the player
+		PlayersContent.removePlayer( player.getID() );
+	}
 
+	public static void removePlayer(int player_ID)
+	{
+		// Remove the player from the PLAYER_MAP
+		PLAYER_MAP.remove( player_ID );
+		
+		// Go through all players in the list and delete the player
+		for( int i = 0; i < PLAYERS.size(); i++ )
+		{
+			// If the current player has the same id as the one passed
+			// we need to delete it
+			if ( PLAYERS.get(i).getID() == player_ID )
+			{
+				PLAYERS.remove(i);
+				return;
+			}
+		}
+	}
 }

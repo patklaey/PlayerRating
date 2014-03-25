@@ -377,6 +377,52 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 		
 		return game;
 	}
+
+	@Override
+	public boolean removePlayer(Player player) 
+	{
+		return this.removePlayer( player.getID() );
+	}
+
+	@Override
+	public boolean removeGame(Game game) 
+	{
+		return this.removeGame( game.getID() );
+	}
+
+	@Override
+	public boolean removePlayer(int ID) 
+	{
+		// Get writable database access
+	    SQLiteDatabase db = this.getWritableDatabase();
+	    
+	    // Delete the given player
+	    long success = db.delete(PLAYERS_TABLE, KEY_ID + " = ?",
+	            new String[] { String.valueOf( ID ) });
+	    db.close();
+	    
+	    if ( success == 1 )
+	    	return true;
+	    
+		return false;
+	}
+
+	@Override
+	public boolean removeGame(int ID)
+	{
+		// Get writable database access
+	    SQLiteDatabase db = this.getWritableDatabase();
+	    
+	    // Delete the given player
+	    long success = db.delete(GAMES_TABLE, KEY_ID + " = ?",
+	            new String[] { String.valueOf( ID ) });
+	    db.close();
+	    
+	    if ( success == 1 )
+	    	return true;
+	    
+		return false;
+	}
 	
 	
 }

@@ -83,19 +83,46 @@ public class GameActivity extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) 
 	{
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			// This ID represents the Home or Up button. In the case of this
-			// activity, the Up button is shown. Use NavUtils to allow users
-			// to navigate up one level in the application structure. For
-			// more details, see the Navigation pattern on Android Design:
-			//
-			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
-			//
-			NavUtils.navigateUpFromSameTask(this);
-			return true;
+		switch (item.getItemId())
+		{
+			case android.R.id.home:
+				// This ID represents the Home or Up button. In the case of this
+				// activity, the Up button is shown. Use NavUtils to allow users
+				// to navigate up one level in the application structure. For
+				// more details, see the Navigation pattern on Android Design:
+				//
+				// http://developer.android.com/design/patterns/navigation.html#up-vs-back
+				//
+				NavUtils.navigateUpFromSameTask(this);
+				return true;
+				
+			case R.id.action_edit:
+				
+				// Edit the current game
+				findViewById(R.id.save_game_button).setVisibility(View.VISIBLE);
+				findViewById(R.id.increase_home_team_score).setVisibility(View.VISIBLE);
+				findViewById(R.id.increase_away_team_score).setVisibility(View.VISIBLE);
+				findViewById(R.id.decrease_home_team_score).setVisibility(View.VISIBLE);
+				findViewById(R.id.decrease_away_team_score).setVisibility(View.VISIBLE);
+				findViewById(R.id.start_end_game_button).setVisibility(View.INVISIBLE);
+				findViewById(R.id.delete_game_button).setVisibility(View.VISIBLE);
+				
+			default:
+				return super.onOptionsItemSelected(item);
 		}
-		return super.onOptionsItemSelected(item);
+		
+	}
+	
+	// Delete the game 
+	public void deleteGame(View view)
+	{
+		// Delete the game locally
+		GamesContent.removeGame(this.game_ID);
+		
+		// Delete the game from the backend
+		MainActivity.getBackend().removeGame(this.game_ID);
+		
+		finish();
 	}
 	
 	// Save the new game
@@ -118,4 +145,76 @@ public class GameActivity extends Activity {
 		finish();
 	}
 
+	public void increaseHomeScore(View view)
+	{
+		// Get the text of the home score field
+		TextView home_score_text = (TextView)findViewById(R.id.home_team_score);
+		int home_score = Integer.parseInt((String)home_score_text.getText());
+		
+		// Set the text of the home score field to home_score + 1
+		home_score_text.setText( "" + (home_score + 1));
+	}
+	
+	public void increaseAwayScore(View view)
+	{
+		// Get the text of the home score field
+		TextView away_score_text = (TextView)findViewById(R.id.away_team_score);
+		int away_score = Integer.parseInt((String)away_score_text.getText());
+		
+		// Set the text of the home score field to home_score + 1
+		away_score_text.setText( "" + (away_score + 1));
+	}
+	
+	public void decreaseHomeScore(View view)
+	{
+		// Get the text of the home score field
+		TextView home_score_text = (TextView)findViewById(R.id.home_team_score);
+		int home_score = Integer.parseInt((String)home_score_text.getText());
+		
+		// Set the text of the home score field to home_score - 1
+		home_score_text.setText( "" + (home_score - 1));
+	}
+	
+	public void decreaseAwayScore(View view)
+	{
+		// Get the text of the home score field
+		TextView away_score_text = (TextView)findViewById(R.id.away_team_score);
+		int away_score = Integer.parseInt((String)away_score_text.getText());
+		
+		// Set the text of the home score field to home_score - 1
+		away_score_text.setText( "" + (away_score - 1));
+	}
+	
+	public void updateGame(View view)
+	{
+		// Get the text of the home score field
+		TextView home_score_text = (TextView)findViewById(R.id.home_team_score);
+		int home_score = Integer.parseInt((String)home_score_text.getText());
+		
+		// Get the text of the home score field
+		TextView away_score_text = (TextView)findViewById(R.id.away_team_score);
+		int away_score = Integer.parseInt((String)away_score_text.getText());
+		
+		// Create a new game with the ID of the old game
+		Game game = new Game(this.game_ID, this.self_name, this.opponent_name, this.is_home_game);
+		
+		// Set home and away goals
+		if ( this.is_home_game )
+		{
+			game.setSelf_goals(home_score);
+			game.setOpponent_goals(away_score);
+		} else
+		{
+			game.setSelf_goals(away_score);
+			game.setOpponent_goals(home_score);
+		}
+		
+		// Update the game locally
+		GamesContent.updateGame(game);
+		
+		// Update the game in the database
+		MainActivity.getBackend().updateGame(game);
+		
+		finish();
+	}
 }

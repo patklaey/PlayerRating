@@ -31,10 +31,22 @@ public interface Backend
 	// Update a player
 	public boolean updatePlayer(Player player);
 	
+	// Remove a player by ID
+	public boolean removePlayer(Player player);
+	
+	// Remove a player by ID
+	public boolean removePlayer(int ID);
+	
 	// Create a new game
 	public boolean createGame(Game game);
 	
 	// Update a game
 	public boolean updateGame(Game game);
+	
+	// Remove a game by game
+	public boolean removeGame(Game game);
+	
+	// Remove a game by ID
+	public boolean removeGame(int ID);
 	
 }

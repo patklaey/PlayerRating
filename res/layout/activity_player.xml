@@ -141,4 +141,14 @@
         android:hint="@string/Zero"
         android:inputType="numberDecimal" />
 
+    <Button
+        android:id="@+id/delete_player_button"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/save_player_button"
+        android:layout_centerHorizontal="true"
+        android:onClick="deletePlayer"
+        android:text="@string/Delete" />
+
 </RelativeLayout>

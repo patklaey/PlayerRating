@@ -79,6 +79,7 @@
         android:layout_alignBottom="@+id/home_team_score"
         android:layout_marginRight="14dp"
         android:layout_toLeftOf="@+id/home_team_score"
+        android:onClick="increaseHomeScore"
         android:text="@string/Plus"
         android:visibility="invisible" />
 
@@ -92,6 +93,7 @@
         android:layout_marginLeft="14dp"
         android:layout_toRightOf="@+id/away_team_score"
         android:text="@string/Plus"
+        android:onClick="increaseAwayScore"
         android:visibility="invisible" />
 
     <Button
@@ -101,6 +103,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:text="@string/Save"
+        android:onClick="updateGame"
         android:visibility="invisible" />
 
     <Button
@@ -142,5 +145,40 @@
         android:layout_alignBottom="@+id/start_end_game_button"
         android:layout_toRightOf="@+id/start_end_game_button"
         android:text="@string/Substitution" />
+
+    <Button
+        android:id="@+id/decrease_home_team_score"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/increase_home_team_score"
+        android:layout_alignBottom="@+id/increase_home_team_score"
+        android:layout_toLeftOf="@+id/increase_home_team_score"
+        android:onClick="decreaseHomeScore"
+        android:text="@string/Minus"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/decrease_away_team_score"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/increase_away_team_score"
+        android:layout_alignBottom="@+id/increase_away_team_score"
+        android:layout_alignLeft="@+id/save_game_button"
+        android:onClick="decreaseAwayScore"
+        android:text="@string/Minus"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/delete_game_button"
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/start_end_game_button"
+        android:layout_alignBottom="@+id/start_end_game_button"
+        android:layout_alignLeft="@+id/start_end_game_button"
+        android:visibility="invisible"
+        android:onClick="deleteGame"
+        android:text="@string/Delete" />
 
 </RelativeLayout>

@@ -43,4 +43,47 @@ public class GamesContent
 		for (Game game : games)
 			addGame(game);
 	}
+	
+	public static void updateGame(Game game)
+	{
+		// Replace the game in the game map
+		GAME_MAP.put(game.getID(), game);
+		
+		// Go through all games in the list and replace the game
+		for( int i = 0; i < GAMES.size(); i++ )
+		{
+			// If the current game has the same id as the one passed
+			// we need to replace it
+			if ( GAMES.get(i).getID() == game.getID() )
+			{
+				GAMES.remove(i);
+				GAMES.add(i, game);
+				return;
+			}
+		}
+	}
+	
+	public static void removeGame(Game game)
+	{
+		// Delete the game
+		GamesContent.removeGame( game.getID() );
+	}
+	
+	public static void removeGame(int game_ID)
+	{
+		// Remove the game from the GAME_MAP
+		GAME_MAP.remove( game_ID );
+		
+		// Go through all games in the list and delete the game
+		for( int i = 0; i < GAMES.size(); i++ )
+		{
+			// If the current game has the same id as the one passed
+			// we need to delete it
+			if ( GAMES.get(i).getID() == game_ID )
+			{
+				GAMES.remove(i);
+				return;
+			}
+		} 
+	}
 }
