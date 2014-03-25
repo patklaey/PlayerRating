@@ -16,12 +16,15 @@ import football.scd.playerrating.contents.PlayersContent;
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-public class PlayersFragment extends ListFragment {
+public class PlayersFragment extends ListFragment 
+{
 
 	private OnPlayerFragmentInteractionListener mListener;
+	private static ArrayAdapter<Player> adapter;
 
 	// TODO: Rename and change types of parameters
-	public static PlayersFragment newInstance(String param1, String param2) {
+	public static PlayersFragment newInstance(String param1, String param2)
+	{
 		PlayersFragment fragment = new PlayersFragment();
 		return fragment;
 	}
@@ -34,13 +37,16 @@ public class PlayersFragment extends ListFragment {
 	}
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) 
+	{
 		super.onCreate(savedInstanceState);
 
-		// TODO: Change Adapter to display your content
-		setListAdapter(new ArrayAdapter<Player>(getActivity(),
+		// Display all players
+		adapter = new ArrayAdapter<Player>(getActivity(),
 				android.R.layout.simple_list_item_1, android.R.id.text1,
-				PlayersContent.PLAYERS));
+				PlayersContent.PLAYERS);
+		
+		setListAdapter( adapter );
 
 	}
 
@@ -53,10 +59,12 @@ public class PlayersFragment extends ListFragment {
 			throw new ClassCastException(activity.toString()
 					+ " must implement OnFragmentInteractionListener");
 		}
+	
 	}
 
 	@Override
-	public void onDetach() {
+	public void onDetach() 
+	{
 		super.onDetach();
 		mListener = null;
 	}
@@ -87,6 +95,11 @@ public class PlayersFragment extends ListFragment {
 	{
 		// TODO: Update argument type and name
 		public void onPlayerSelected(int id);
+	}
+	
+	public static void updateList()
+	{
+		adapter.notifyDataSetChanged();
 	}
 
 }

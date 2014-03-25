@@ -41,9 +41,6 @@ public class PlayerActivity extends Activity
 			((EditText)findViewById(R.id.player_edit_givenname)).setEnabled(true);
 			((Button)findViewById(R.id.save_player_button)).setEnabled(true);
 			
-			// Disable the edit button
-			((Button)findViewById(R.id.edit_player_button)).setEnabled(false);
-			
 			// Hide the delete button
 			((Button)findViewById(R.id.delete_player_button)).setVisibility(View.INVISIBLE);
 			
@@ -57,7 +54,7 @@ public class PlayerActivity extends Activity
 			this.player_givenname = intent.getStringExtra(MainActivity.EXTRA_GIVENNAME);
 			this.player_id = intent.getIntExtra(MainActivity.EXTRA_ID, -1);
 			this.player_minutes = intent.getIntExtra(MainActivity.EXTRA_MINUTES, 0);
-			this.player_rating = intent.getIntExtra(MainActivity.EXTRA_RATING, 0);
+			this.player_rating = intent.getFloatExtra(MainActivity.EXTRA_RATING, 0);
 			this.player_goals = intent.getIntExtra(MainActivity.EXTRA_GOALS, 0);
 			
 			// Set the corresponding text fields
@@ -85,9 +82,11 @@ public class PlayerActivity extends Activity
 		((EditText)findViewById(R.id.player_minutes_value)).setEnabled(true);
 		((EditText)findViewById(R.id.player_rating_values)).setEnabled(true);
 
-		// Enable save and disable edit button
+		// Enable save and 
 		((Button)findViewById(R.id.save_player_button)).setEnabled(true);
-		((Button)findViewById(R.id.edit_player_button)).setEnabled(false);
+		
+		// Show delete button
+		((Button)findViewById(R.id.delete_player_button)).setVisibility(View.VISIBLE);
 
 	}
 	
@@ -137,6 +136,9 @@ public class PlayerActivity extends Activity
 			MainActivity.getBackend().updatePlayer(player);
 		}
 		
+		// Notify the player adapter that the data changed
+		PlayersFragment.updateList();
+		
 		finish();
 	}
 	
@@ -144,6 +146,9 @@ public class PlayerActivity extends Activity
 	{
 		// Remove the player locally
 		PlayersContent.removePlayer( this.player_id );
+		
+		// Notify the player adapter that the data changed
+		PlayersFragment.updateList();
 		
 		// Remove the player from the database
 		MainActivity.getBackend().removePlayer(this.player_id);
@@ -161,27 +166,44 @@ public class PlayerActivity extends Activity
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.player, menu);
+		
+		if ( this.new_player )
+			menu.findItem(R.id.action_edit).setVisible(false);
+		
 		return true;
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			// This ID represents the Home or Up button. In the case of this
-			// activity, the Up button is shown. Use NavUtils to allow users
-			// to navigate up one level in the application structure. For
-			// more details, see the Navigation pattern on Android Design:
-			//
-			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
-			//
-			NavUtils.navigateUpFromSameTask(this);
-			return true;
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch (item.getItemId()) 
+		{
+			case android.R.id.home:
+				// This ID represents the Home or Up button. In the case of this
+				// activity, the Up button is shown. Use NavUtils to allow users
+				// to navigate up one level in the application structure. For
+				// more details, see the Navigation pattern on Android Design:
+				//
+				// http://developer.android.com/design/patterns/navigation.html#up-vs-back
+				//
+				NavUtils.navigateUpFromSameTask(this);
+				return true;
+				
+			case R.id.action_edit:
+				
+				// Lets edit the player
+				this.editPlayer(null);
+				return true;
+				
+			default:
+				return super.onOptionsItemSelected(item);
+				
 		}
-		return super.onOptionsItemSelected(item);
+		
 	}
 
 }

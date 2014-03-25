@@ -36,7 +36,6 @@ public class PlayersContent
 	
 	public static void updatePlayer(Player player)
 	{
-		// 
 		//PLAYER_MAP.remove(player.getID());
 		PLAYER_MAP.put(player.getID(), player);
 		

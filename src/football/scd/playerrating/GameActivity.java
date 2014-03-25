@@ -20,6 +20,7 @@ public class GameActivity extends Activity {
 	private int opponent_goals;
 	private boolean is_home_game;
 	private int game_ID;
+	private boolean new_game;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,7 @@ public class GameActivity extends Activity {
 		if ( intent.getStringExtra(MainActivity.EXTRA_TYPE).equals(MainActivity.EXTRA_TYPE_NEW) )
 		{
 			setContentView(R.layout.new_game_activity);
+			this.new_game = true;
 		} else
 		{
 			// Set the layout
@@ -77,6 +79,10 @@ public class GameActivity extends Activity {
 	{
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.game, menu);
+		
+		if ( this.new_game )
+			menu.findItem(R.id.action_edit).setVisible(false);
+		
 		return true;
 	}
 
@@ -107,6 +113,8 @@ public class GameActivity extends Activity {
 				findViewById(R.id.start_end_game_button).setVisibility(View.INVISIBLE);
 				findViewById(R.id.delete_game_button).setVisibility(View.VISIBLE);
 				
+				return true;
+				
 			default:
 				return super.onOptionsItemSelected(item);
 		}
@@ -119,9 +127,18 @@ public class GameActivity extends Activity {
 		// Delete the game locally
 		GamesContent.removeGame(this.game_ID);
 		
+		// Notify the game adapter that the data has changed
+		GamesFragment.updateList();
+		
 		// Delete the game from the backend
 		MainActivity.getBackend().removeGame(this.game_ID);
 		
+		finish();
+	}
+	
+	public void cancel(View view)
+	{
+		// Simply finish the current view
 		finish();
 	}
 	
@@ -138,6 +155,9 @@ public class GameActivity extends Activity {
 		
 		// Save the game locally
 		GamesContent.addGame(game);
+		
+		// Notify the game adapter that the data has changed
+		GamesFragment.updateList();
 		
 		// Save the game to the backend
 		MainActivity.getBackend().createGame(game);

@@ -19,6 +19,7 @@ import football.scd.playerrating.contents.GamesContent;
 public class GamesFragment extends ListFragment {
 
 	private OnGameFragmentInteractionListener mListener;
+	private static ArrayAdapter<Game> adapter;
 
 	// TODO: Rename and change types of parameters
 	public static GamesFragment newInstance(String param1, String param2) {
@@ -37,10 +38,11 @@ public class GamesFragment extends ListFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// TODO: Change Adapter to display your content
-		setListAdapter(new ArrayAdapter<Game>(getActivity(),
+		// Display all games
+		adapter = new ArrayAdapter<Game>(getActivity(),
 				android.R.layout.simple_list_item_1, android.R.id.text1,
-				GamesContent.GAMES));
+				GamesContent.GAMES);
+		setListAdapter( adapter );
 	}
 
 	@Override
@@ -84,6 +86,11 @@ public class GamesFragment extends ListFragment {
 	public interface OnGameFragmentInteractionListener {
 		// TODO: Update argument type and name
 		public void onGameSelected(int id);
+	}
+	
+	public static void updateList()
+	{
+		adapter.notifyDataSetChanged();
 	}
 
 }

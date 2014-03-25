@@ -80,28 +80,6 @@
         android:text="@string/Rating"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <Button
-        android:id="@+id/edit_player_button"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/player_rating"
-        android:layout_below="@+id/player_rating"
-        android:layout_marginTop="30dp"
-        android:onClick="editPlayer"
-        android:text="@string/Edit" />
-
-    <Button
-        android:id="@+id/save_player_button"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/edit_player_button"
-        android:enabled="false"
-        android:onClick="savePlayer"
-        android:text="@string/Save" />
-
     <EditText
         android:id="@+id/player_goals_value"
         android:layout_width="wrap_content"
@@ -142,13 +120,27 @@
         android:inputType="numberDecimal" />
 
     <Button
+        android:id="@+id/save_player_button"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/delete_player_button"
+        android:layout_alignBottom="@+id/delete_player_button"
+        android:layout_alignParentRight="true"
+        android:enabled="false"
+        android:onClick="savePlayer"
+        android:text="@string/Save" />
+
+    <Button
         android:id="@+id/delete_player_button"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="75dp"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/save_player_button"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/player_rating_values"
+        android:layout_marginTop="30dp"
         android:onClick="deletePlayer"
+        android:visibility="invisible"
         android:text="@string/Delete" />
 
 </RelativeLayout>
