@@ -140,10 +140,10 @@
         android:id="@+id/substitution_button"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
         android:layout_alignBaseline="@+id/start_end_game_button"
         android:layout_alignBottom="@+id/start_end_game_button"
         android:layout_toRightOf="@+id/start_end_game_button"
+        android:onClick="substitution"
         android:text="@string/Substitution" />
 
     <Button

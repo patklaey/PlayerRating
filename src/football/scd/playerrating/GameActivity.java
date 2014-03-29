@@ -1,7 +1,10 @@
 package football.scd.playerrating;
 
+import java.util.HashMap;
+
 import football.scd.playerrating.contents.GamesContent;
 import android.os.Bundle;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
@@ -12,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.support.v4.app.NavUtils;
 
+@SuppressLint("UseSparseArrays")
 public class GameActivity extends Activity {
 	
 	private String opponent_name;
@@ -21,6 +25,9 @@ public class GameActivity extends Activity {
 	private boolean is_home_game;
 	private int game_ID;
 	private boolean new_game;
+	
+	public static HashMap<Integer, Player> currenty_playing;
+	public static HashMap<Integer, Player> played;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +67,11 @@ public class GameActivity extends Activity {
 				((TextView)findViewById(R.id.home_team_name)).setText(this.opponent_name);
 				((TextView)findViewById(R.id.home_team_score)).setText("" + this.opponent_goals);
 				((TextView)findViewById(R.id.away_team_score)).setText("" + this.self_goals);
-			}	
+			}
+			
+			// Create an empty currently playing list
+			currenty_playing = new HashMap<Integer, Player>();
+			played = new HashMap<Integer, Player>();
 		}
 				
 		setupActionBar();
@@ -121,6 +132,13 @@ public class GameActivity extends Activity {
 		
 	}
 	
+	// Perform one or multiple substitutions
+	public void substitution(View view)
+	{
+		Intent intent = new Intent(this,Substitution.class);
+		this.startActivity(intent);
+	}
+	
 	// Delete the game 
 	public void deleteGame(View view)
 	{
@@ -136,6 +154,7 @@ public class GameActivity extends Activity {
 		finish();
 	}
 	
+	// Cancle creating new game
 	public void cancel(View view)
 	{
 		// Simply finish the current view

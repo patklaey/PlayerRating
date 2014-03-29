@@ -9,6 +9,7 @@ public class Player
 	private int goals;
 	private int minutes;
 	private float rating;
+	private boolean playing;
 	
 	/**
 	 * @param ID
@@ -24,6 +25,7 @@ public class Player
 		this.goals = 0;
 		this.minutes = 0;
 		this.rating = 0;
+		this.playing = false;
 	}
 	
 	/**
@@ -38,6 +40,23 @@ public class Player
 		this.minutes = 0;
 		this.goals = 0;
 		this.rating = 0;
+		this.playing = false;
+	}
+
+	/**
+	 * @return the playing
+	 */
+	public boolean isPlaying()
+	{
+		return playing;
+	}
+
+	/**
+	 * @param playing the playing to set
+	 */
+	public void setPlaying(boolean playing) 
+	{
+		this.playing = playing;
 	}
 
 	/* (non-Javadoc)
