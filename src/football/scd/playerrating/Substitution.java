@@ -6,7 +6,6 @@ import android.app.ListActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
-import android.support.v4.app.NavUtils;
 
 public class Substitution extends ListActivity 
 {
@@ -60,7 +59,8 @@ public class Substitution extends ListActivity
 			//
 			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
 			//
-			NavUtils.navigateUpFromSameTask(this);
+			//NavUtils.navigateUpFromSameTask(this);
+			finish();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

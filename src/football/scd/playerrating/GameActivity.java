@@ -37,7 +37,8 @@ public class GameActivity extends Activity {
 		// Get the intent
 		Intent intent = getIntent();
 		
-		if ( intent.getStringExtra(MainActivity.EXTRA_TYPE).equals(MainActivity.EXTRA_TYPE_NEW) )
+		if ( intent.getStringExtra(MainActivity.EXTRA_TYPE) != null && 
+			 intent.getStringExtra(MainActivity.EXTRA_TYPE).equals(MainActivity.EXTRA_TYPE_NEW) )
 		{
 			setContentView(R.layout.new_game_activity);
 			this.new_game = true;
@@ -122,6 +123,8 @@ public class GameActivity extends Activity {
 				findViewById(R.id.decrease_home_team_score).setVisibility(View.VISIBLE);
 				findViewById(R.id.decrease_away_team_score).setVisibility(View.VISIBLE);
 				findViewById(R.id.start_end_game_button).setVisibility(View.INVISIBLE);
+				findViewById(R.id.substitution_button).setVisibility(View.INVISIBLE);
+				findViewById(R.id.cancel_edit_game_button).setVisibility(View.VISIBLE);
 				findViewById(R.id.delete_game_button).setVisibility(View.VISIBLE);
 				
 				return true;
@@ -159,6 +162,20 @@ public class GameActivity extends Activity {
 	{
 		// Simply finish the current view
 		finish();
+	}
+	
+	// Cancel edit game
+	public void cancelEdit(View view)
+	{
+		findViewById(R.id.save_game_button).setVisibility(View.INVISIBLE);
+		findViewById(R.id.increase_home_team_score).setVisibility(View.INVISIBLE);
+		findViewById(R.id.increase_away_team_score).setVisibility(View.INVISIBLE);
+		findViewById(R.id.decrease_home_team_score).setVisibility(View.INVISIBLE);
+		findViewById(R.id.decrease_away_team_score).setVisibility(View.INVISIBLE);
+		findViewById(R.id.start_end_game_button).setVisibility(View.VISIBLE);
+		findViewById(R.id.substitution_button).setVisibility(View.VISIBLE);
+		findViewById(R.id.cancel_edit_game_button).setVisibility(View.INVISIBLE);
+		findViewById(R.id.delete_game_button).setVisibility(View.INVISIBLE);
 	}
 	
 	// Save the new game

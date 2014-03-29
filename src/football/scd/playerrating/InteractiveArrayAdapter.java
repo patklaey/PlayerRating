@@ -13,57 +13,72 @@ import android.widget.TextView;
 
 public class InteractiveArrayAdapter extends ArrayAdapter<Player>
 {
-	 private final List<Player> list;
-	 private final Activity context;
+	
+	private final List<Player> list;
+	private final Activity context;
 
-	 public InteractiveArrayAdapter(Activity context, List<Player> list)
-	 {
-	   super(context, R.layout.activity_substitution, list);
-	   this.context = context;
-	   this.list = list;
-	 }
+	public InteractiveArrayAdapter(Activity context, List<Player> list)
+	{
+		// Set the layout and the context and the list
+		super(context, R.layout.activity_substitution, list);
+		this.context = context;
+		this.list = list;
+	}
 
-	 static class ViewHolder
-	 {
-		 protected TextView text;
-		 protected CheckBox checkbox;
-	 }
+	static class ViewHolder
+	{
+		// The view holder contains simply a text view (for the players name) 
+		// and a check box (whether the player is on the field or not)
+		protected TextView text;
+		protected CheckBox checkbox;
+	}
 
-	 @Override
-	 public View getView(int position, View convertView, ViewGroup parent) 
-	 {
-		 View view = null;
-		 if (convertView == null) 
-		 {
-		     LayoutInflater inflator = context.getLayoutInflater();
-		     view = inflator.inflate(R.layout.activity_substitution, null);
-		     final ViewHolder viewHolder = new ViewHolder();
-		     viewHolder.text = (TextView) view.findViewById(R.id.player_name_text_field);
-		     viewHolder.checkbox = (CheckBox) view.findViewById(R.id.on_field_checkbox);
-		     viewHolder.checkbox
-	         .setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() 
-	         {
-	        	 
-	        	 @Override
-		         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-		         {
-	        		 Player player = (Player) viewHolder.checkbox.getTag();
-			         player.setPlaying(buttonView.isChecked());
-		         }
-	         });
-		      
-		     view.setTag(viewHolder);
-		     viewHolder.checkbox.setTag(list.get(position));
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) 
+	{
+		View view = null;
+		
+		// If the passed view is empty
+		if (convertView == null) 
+		{
+			// Create a new view according to the layout
+			LayoutInflater inflator = context.getLayoutInflater();
+		    view = inflator.inflate(R.layout.activity_substitution, null);
+		    final ViewHolder viewHolder = new ViewHolder();
+		    viewHolder.text = (TextView) view.findViewById(R.id.player_name_text_field);
+		    viewHolder.checkbox = (CheckBox) view.findViewById(R.id.on_field_checkbox);
+		    
+		    // Set a oncheckedchangeListener for the checkbox (this performs
+		    // the substitution)
+		    viewHolder.checkbox
+	        .setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() 
+	        {	 
+	        	@Override
+		        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+		        {
+	        		// Set the players playing attribute to the checkboxes checked
+	        		// value
+	        		Player player = (Player) viewHolder.checkbox.getTag();
+			        player.setPlaying(buttonView.isChecked());
+		        }
+	        });
+		    
+		    // Connect player and list position, so when clicking the checkbox
+		    // the correct player is updated
+		    view.setTag(viewHolder);
+		    viewHolder.checkbox.setTag(list.get(position));
 		     
-		 } else
-		 {
-			 view = convertView;
-			 ((ViewHolder) view.getTag()).checkbox.setTag(list.get(position));
-		 }
+		} else
+		{
+			// If the view is not empty, just connect player and list position
+			view = convertView;
+			((ViewHolder) view.getTag()).checkbox.setTag(list.get(position));
+		}
 		 
-		 ViewHolder holder = (ViewHolder) view.getTag();
-		 holder.text.setText(list.get(position).toString());
-		 holder.checkbox.setChecked(list.get(position).isPlaying());
-		 return view;
-	 }
+		// Display all list rows correctly
+		ViewHolder holder = (ViewHolder) view.getTag();
+		holder.text.setText(list.get(position).toString());
+		holder.checkbox.setChecked(list.get(position).isPlaying());
+		return view;
+	}
 }

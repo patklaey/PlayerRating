@@ -181,4 +181,15 @@
         android:onClick="deleteGame"
         android:text="@string/Delete" />
 
+    <Button
+        android:id="@+id/cancel_edit_game_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/substitution_button"
+        android:layout_alignBottom="@+id/substitution_button"
+        android:layout_toRightOf="@+id/increase_home_team_score"
+        android:text="@string/Cancel"
+        android:onClick="cancelEdit"
+        android:visibility="invisible" />
+
 </RelativeLayout>
