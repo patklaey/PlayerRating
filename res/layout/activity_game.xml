@@ -71,28 +71,15 @@
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <Button
-        android:id="@+id/increase_home_team_score"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/home_team_score"
-        android:layout_alignBottom="@+id/home_team_score"
-        android:layout_marginRight="14dp"
-        android:layout_toLeftOf="@+id/home_team_score"
-        android:onClick="increaseHomeScore"
-        android:text="@string/Plus"
-        android:visibility="invisible" />
-
-    <Button
         android:id="@+id/increase_away_team_score"
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/away_team_score"
-        android:layout_alignBottom="@+id/away_team_score"
-        android:layout_marginLeft="14dp"
-        android:layout_toRightOf="@+id/away_team_score"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+		android:layout_below="@+id/away_team_name"
+        android:layout_alignLeft="@+id/away_team_name"
         android:text="@string/Plus"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="12dp"
         android:onClick="increaseAwayScore"
         android:visibility="invisible" />
 
@@ -151,25 +138,27 @@
     <Button
         android:id="@+id/decrease_home_team_score"
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_alignBaseline="@+id/increase_home_team_score"
         android:layout_alignBottom="@+id/increase_home_team_score"
         android:layout_toLeftOf="@+id/increase_home_team_score"
         android:onClick="decreaseHomeScore"
+        android:layout_marginRight="10dp"
         android:text="@string/Minus"
         android:visibility="invisible" />
 
     <Button
         android:id="@+id/decrease_away_team_score"
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_alignBaseline="@+id/increase_away_team_score"
         android:layout_alignBottom="@+id/increase_away_team_score"
-        android:layout_alignLeft="@+id/save_game_button"
+		android:layout_toRightOf="@+id/increase_away_team_score"
         android:onClick="decreaseAwayScore"
         android:text="@string/Minus"
+        android:layout_marginLeft="10dp"
         android:visibility="invisible" />
 
     <Button
@@ -189,7 +178,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/substitution_button"
         android:layout_alignBottom="@+id/substitution_button"
-        android:layout_toRightOf="@+id/increase_home_team_score"
+		android:layout_centerHorizontal="true"
         android:text="@string/Cancel"
         android:onClick="cancelEdit"
         android:visibility="invisible" />
@@ -205,5 +194,18 @@
         android:gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Button
+        android:id="@+id/increase_home_team_score"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignRight="@+id/home_team_name"
+        android:layout_below="@+id/home_team_name"
+        android:onClick="increaseHomeScore"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/Plus"
+        android:visibility="invisible" />
 
 </RelativeLayout>

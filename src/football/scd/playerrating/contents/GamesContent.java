@@ -28,7 +28,6 @@ public class GamesContent
 	{
 		GAMES.add(game);
 		GAME_MAP.put(game.getID(), game);
-		GamesFragment.updateList();
 		
 		// Check if the MainActivity.next_free_player_id needs to be increased
 		if ( game.getID() >= MainActivity.next_free_game_id )
@@ -60,6 +59,7 @@ public class GamesContent
 			{
 				GAMES.remove(i);
 				GAMES.add(i, game);
+				GamesFragment.updateList();
 				return;
 			}
 		}

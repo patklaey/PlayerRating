@@ -29,7 +29,6 @@ public class PlayersContent
 		// Add the player to the local maps
 		PLAYERS.add(player);
 		PLAYER_MAP.put(player.getID(), player);
-		PlayersFragment.updateList();
 
 		// Check if the MainActivity.next_free_player_id needs to be increased
 		if ( player.getID() >= MainActivity.next_free_player_id )
@@ -50,6 +49,7 @@ public class PlayersContent
 			{
 				PLAYERS.remove(i);
 				PLAYERS.add(i, player);
+				PlayersFragment.updateList();
 				return;
 			}
 		}

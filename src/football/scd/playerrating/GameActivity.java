@@ -8,6 +8,7 @@ import android.os.SystemClock;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -45,6 +46,9 @@ public class GameActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		// Show the Up button in the action bar.
+		
+		// Request protrait orientation
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		
 		// Get the intent
 		Intent intent = getIntent();
@@ -247,10 +251,14 @@ public class GameActivity extends Activity
 		findViewById(R.id.increase_away_team_score).setVisibility(View.INVISIBLE);
 		findViewById(R.id.decrease_home_team_score).setVisibility(View.INVISIBLE);
 		findViewById(R.id.decrease_away_team_score).setVisibility(View.INVISIBLE);
-		findViewById(R.id.start_end_game_button).setVisibility(View.VISIBLE);
-		findViewById(R.id.substitution_button).setVisibility(View.VISIBLE);
 		findViewById(R.id.cancel_edit_game_button).setVisibility(View.INVISIBLE);
 		findViewById(R.id.delete_game_button).setVisibility(View.INVISIBLE);
+		
+		if ( !this.finished )
+		{
+			findViewById(R.id.start_end_game_button).setVisibility(View.VISIBLE);
+			findViewById(R.id.substitution_button).setVisibility(View.VISIBLE);
+		}
 	}
 	
 	// Save the new game
