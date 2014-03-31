@@ -112,6 +112,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
+        android:enabled="false"
+        android:onClick="startGame"
         android:text="@string/StartGame" />
 
     <Chronometer
@@ -144,7 +146,7 @@
         android:layout_alignBottom="@+id/start_end_game_button"
         android:layout_toRightOf="@+id/start_end_game_button"
         android:onClick="substitution"
-        android:text="@string/Substitution" />
+        android:text="@string/start11" />
 
     <Button
         android:id="@+id/decrease_home_team_score"

@@ -1,22 +1,28 @@
 package football.scd.playerrating;
 
 import java.util.HashMap;
-
 import football.scd.playerrating.contents.GamesContent;
+import football.scd.playerrating.contents.PlayersContent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.Chronometer;
+import android.widget.Chronometer.OnChronometerTickListener;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.support.v4.app.NavUtils;
 
 @SuppressLint("UseSparseArrays")
-public class GameActivity extends Activity {
+public class GameActivity extends Activity
+{
 	
 	private String opponent_name;
 	private String self_name;
@@ -25,12 +31,13 @@ public class GameActivity extends Activity {
 	private boolean is_home_game;
 	private int game_ID;
 	private boolean new_game;
+	private Chronometer chrono;
 	
-	public static HashMap<Integer, Player> currenty_playing;
 	public static HashMap<Integer, Player> played;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState)
+	{
 		super.onCreate(savedInstanceState);
 		// Show the Up button in the action bar.
 		
@@ -71,7 +78,6 @@ public class GameActivity extends Activity {
 			}
 			
 			// Create an empty currently playing list
-			currenty_playing = new HashMap<Integer, Player>();
 			played = new HashMap<Integer, Player>();
 		}
 				
@@ -135,9 +141,38 @@ public class GameActivity extends Activity {
 		
 	}
 	
+	// Start the game
+	public void startGame(View view)
+	{
+		this.chrono = (Chronometer)findViewById(R.id.game_minutes_played);
+		this.chrono.setBase( SystemClock.elapsedRealtime() );
+		this.chrono.setOnChronometerTickListener( new OnChronometerTickListener() 
+		{
+			
+			@Override
+			public void onChronometerTick(Chronometer chronometer)
+			{
+				Log.d("Chrono", "" + chronometer.getText() );
+				for (Player player : PlayersContent.PLAYERS)
+				{
+					if ( player.isPlaying() )
+						player.setMinutes( player.getMinutes() + 1 );
+				}
+				
+				
+			}
+		});
+		
+		this.chrono.start();
+	}
+	
 	// Perform one or multiple substitutions
 	public void substitution(View view)
 	{
+		// Enable the start game button
+		((Button)findViewById(R.id.start_end_game_button)).setEnabled(true);
+		((Button)findViewById(R.id.substitution_button)).setText(R.string.Substitution);
+		
 		Intent intent = new Intent(this,Substitution.class);
 		this.startActivity(intent);
 	}

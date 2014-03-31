@@ -60,6 +60,11 @@ public class InteractiveArrayAdapter extends ArrayAdapter<Player>
 	        		// value
 	        		Player player = (Player) viewHolder.checkbox.getTag();
 			        player.setPlaying(buttonView.isChecked());
+			        
+			        // If the player goes on the field, remmber that this player
+			        // played in this match
+			        if ( buttonView.isChecked() )
+			        	GameActivity.played.put(player.getID(), player);
 		        }
 	        });
 		    

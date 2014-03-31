@@ -34,5 +34,6 @@
     <string name="Home_Game">Home Game</string>
     <string name="OnField">on field</string>
     <string name="title_activity_substitution">Substitution</string>
+    <string name="start11">Start 11</string>
 
 </resources>
