@@ -47,7 +47,7 @@ public class GameActivity extends Activity
 		super.onCreate(savedInstanceState);
 		// Show the Up button in the action bar.
 		
-		// Request protrait orientation
+		// Request portrait orientation
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		
 		// Get the intent
