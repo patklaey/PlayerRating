@@ -8,6 +8,7 @@ import java.util.Map;
 import android.annotation.SuppressLint;
 import football.scd.playerrating.MainActivity;
 import football.scd.playerrating.Player;
+import football.scd.playerrating.PlayersFragment;
 
 @SuppressLint("UseSparseArrays") 
 public class PlayersContent 
@@ -28,7 +29,8 @@ public class PlayersContent
 		// Add the player to the local maps
 		PLAYERS.add(player);
 		PLAYER_MAP.put(player.getID(), player);
-		
+		PlayersFragment.updateList();
+
 		// Check if the MainActivity.next_free_player_id needs to be increased
 		if ( player.getID() >= MainActivity.next_free_player_id )
 			MainActivity.next_free_player_id = player.getID() + 1;
@@ -83,6 +85,7 @@ public class PlayersContent
 			if ( PLAYERS.get(i).getID() == player_ID )
 			{
 				PLAYERS.remove(i);
+				PlayersFragment.updateList();
 				return;
 			}
 		}

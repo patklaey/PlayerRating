@@ -8,6 +8,7 @@ import android.os.SystemClock;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +23,8 @@ import android.support.v4.app.NavUtils;
 @SuppressLint("UseSparseArrays")
 public class GameActivity extends Activity
 {
+	public static final String EXTRA_PLAYED_LIST = "football.scd.playerrating.GameActivity.Played_List";
+	public static final String EXTRA_GAME_ID = "football.scd.playerrating.GameActivity.Game_ID";
 	
 	private String opponent_name;
 	private String self_name;
@@ -166,8 +169,13 @@ public class GameActivity extends Activity
 		// Set the game finished
 		this.finished = true;
 		
+		Log.d("GameActivity","Played list size: " + GameActivity.played.size() + " " + GameActivity.played.toString() );
+		
 		// Rate all players
-		// TODO: Call rate player activity with GameActivity.played
+		Intent intent = new Intent(this,RatePlayers.class);
+		intent.putExtra(GameActivity.EXTRA_PLAYED_LIST, GameActivity.played);
+		intent.putExtra(GameActivity.EXTRA_GAME_ID, this.game_ID);
+		this.startActivity(intent);
 		
 		// Update the current game
 		this.updateGame(null);
@@ -218,9 +226,6 @@ public class GameActivity extends Activity
 		// Delete the game locally
 		GamesContent.removeGame(this.game_ID);
 		
-		// Notify the game adapter that the data has changed
-		GamesFragment.updateList();
-		
 		// Delete the game from the backend
 		MainActivity.getBackend().removeGame(this.game_ID);
 		
@@ -261,10 +266,7 @@ public class GameActivity extends Activity
 		
 		// Save the game locally
 		GamesContent.addGame(game);
-		
-		// Notify the game adapter that the data has changed
-		GamesFragment.updateList();
-		
+
 		// Save the game to the backend
 		MainActivity.getBackend().createGame(game);
 		
@@ -344,9 +346,6 @@ public class GameActivity extends Activity
 		// Update the game in the database
 		MainActivity.getBackend().updateGame(game);
 		
-		// Notify the game adapter that the data changed
-		GamesFragment.updateList();
-		
 		finish();
 	}
 	
@@ -385,24 +384,23 @@ public class GameActivity extends Activity
 	private class GameChronometer implements OnChronometerTickListener
 	{
 		private GameActivity activity;
+		private int current_minute;
 		
 		public GameChronometer(GameActivity activity)
 		{
 			this.activity = activity;
+			this.current_minute = 0;
 		}
 		
 		@Override
 		public void onChronometerTick(Chronometer chronometer)
-		{
-			// TODO Auto-generated method stub
-			for (Player player : PlayersContent.PLAYERS)
-			{
-				if ( player.isPlaying() )
-					player.setCurrentGameMinutes( player.getCurrentGameMinutes() + 1 );
-			}
+		{		
+			// Get the current minute
+			String array[] = chronometer.getText().toString().split(":");
+			int minute = Integer.parseInt(array[0]);
 			
 			// If the time is over
-			if ( chronometer.getText().equals("00:40") )
+			if ( minute == 2 )
 			{
 				// Stop the chronometer
 				chronometer.stop();
@@ -420,6 +418,21 @@ public class GameActivity extends Activity
 				
 				this.activity.findViewById(R.id.start_end_game_button).setEnabled(true);
 			}
+			
+			// If no minute passed, return
+			if ( minute == this.current_minute )
+				return;
+				
+			// Otherwise calculate the minute offset
+			int offset = minute - this.current_minute;
+			this.current_minute = minute;
+
+			// Add the offset to all players which are currently playing
+			for (Player player : PlayersContent.PLAYERS)
+				if ( player.isPlaying() )
+					player.setCurrentGameMinutes( player.getCurrentGameMinutes() + offset );
+			
+			
 		}
 		
 	}

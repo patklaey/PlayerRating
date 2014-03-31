@@ -265,7 +265,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     	intent.putExtra(MainActivity.EXTRA_SELF_NAME, GamesContent.GAME_MAP.get(id).getSelf_name());
     	intent.putExtra(MainActivity.EXTRA_IS_HOME_GAME, GamesContent.GAME_MAP.get(id).isHomeGame());
     	intent.putExtra(MainActivity.EXTRA_GAME_FINISHED, GamesContent.GAME_MAP.get(id).isFinished());
-    	startActivity(intent);	}
+    	startActivity(intent);	
+    }
 
 	@Override
 	public void onPlayerSelected(int id) {

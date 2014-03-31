@@ -3,12 +3,18 @@
  */
 package football.scd.playerrating;
 
+import java.io.Serializable;
+
 /**
  * @author uni
  *
  */
-public class Game 
+public class Game implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7187483443182132491L;
 	private int ID;
 	private String opponent;
 	private String self_name;

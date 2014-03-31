@@ -46,6 +46,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="football.scd.playerrating.GameActivity" />
         </activity>
+        <activity
+            android:name="football.scd.playerrating.RatePlayers"
+            android:label="@string/title_activity_rate_players"
+            android:parentActivityName="football.scd.playerrating.GameActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="football.scd.playerrating.GameActivity" />
+        </activity>
     </application>
 
 </manifest>

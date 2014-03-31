@@ -1,17 +1,25 @@
 package football.scd.playerrating;
 
 import android.annotation.SuppressLint;
+
+import java.io.Serializable;
 import java.util.HashMap;
 
 @SuppressLint("UseSparseArrays")
-public class Player
+public class Player implements Serializable
 {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8163010295132771740L;
 	
 	private int ID;
 	private String name;
 	private String givenname;
 	private int goals;
 	private int current_game_minutes;
+	private int current_game_goals;
 	
 	// Hashmap for the players ratings
 	private HashMap<Integer, Integer> ratings;
@@ -38,6 +46,7 @@ public class Player
 		this.ratings = new HashMap<Integer, Integer>();
 		this.playing = false;
 		this.current_game_minutes = 0;
+		this.current_game_goals = 0;
 	}
 	
 	/**
@@ -54,6 +63,7 @@ public class Player
 		this.ratings = new HashMap<Integer, Integer>();
 		this.playing = false;
 		this.current_game_minutes = 0;
+		this.current_game_goals = 0;
 	}
 
 	/**
@@ -174,6 +184,22 @@ public class Player
 	public void setGivenname(String givenname) 
 	{
 		this.givenname = givenname;
+	}
+
+	/**
+	 * @return the current_game_goals
+	 */
+	public int getCurrentGameGoals() 
+	{
+		return current_game_goals;
+	}
+
+	/**
+	 * @param current_game_goals the current_game_goals to set
+	 */
+	public void setCurrentGameGoals(int current_game_goals)
+	{
+		this.current_game_goals = current_game_goals;
 	}
 
 }

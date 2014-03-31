@@ -160,9 +160,6 @@ public class PlayerActivity extends Activity
 			MainActivity.getBackend().updatePlayer(player);
 		}
 		
-		// Notify the player adapter that the data changed
-		PlayersFragment.updateList();
-		
 		finish();
 	}
 	
@@ -170,9 +167,6 @@ public class PlayerActivity extends Activity
 	{
 		// Remove the player locally
 		PlayersContent.removePlayer( this.player_id );
-		
-		// Notify the player adapter that the data changed
-		PlayersFragment.updateList();
 		
 		// Remove the player from the database
 		MainActivity.getBackend().removePlayer(this.player_id);

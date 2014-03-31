@@ -39,5 +39,11 @@
     <string name="finish_game">Finish Game</string>
     <string name="first_half">First Half:</string>
     <string name="second_half">Second Half:</string>
+    <string name="title_activity_rate_players">RatePlayers</string>
+    <string name="one">1</string>
+    <string name="two">2</string>
+    <string name="three">3</string>
+    <string name="four">4</string>
+    <string name="played_minutes">Played minutes :</string>
 
 </resources>
