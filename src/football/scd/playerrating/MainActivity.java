@@ -273,7 +273,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     	intent.putExtra(MainActivity.EXTRA_ID, PlayersContent.PLAYER_MAP.get(id).getID());
     	intent.putExtra(MainActivity.EXTRA_MINUTES, PlayersContent.PLAYER_MAP.get(id).getMinutes());
     	intent.putExtra(MainActivity.EXTRA_GOALS, PlayersContent.PLAYER_MAP.get(id).getGoals());
-    	intent.putExtra(MainActivity.EXTRA_RATING, PlayersContent.PLAYER_MAP.get(id).getRating());
+    	intent.putExtra(MainActivity.EXTRA_RATING, PlayersContent.PLAYER_MAP.get(id).getRatings());
     	startActivity(intent);
 	}
 

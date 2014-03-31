@@ -1,5 +1,8 @@
 package football.scd.playerrating;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import football.scd.playerrating.contents.PlayersContent;
 import android.os.Bundle;
 import android.app.Activity;
@@ -18,10 +21,13 @@ public class PlayerActivity extends Activity
 	private String player_givenname;
 	private int player_id;
 	private int player_goals;
-	private int player_minutes;
-	private float player_rating;
+	private HashMap<Integer, Integer> player_minutes;
+	private HashMap<Integer, Integer> player_ratings;
 	private boolean new_player = false;
+	private int total_minutes;
+	private float average_rating;
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -53,16 +59,34 @@ public class PlayerActivity extends Activity
 			this.player_name = intent.getStringExtra(MainActivity.EXTRA_NAME);
 			this.player_givenname = intent.getStringExtra(MainActivity.EXTRA_GIVENNAME);
 			this.player_id = intent.getIntExtra(MainActivity.EXTRA_ID, -1);
-			this.player_minutes = intent.getIntExtra(MainActivity.EXTRA_MINUTES, 0);
-			this.player_rating = intent.getFloatExtra(MainActivity.EXTRA_RATING, 0);
+			this.player_minutes = (HashMap<Integer, Integer>) intent.getSerializableExtra(MainActivity.EXTRA_MINUTES);
+			this.player_ratings = (HashMap<Integer, Integer>) intent.getSerializableExtra(MainActivity.EXTRA_RATING);
 			this.player_goals = intent.getIntExtra(MainActivity.EXTRA_GOALS, 0);
 			
 			// Set the corresponding text fields
 			((EditText)findViewById(R.id.player_edit_name)).setText(this.player_name);
 			((EditText)findViewById(R.id.player_edit_givenname)).setText(this.player_givenname);
 			((EditText)findViewById(R.id.player_goals_value)).setText("" + this.player_goals);
-			((EditText)findViewById(R.id.player_minutes_value)).setText("" + this.player_minutes);
-			((EditText)findViewById(R.id.player_rating_values)).setText("" + this.player_rating);
+
+			// Calculate total minutes and average rating
+			if ( this.player_minutes == null || this.player_ratings == null )
+				return;
+			
+			this.total_minutes = 0;
+			this.average_rating = 0;
+			
+			for (Map.Entry<Integer, Integer> entry : this.player_minutes.entrySet())
+				this.total_minutes += entry.getValue();
+
+			for (Map.Entry<Integer, Integer> entry : this.player_ratings.entrySet())
+				this.average_rating += entry.getValue();
+			
+			if ( this.player_ratings.size() > 0 )
+				this.average_rating = this.average_rating / this.player_ratings.size();
+			
+			// Set the corresponding text fields
+			((EditText)findViewById(R.id.player_minutes_value)).setText("" + this.total_minutes);
+			((EditText)findViewById(R.id.player_rating_values)).setText("" + this.average_rating);
 			
 			// It is not a new player
 			this.new_player = false;
@@ -96,8 +120,8 @@ public class PlayerActivity extends Activity
 		this.player_givenname = ((EditText)findViewById(R.id.player_edit_givenname)).getText().toString();
 		this.player_name = ((EditText)findViewById(R.id.player_edit_name)).getText().toString();
 		this.player_goals = Integer.parseInt(((EditText)findViewById(R.id.player_goals_value)).getText().toString());
-		this.player_minutes = Integer.parseInt(((EditText)findViewById(R.id.player_minutes_value)).getText().toString());
-		this.player_rating = Float.parseFloat(((EditText)findViewById(R.id.player_rating_values)).getText().toString());
+		//this.player_minutes = Integer.parseInt(((EditText)findViewById(R.id.player_minutes_value)).getText().toString());
+		//this.player_rating = Float.parseFloat(((EditText)findViewById(R.id.player_rating_values)).getText().toString());
 		
 		Player player;
 		
@@ -118,7 +142,7 @@ public class PlayerActivity extends Activity
 		player.setName(this.player_name);
 		player.setGoals(this.player_goals);
 		player.setMinutes(this.player_minutes);
-		player.setRating(this.player_rating);
+		player.setRatings(this.player_ratings);
 		
 		if ( this.new_player )
 		{

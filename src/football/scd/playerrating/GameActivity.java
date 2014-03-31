@@ -156,7 +156,7 @@ public class GameActivity extends Activity
 				for (Player player : PlayersContent.PLAYERS)
 				{
 					if ( player.isPlaying() )
-						player.setMinutes( player.getMinutes() + 1 );
+						player.setCurrentGameMinutes( player.getCurrentGameMinutes() + 1 );
 				}
 				
 				

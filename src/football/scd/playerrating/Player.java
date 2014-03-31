@@ -1,5 +1,9 @@
 package football.scd.playerrating;
 
+import android.annotation.SuppressLint;
+import java.util.HashMap;
+
+@SuppressLint("UseSparseArrays")
 public class Player
 {
 	
@@ -7,8 +11,15 @@ public class Player
 	private String name;
 	private String givenname;
 	private int goals;
-	private int minutes;
-	private float rating;
+	private int current_game_minutes;
+	
+	// Hashmap for the players ratings
+	private HashMap<Integer, Integer> ratings;
+	
+	// Hashmap for the players minutes
+	private HashMap<Integer, Integer> minutes;
+	
+
 	private boolean playing;
 	
 	/**
@@ -23,9 +34,10 @@ public class Player
 		this.name = _name;
 		this.givenname = _givenname;
 		this.goals = 0;
-		this.minutes = 0;
-		this.rating = 0;
+		this.minutes = new HashMap<Integer, Integer>();
+		this.ratings = new HashMap<Integer, Integer>();
 		this.playing = false;
+		this.current_game_minutes = 0;
 	}
 	
 	/**
@@ -37,10 +49,59 @@ public class Player
 		this.ID = _ID;
 		this.givenname = "John";
 		this.name = "Doe";
-		this.minutes = 0;
+		this.minutes = new HashMap<Integer, Integer>();
 		this.goals = 0;
-		this.rating = 0;
+		this.ratings = new HashMap<Integer, Integer>();
 		this.playing = false;
+		this.current_game_minutes = 0;
+	}
+
+	/**
+	 * @return the current_game_minutes
+	 */
+	public int getCurrentGameMinutes()
+	{
+		return current_game_minutes;
+	}
+
+	/**
+	 * @param current_game_minutes the current_game_minutes to set
+	 */
+	public void setCurrentGameMinutes(int current_game_minutes)
+	{
+		this.current_game_minutes = current_game_minutes;
+	}
+
+	/**
+	 * @return the ratings
+	 */
+	public HashMap<Integer, Integer> getRatings() 
+	{
+		return ratings;
+	}
+
+	/**
+	 * @param ratings the ratings to set
+	 */
+	public void setRatings(HashMap<Integer, Integer> ratings) 
+	{
+		this.ratings = ratings;
+	}
+
+	/**
+	 * @return the minutes
+	 */
+	public HashMap<Integer, Integer> getMinutes() 
+	{
+		return minutes;
+	}
+
+	/**
+	 * @param minutes the minutes to set
+	 */
+	public void setMinutes(HashMap<Integer, Integer> minutes) 
+	{
+		this.minutes = minutes;
 	}
 
 	/**
@@ -83,37 +144,6 @@ public class Player
 	public void setGoals(int goals)
 	{
 		this.goals = goals;
-	}
-
-	/**
-	 * @return the minutes
-	 */
-	public int getMinutes()
-	{
-		return minutes;
-	}
-
-	/**
-	 * @param minutes the minutes to set
-	 */
-	public void setMinutes(int minutes)
-	{
-		this.minutes = minutes;
-	}
-
-	/**
-	 * @return the rating
-	 */
-	public float getRating() {
-		return rating;
-	}
-
-	/**
-	 * @param rating the rating to set
-	 */
-	public void setRating(float rating)
-	{
-		this.rating = rating;
 	}
 	
 	public int getID() 
