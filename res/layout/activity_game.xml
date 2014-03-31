@@ -123,7 +123,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/increase_away_team_score"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="40dp"
         android:gravity="center_horizontal"
         android:text="@string/Minutes" />
 
@@ -144,7 +144,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/start_end_game_button"
         android:layout_alignBottom="@+id/start_end_game_button"
-        android:layout_toRightOf="@+id/start_end_game_button"
+        android:layout_alignParentRight="true"
         android:onClick="substitution"
         android:text="@string/start11" />
 
@@ -193,5 +193,17 @@
         android:text="@string/Cancel"
         android:onClick="cancelEdit"
         android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/half_time_text"
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/game_minutes_played"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/increase_home_team_score"
+        android:text="@string/first_half"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>

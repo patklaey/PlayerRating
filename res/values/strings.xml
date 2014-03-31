@@ -35,5 +35,9 @@
     <string name="OnField">on field</string>
     <string name="title_activity_substitution">Substitution</string>
     <string name="start11">Start 11</string>
+    <string name="Continue">Continue</string>
+    <string name="finish_game">Finish Game</string>
+    <string name="first_half">First Half:</string>
+    <string name="second_half">Second Half:</string>
 
 </resources>

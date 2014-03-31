@@ -40,6 +40,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public static final String EXTRA_OPPONENT_SCORE = "football.scd.playerrating.Opponent_Score";
 	public static final String EXTRA_SELF_NAME = "football.scd.playerrating.Self_Name";
 	public static final String EXTRA_IS_HOME_GAME = "football.scd.playerrating.Is_Home_Game";
+	public static final String EXTRA_GAME_FINISHED = "football.scd.playerrating.Game_Finished";
+
 	
 	private static final int PLAYER_TAB = 0;
 	private static final int GAME_TAB = 1;
@@ -262,6 +264,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     	intent.putExtra(MainActivity.EXTRA_OPPONENT_SCORE, GamesContent.GAME_MAP.get(id).getOpponent_goals());
     	intent.putExtra(MainActivity.EXTRA_SELF_NAME, GamesContent.GAME_MAP.get(id).getSelf_name());
     	intent.putExtra(MainActivity.EXTRA_IS_HOME_GAME, GamesContent.GAME_MAP.get(id).isHomeGame());
+    	intent.putExtra(MainActivity.EXTRA_GAME_FINISHED, GamesContent.GAME_MAP.get(id).isFinished());
     	startActivity(intent);	}
 
 	@Override

@@ -8,7 +8,6 @@ import android.os.SystemClock;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +31,9 @@ public class GameActivity extends Activity
 	private int game_ID;
 	private boolean new_game;
 	private Chronometer chrono;
+	private long chrono_pause_base;
+	private boolean finished;
+	private boolean first_half = true;
 	
 	public static HashMap<Integer, Player> played;
 
@@ -61,6 +63,7 @@ public class GameActivity extends Activity
 			this.self_goals = intent.getIntExtra(MainActivity.EXTRA_SELF_SCORE, 0);
 			this.self_name = intent.getStringExtra(MainActivity.EXTRA_SELF_NAME);
 			this.opponent_name = intent.getStringExtra(MainActivity.EXTRA_OPPONENT);
+			this.finished = intent.getBooleanExtra(MainActivity.EXTRA_GAME_FINISHED, false);
 			
 			// Set the text fields accordingly
 			if ( this.is_home_game )
@@ -76,6 +79,19 @@ public class GameActivity extends Activity
 				((TextView)findViewById(R.id.home_team_score)).setText("" + this.opponent_goals);
 				((TextView)findViewById(R.id.away_team_score)).setText("" + this.self_goals);
 			}
+			
+			// If the game is finished, we don't want to show start game and 
+			// substitution button
+			if ( this.finished )
+			{
+				((Button)findViewById(R.id.start_end_game_button)).setVisibility(View.INVISIBLE);
+				((Button)findViewById(R.id.substitution_button)).setVisibility(View.INVISIBLE);
+				((TextView)findViewById(R.id.half_time_text)).setText("Finished");
+				findViewById(R.id.game_minutes_played).setVisibility(View.INVISIBLE);
+			}
+			
+			// Assign chronometer
+			this.chrono = (Chronometer)findViewById(R.id.game_minutes_played);
 			
 			// Create an empty currently playing list
 			played = new HashMap<Integer, Player>();
@@ -99,6 +115,9 @@ public class GameActivity extends Activity
 		getMenuInflater().inflate(R.menu.game, menu);
 		
 		if ( this.new_game )
+			menu.findItem(R.id.action_edit).setVisible(false);
+		
+		if ( !this.finished )
 			menu.findItem(R.id.action_edit).setVisible(false);
 		
 		return true;
@@ -141,28 +160,41 @@ public class GameActivity extends Activity
 		
 	}
 	
+	// Finish game
+	public void finishGame()
+	{
+		// Set the game finished
+		this.finished = true;
+		
+		// Rate all players
+		// TODO: Call rate player activity with GameActivity.played
+		
+		// Update the current game
+		this.updateGame(null);
+	}
+	
 	// Start the game
 	public void startGame(View view)
 	{
-		this.chrono = (Chronometer)findViewById(R.id.game_minutes_played);
-		this.chrono.setBase( SystemClock.elapsedRealtime() );
-		this.chrono.setOnChronometerTickListener( new OnChronometerTickListener() 
+		// If the buttons text is finish game, then call the finishGame method
+		if ( ((Button)view).getText().equals("Finish Game") )
 		{
-			
-			@Override
-			public void onChronometerTick(Chronometer chronometer)
-			{
-				Log.d("Chrono", "" + chronometer.getText() );
-				for (Player player : PlayersContent.PLAYERS)
-				{
-					if ( player.isPlaying() )
-						player.setCurrentGameMinutes( player.getCurrentGameMinutes() + 1 );
-				}
-				
-				
-			}
-		});
+			this.finishGame();
+			return;
+		}
 		
+		// Set up the chronometer
+		this.chrono.setBase( SystemClock.elapsedRealtime() );
+		this.chrono.setOnChronometerTickListener( new GameChronometer(this) );
+		
+		// Disable the start/end game button
+		this.findViewById(R.id.start_end_game_button).setEnabled(false);
+		
+		// Make the increase score buttons visible
+		findViewById(R.id.increase_away_team_score).setVisibility(View.VISIBLE);
+		findViewById(R.id.increase_home_team_score).setVisibility(View.VISIBLE);
+		
+		// Start the chronometer
 		this.chrono.start();
 	}
 	
@@ -170,8 +202,11 @@ public class GameActivity extends Activity
 	public void substitution(View view)
 	{
 		// Enable the start game button
-		((Button)findViewById(R.id.start_end_game_button)).setEnabled(true);
-		((Button)findViewById(R.id.substitution_button)).setText(R.string.Substitution);
+		if ( ((Button)findViewById(R.id.substitution_button)).getText().equals("Start 11") )
+		{
+			((Button)findViewById(R.id.start_end_game_button)).setEnabled(true);
+			((Button)findViewById(R.id.substitution_button)).setText(R.string.Substitution);
+		}
 		
 		Intent intent = new Intent(this,Substitution.class);
 		this.startActivity(intent);
@@ -300,12 +335,92 @@ public class GameActivity extends Activity
 			game.setOpponent_goals(home_score);
 		}
 		
+		// Set if the game is finished
+		game.setFinished(this.finished);
+		
 		// Update the game locally
 		GamesContent.updateGame(game);
 		
 		// Update the game in the database
 		MainActivity.getBackend().updateGame(game);
 		
+		// Notify the game adapter that the data changed
+		GamesFragment.updateList();
+		
 		finish();
+	}
+	
+	/**
+	 * @return the chrono_pause_base
+	 */
+	public long getChronoPauseBase()
+	{
+		return chrono_pause_base;
+	}
+
+	/**
+	 * @param chrono_pause_base the chrono_pause_base to set
+	 */
+	public void setChronoPauseBase(long chrono_pause_base)
+	{
+		this.chrono_pause_base = chrono_pause_base;
+	}
+
+	/**
+	 * @return the first_half
+	 */
+	public boolean isFirstHalf() 
+	{
+		return first_half;
+	}
+
+	/**
+	 * @param first_half the first_half to set
+	 */
+	public void setFirstHalf(boolean first_half)
+	{
+		this.first_half = first_half;
+	}
+
+	private class GameChronometer implements OnChronometerTickListener
+	{
+		private GameActivity activity;
+		
+		public GameChronometer(GameActivity activity)
+		{
+			this.activity = activity;
+		}
+		
+		@Override
+		public void onChronometerTick(Chronometer chronometer)
+		{
+			// TODO Auto-generated method stub
+			for (Player player : PlayersContent.PLAYERS)
+			{
+				if ( player.isPlaying() )
+					player.setCurrentGameMinutes( player.getCurrentGameMinutes() + 1 );
+			}
+			
+			// If the time is over
+			if ( chronometer.getText().equals("00:40") )
+			{
+				// Stop the chronometer
+				chronometer.stop();
+				
+				// Set the accoring button text
+				if ( this.activity.isFirstHalf() )
+				{
+					((Button)this.activity.findViewById(R.id.start_end_game_button)).setText(R.string.Continue);
+					this.activity.setFirstHalf(false);
+					((TextView)this.activity.findViewById(R.id.half_time_text)).setText(R.string.second_half);
+				} else
+				{
+					((Button)this.activity.findViewById(R.id.start_end_game_button)).setText(R.string.finish_game);
+				}
+				
+				this.activity.findViewById(R.id.start_end_game_button).setEnabled(true);
+			}
+		}
+		
 	}
 }
