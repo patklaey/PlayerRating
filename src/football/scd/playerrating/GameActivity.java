@@ -1,6 +1,7 @@
 package football.scd.playerrating;
 
 import java.util.HashMap;
+
 import football.scd.playerrating.contents.GamesContent;
 import football.scd.playerrating.contents.PlayersContent;
 import android.os.Bundle;
@@ -289,6 +290,13 @@ public class GameActivity extends Activity
 		
 		// Set the text of the home score field to home_score + 1
 		home_score_text.setText( "" + (home_score + 1));
+		
+		// If it is a home game, select the scorer
+		if ( this.is_home_game )
+		{
+			Intent scorer = new Intent(this,GoalScorer.class);
+			this.startActivity(scorer);
+		}
 	}
 	
 	public void increaseAwayScore(View view)

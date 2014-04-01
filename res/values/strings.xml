@@ -45,5 +45,6 @@
     <string name="three">3</string>
     <string name="four">4</string>
     <string name="played_minutes">Played minutes :</string>
+    <string name="title_activity_goal_scorer">GoalScorer</string>
 
 </resources>

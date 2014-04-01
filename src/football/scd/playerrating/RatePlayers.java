@@ -126,11 +126,18 @@ public class RatePlayers extends Activity
 		// Add the players rating to the hashmap with the current game ID
 		player.getRatings().put(this.game_id, rating);
 		
+		// Add the players goals 
+		player.setGoals( player.getGoals() + player.getCurrentGameGoals() );
+		
 		// Update the player locally
 		PlayersContent.updatePlayer(player);
 		
 		// Update the player in the backend
 		MainActivity.getBackend().updatePlayer(player);
+		
+		// Reset the current game values
+		player.setCurrentGameGoals(0);
+		player.setCurrentGameMinutes(0);
 		
 		// Display the next player
 		this.player_to_rate++;
