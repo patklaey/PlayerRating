@@ -114,17 +114,6 @@
         android:gravity="center_horizontal"
         android:text="@string/Minutes" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/save_game_button"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/game_minutes_played"
-        android:layout_marginTop="20dp" >
-    </LinearLayout>
-
     <Button
         android:id="@+id/substitution_button"
         android:layout_width="130dp"
@@ -207,5 +196,32 @@
         android:layout_marginTop="12dp"
         android:text="@string/Plus"
         android:visibility="invisible" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_above="@+id/save_game_button"
+        android:layout_alignParentLeft="true"
+        android:baselineAligned="false"
+        android:layout_marginBottom="20dp"
+        android:layout_below="@+id/game_minutes_played" >
+
+        <ListView
+            android:id="@+id/home_goal_list_view"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1" >
+        </ListView>
+        
+        <ListView
+            android:id="@+id/away_goal_list_view"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1" >
+        </ListView>
+
+    </LinearLayout>
 
 </RelativeLayout>

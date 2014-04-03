@@ -35,7 +35,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public static final String EXTRA_MINUTES = "football.scd.playerrating.Minutes";
 	public static final String EXTRA_GOALS = "football.scd.playerrating.Goals";
 	public static final String EXTRA_RATING = "football.scd.playerrating.Rating";
-	public static final String EXTRA_OPPONENT = "football.scd.playerrating.Opponent";
+	public static final String EXTRA_GAME = "football.scd.playerrating.Game";
 	public static final String EXTRA_SELF_SCORE = "football.scd.playerrating.Self_Score";
 	public static final String EXTRA_OPPONENT_SCORE = "football.scd.playerrating.Opponent_Score";
 	public static final String EXTRA_SELF_NAME = "football.scd.playerrating.Self_Name";
@@ -53,6 +53,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	private static Backend backend;
 	
 	public static final String MY_TEAM_NAME = "SC Düdingen Cb";
+	public static final int HALF_TIME_DURATION = 2;
 	
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -254,22 +255,18 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     }
 	
 	@Override
-	public void onGameSelected(int id) {
+	public void onGameSelected(int id)
+	{
 		// TODO Auto-generated method stub
     	Intent intent = new Intent(this,GameActivity.class);
     	intent.putExtra(MainActivity.EXTRA_TYPE, MainActivity.EXTRA_TYPE_SHOW);
-    	intent.putExtra(MainActivity.EXTRA_ID, GamesContent.GAME_MAP.get(id).getID());
-    	intent.putExtra(MainActivity.EXTRA_OPPONENT, GamesContent.GAME_MAP.get(id).getOpponent());
-    	intent.putExtra(MainActivity.EXTRA_SELF_SCORE, GamesContent.GAME_MAP.get(id).getSelf_goals());
-    	intent.putExtra(MainActivity.EXTRA_OPPONENT_SCORE, GamesContent.GAME_MAP.get(id).getOpponent_goals());
-    	intent.putExtra(MainActivity.EXTRA_SELF_NAME, GamesContent.GAME_MAP.get(id).getSelf_name());
-    	intent.putExtra(MainActivity.EXTRA_IS_HOME_GAME, GamesContent.GAME_MAP.get(id).isHomeGame());
-    	intent.putExtra(MainActivity.EXTRA_GAME_FINISHED, GamesContent.GAME_MAP.get(id).isFinished());
+    	intent.putExtra(MainActivity.EXTRA_GAME, GamesContent.GAME_MAP.get(id));
     	startActivity(intent);	
     }
 
 	@Override
-	public void onPlayerSelected(int id) {
+	public void onPlayerSelected(int id) 
+	{
     	Intent intent = new Intent(this,PlayerActivity.class);
     	intent.putExtra(MainActivity.EXTRA_TYPE, MainActivity.EXTRA_TYPE_SHOW);
     	intent.putExtra(MainActivity.EXTRA_NAME, PlayersContent.PLAYER_MAP.get(id).getName());

@@ -1,7 +1,6 @@
 package football.scd.playerrating;
 
 import java.util.HashMap;
-
 import football.scd.playerrating.contents.GamesContent;
 import football.scd.playerrating.contents.PlayersContent;
 import android.os.Bundle;
@@ -14,33 +13,36 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Chronometer;
 import android.widget.Chronometer.OnChronometerTickListener;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.support.v4.app.NavUtils;
 
 @SuppressLint("UseSparseArrays")
+@SuppressWarnings("unchecked")
 public class GameActivity extends Activity
 {
 	public static final String EXTRA_PLAYED_LIST = "football.scd.playerrating.GameActivity.Played_List";
 	public static final String EXTRA_GAME_ID = "football.scd.playerrating.GameActivity.Game_ID";
+	public static final String EXTRA_GAME = "football.scd.playerrating.GameActivity.Game";
+	public static final String EXTRA_GAME_TIME = "football.scd.playerrating.GameActivity.Game_Time";
+	private static final int SELF_GOAL_SCORED = 1;
 	
-	private String opponent_name;
-	private String self_name;
-	private int self_goals;
-	private int opponent_goals;
-	private boolean is_home_game;
-	private int game_ID;
+	private Game game;
 	private boolean new_game;
 	private Chronometer chrono;
 	private long chrono_pause_base;
-	private boolean finished;
 	private boolean first_half = true;
-	
 	public static HashMap<Integer, Player> played;
+	
+	// The goal list adapters
+	private ArrayAdapter<Goal> home_goal_adapter;
+	private ArrayAdapter<Goal> away_goal_adapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -65,38 +67,61 @@ public class GameActivity extends Activity
 			setContentView(R.layout.activity_game);
 
 			// Set the fields
-			this.game_ID = intent.getIntExtra(MainActivity.EXTRA_ID, -1);
-			this.is_home_game = intent.getBooleanExtra(MainActivity.EXTRA_IS_HOME_GAME, true);
-			this.opponent_goals = intent.getIntExtra(MainActivity.EXTRA_OPPONENT_SCORE, 0);
-			this.self_goals = intent.getIntExtra(MainActivity.EXTRA_SELF_SCORE, 0);
-			this.self_name = intent.getStringExtra(MainActivity.EXTRA_SELF_NAME);
-			this.opponent_name = intent.getStringExtra(MainActivity.EXTRA_OPPONENT);
-			this.finished = intent.getBooleanExtra(MainActivity.EXTRA_GAME_FINISHED, false);
+			this.game = (Game) intent.getSerializableExtra(MainActivity.EXTRA_GAME);
 			
 			// Set the text fields accordingly
-			if ( this.is_home_game )
+			if ( this.game.isHomeGame() )
 			{
-				((TextView)findViewById(R.id.away_team_name)).setText(this.opponent_name);
-				((TextView)findViewById(R.id.home_team_name)).setText(this.self_name);
-				((TextView)findViewById(R.id.home_team_score)).setText("" + this.self_goals);
-				((TextView)findViewById(R.id.away_team_score)).setText("" + this.opponent_goals);
+				((TextView)findViewById(R.id.away_team_name)).setText(this.game.getOpponent());
+				((TextView)findViewById(R.id.home_team_name)).setText(this.game.getSelf_name());
+				((TextView)findViewById(R.id.home_team_score)).setText("" + this.game.getSelf_score());
+				((TextView)findViewById(R.id.away_team_score)).setText("" + this.game.getOpponent_score());
+								
+				// The home goal adapter
+				this.home_goal_adapter = new ArrayAdapter<Goal>(this,
+						android.R.layout.simple_list_item_1,android.R.id.text1,
+						this.game.getGoalsScored() );
+				((ListView)findViewById(R.id.home_goal_list_view)).setAdapter(this.home_goal_adapter);
+				
+				// The away goal adapter
+				this.away_goal_adapter = new ArrayAdapter<Goal>(this,
+						android.R.layout.simple_list_item_1,android.R.id.text1,
+						this.game.getGoalsConceded() );
+				((ListView)findViewById(R.id.away_goal_list_view)).setAdapter(this.away_goal_adapter);
+				
 			} else
 			{
-				((TextView)findViewById(R.id.away_team_name)).setText(this.self_name);
-				((TextView)findViewById(R.id.home_team_name)).setText(this.opponent_name);
-				((TextView)findViewById(R.id.home_team_score)).setText("" + this.opponent_goals);
-				((TextView)findViewById(R.id.away_team_score)).setText("" + this.self_goals);
+				((TextView)findViewById(R.id.away_team_name)).setText(this.game.getSelf_name());
+				((TextView)findViewById(R.id.home_team_name)).setText(this.game.getOpponent());
+				((TextView)findViewById(R.id.home_team_score)).setText("" + this.game.getOpponent_score());
+				((TextView)findViewById(R.id.away_team_score)).setText("" + this.game.getSelf_score());
+				
+				// The home goal adapter
+				this.home_goal_adapter = new ArrayAdapter<Goal>(this,
+						android.R.layout.simple_list_item_1,android.R.id.text1,
+						this.game.getGoalsConceded() );
+				((ListView)findViewById(R.id.home_goal_list_view)).setAdapter(this.home_goal_adapter);
+				
+				// The away goal adapter
+				this.away_goal_adapter = new ArrayAdapter<Goal>(this,
+						android.R.layout.simple_list_item_1,android.R.id.text1,
+						this.game.getGoalsScored() );
+				((ListView)findViewById(R.id.away_goal_list_view)).setAdapter(this.away_goal_adapter);
 			}
 			
 			// If the game is finished, we don't want to show start game and 
 			// substitution button
-			if ( this.finished )
+			if ( this.game.isFinished() )
 			{
 				((Button)findViewById(R.id.start_end_game_button)).setVisibility(View.INVISIBLE);
 				((Button)findViewById(R.id.substitution_button)).setVisibility(View.INVISIBLE);
 				((TextView)findViewById(R.id.half_time_text)).setText("Finished");
 				findViewById(R.id.game_minutes_played).setVisibility(View.INVISIBLE);
 			}
+			
+			
+			Log.d("Test","Everything set up");
+			Log.d("Goals","Self: " + this.game.getGoalsScored().toString() );
 			
 			// Assign chronometer
 			this.chrono = (Chronometer)findViewById(R.id.game_minutes_played);
@@ -123,9 +148,12 @@ public class GameActivity extends Activity
 		getMenuInflater().inflate(R.menu.game, menu);
 		
 		if ( this.new_game )
+		{
 			menu.findItem(R.id.action_edit).setVisible(false);
+			return true;
+		}
 		
-		if ( !this.finished )
+		if ( !this.game.isFinished() )
 			menu.findItem(R.id.action_edit).setVisible(false);
 		
 		return true;
@@ -172,14 +200,12 @@ public class GameActivity extends Activity
 	public void finishGame()
 	{
 		// Set the game finished
-		this.finished = true;
-		
-		Log.d("GameActivity","Played list size: " + GameActivity.played.size() + " " + GameActivity.played.toString() );
-		
+		this.game.setFinished(true);
+				
 		// Rate all players
 		Intent intent = new Intent(this,RatePlayers.class);
 		intent.putExtra(GameActivity.EXTRA_PLAYED_LIST, GameActivity.played);
-		intent.putExtra(GameActivity.EXTRA_GAME_ID, this.game_ID);
+		intent.putExtra(GameActivity.EXTRA_GAME_ID, this.game.getID());
 		this.startActivity(intent);
 		
 		// Update the current game
@@ -229,10 +255,10 @@ public class GameActivity extends Activity
 	public void deleteGame(View view)
 	{
 		// Delete the game locally
-		GamesContent.removeGame(this.game_ID);
+		GamesContent.removeGame(this.game.getID());
 		
 		// Delete the game from the backend
-		MainActivity.getBackend().removeGame(this.game_ID);
+		MainActivity.getBackend().removeGame(this.game.getID());
 		
 		finish();
 	}
@@ -255,7 +281,7 @@ public class GameActivity extends Activity
 		findViewById(R.id.cancel_edit_game_button).setVisibility(View.INVISIBLE);
 		findViewById(R.id.delete_game_button).setVisibility(View.INVISIBLE);
 		
-		if ( !this.finished )
+		if ( !this.game.isFinished() )
 		{
 			findViewById(R.id.start_end_game_button).setVisibility(View.VISIBLE);
 			findViewById(R.id.substitution_button).setVisibility(View.VISIBLE);
@@ -265,13 +291,13 @@ public class GameActivity extends Activity
 	// Save the new game
 	public void saveGame(View view)
 	{
-		this.game_ID = MainActivity.next_free_game_id++;
+		int game_ID = MainActivity.next_free_game_id++;
 		String my_team_name = MainActivity.MY_TEAM_NAME;
 		String opponent = ((EditText)findViewById(R.id.opponent_name)).getEditableText().toString();
 		boolean is_home = ((CheckBox)findViewById(R.id.is_home_game)).isChecked();
 		
 		// Create a new game
-		Game game = new Game( this.game_ID, my_team_name, opponent, is_home );
+		Game game = new Game( game_ID, my_team_name, opponent, is_home );
 		
 		// Save the game locally
 		GamesContent.addGame(game);
@@ -291,11 +317,28 @@ public class GameActivity extends Activity
 		// Set the text of the home score field to home_score + 1
 		home_score_text.setText( "" + (home_score + 1));
 		
+		// Get the current minute
+		int minute = Integer.parseInt((this.chrono.getText().toString().split(":"))[0]);
+				
+		// Check if it is the second half
+		if ( ! this.first_half )
+			minute += MainActivity.HALF_TIME_DURATION;
+		
+		// Add one to the minutes
+		minute++;
+				
 		// If it is a home game, select the scorer
-		if ( this.is_home_game )
+		if ( this.game.isHomeGame() )
 		{
 			Intent scorer = new Intent(this,GoalScorer.class);
-			this.startActivity(scorer);
+			scorer.putExtra(GameActivity.EXTRA_GAME, this.game);
+			scorer.putExtra(GameActivity.EXTRA_GAME_TIME, minute);
+			this.startActivityForResult(scorer, GameActivity.SELF_GOAL_SCORED);
+		} else
+		{
+			// Otherwise just add the minute and a dummy player
+			this.game.getGoalsConceded().add(new Goal(minute, new Player(-1, "Goal", "Against")));
+			((ArrayAdapter<Goal>)((ListView)findViewById(R.id.away_goal_list_view)).getAdapter()).notifyDataSetChanged();
 		}
 	}
 	
@@ -307,6 +350,30 @@ public class GameActivity extends Activity
 		
 		// Set the text of the home score field to home_score + 1
 		away_score_text.setText( "" + (away_score + 1));
+		
+		// Get the current minute
+		int minute = Integer.parseInt((this.chrono.getText().toString().split(":"))[0]);
+				
+		// Check if it is the second half
+		if ( ! this.first_half )
+			minute += MainActivity.HALF_TIME_DURATION;
+		
+		// Add one to the minutes
+		minute++;
+		
+		// If it is not a home game, select the scorer
+		if ( ! this.game.isHomeGame() )
+		{
+			Intent scorer = new Intent(this,GoalScorer.class);
+			scorer.putExtra(GameActivity.EXTRA_GAME, this.game);
+			scorer.putExtra(GameActivity.EXTRA_GAME_TIME, minute );
+			this.startActivityForResult(scorer, GameActivity.SELF_GOAL_SCORED);
+		} else
+		{
+			// Otherwise just add the minute and a dummy player
+			this.game.getGoalsConceded().add(new Goal(minute, new Player(-1, "Goal", "Against")));
+			((ArrayAdapter<Goal>)((ListView)findViewById(R.id.away_goal_list_view)).getAdapter()).notifyDataSetChanged();
+		}
 	}
 	
 	public void decreaseHomeScore(View view)
@@ -317,6 +384,15 @@ public class GameActivity extends Activity
 		
 		// Set the text of the home score field to home_score - 1
 		home_score_text.setText( "" + (home_score - 1));
+		
+		// Set the games home score to - 1
+		if ( this.game.isHomeGame() )
+		{
+			this.game.setSelf_score( this.game.getSelf_score() - 1 );
+		} else
+		{
+			this.game.setOpponent_score( this.game.getOpponent_score() - 1 );
+		}
 	}
 	
 	public void decreaseAwayScore(View view)
@@ -327,40 +403,24 @@ public class GameActivity extends Activity
 		
 		// Set the text of the home score field to home_score - 1
 		away_score_text.setText( "" + (away_score - 1));
+		
+		// Set the games away score to - 1
+		if ( ! this.game.isHomeGame() )
+		{
+			this.game.setSelf_score( this.game.getSelf_score() - 1 );
+		} else
+		{
+			this.game.setOpponent_score( this.game.getOpponent_score() - 1 );
+		}
 	}
 	
 	public void updateGame(View view)
-	{
-		// Get the text of the home score field
-		TextView home_score_text = (TextView)findViewById(R.id.home_team_score);
-		int home_score = Integer.parseInt((String)home_score_text.getText());
-		
-		// Get the text of the home score field
-		TextView away_score_text = (TextView)findViewById(R.id.away_team_score);
-		int away_score = Integer.parseInt((String)away_score_text.getText());
-		
-		// Create a new game with the ID of the old game
-		Game game = new Game(this.game_ID, this.self_name, this.opponent_name, this.is_home_game);
-		
-		// Set home and away goals
-		if ( this.is_home_game )
-		{
-			game.setSelf_goals(home_score);
-			game.setOpponent_goals(away_score);
-		} else
-		{
-			game.setSelf_goals(away_score);
-			game.setOpponent_goals(home_score);
-		}
-		
-		// Set if the game is finished
-		game.setFinished(this.finished);
-		
+	{	
 		// Update the game locally
-		GamesContent.updateGame(game);
+		GamesContent.updateGame(this.game);
 		
 		// Update the game in the database
-		MainActivity.getBackend().updateGame(game);
+		MainActivity.getBackend().updateGame(this.game);
 		
 		finish();
 	}
@@ -415,8 +475,12 @@ public class GameActivity extends Activity
 			String array[] = chronometer.getText().toString().split(":");
 			int minute = Integer.parseInt(array[0]);
 			
+			// If no minute passed, return
+			if ( minute == this.current_minute )
+				return;
+				
 			// If the time is over
-			if ( minute == 2 )
+			if ( minute == MainActivity.HALF_TIME_DURATION )
 			{
 				// Stop the chronometer
 				chronometer.stop();
@@ -435,10 +499,6 @@ public class GameActivity extends Activity
 				this.activity.findViewById(R.id.start_end_game_button).setEnabled(true);
 			}
 			
-			// If no minute passed, return
-			if ( minute == this.current_minute )
-				return;
-				
 			// Otherwise calculate the minute offset
 			int offset = minute - this.current_minute;
 			this.current_minute = minute;
@@ -447,9 +507,23 @@ public class GameActivity extends Activity
 			for (Player player : PlayersContent.PLAYERS)
 				if ( player.isPlaying() )
 					player.setCurrentGameMinutes( player.getCurrentGameMinutes() + offset );
-			
-			
 		}
 		
 	}
+	
+    @Override
+    protected void onActivityResult(int request_code, int result_code, Intent data)
+    {
+    	super.onActivityResult(request_code, result_code, data);
+    	
+        // Check which request we're responding to
+    	Log.d("Activity Result","Got the result which request code " + request_code + " result code " + result_code );
+        if ( request_code == GameActivity.SELF_GOAL_SCORED )
+        {
+        	Goal goal = (Goal) data.getSerializableExtra(GoalScorer.EXTRA_GOAL);
+        	this.game.getGoalsScored().add(goal);
+       		Log.d("Result","Should update ..." + this.game.getGoalsScored() );
+			((ArrayAdapter<Goal>)((ListView)findViewById(R.id.home_goal_list_view)).getAdapter()).notifyDataSetChanged();
+        }
+    }
 }

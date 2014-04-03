@@ -28,7 +28,7 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
     // Table names
     private static final String PLAYERS_TABLE = "players";
     private static final String GAMES_TABLE = "games";
-//    private static final String GOALS_TABLE = "goals";
+    private static final String GOALS_TABLE = "goals";
     private static final String PLAYED_TABLE = "played";
     
     // Key names
@@ -79,11 +79,15 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
     		+ KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + KEY_PLAYER_ID + " INTEGER," + KEY_GAME_ID + " INTEGER," 
     		+ KEY_TIME + " INTEGER," + KEY_RATING + " INTEGER " + ")";
     
+    private static final String CREATE_GOALS_TABLE = "CREATE TABLE " + GOALS_TABLE + "("
+    		+ KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + KEY_PLAYER_ID + " INTEGER," + KEY_GAME_ID + " INTEGER,"
+    		+ KEY_TIME + " INTEGER " + ")";
+    
     // Drop table strings
     private static final String DROP_PLAYERS_TABLE = "DROP TABLE IF EXISTS " + PLAYERS_TABLE;
     private static final String DROP_GAMES_TABLE = "DROP TABLE IF EXISTS " + GAMES_TABLE;
     private static final String DROP_PLAYED_TABLE = "DROP TABLE IF EXISTS " + PLAYED_TABLE;
-
+    private static final String DROP_GOALS_TABLE = "DROP TABLE IF EXISTS " + GOALS_TABLE;
 	
 	public SQLiteBackend(Context context) 
 	{
@@ -97,6 +101,7 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 		db.execSQL(CREATE_PLAYERS_TABLE);
 		db.execSQL(CREATE_GAMES_TABLE);
 		db.execSQL(CREATE_PLAYED_TABLE);
+		db.execSQL(CREATE_GOALS_TABLE);
 	}
 
 	@Override
@@ -106,6 +111,7 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 		db.execSQL(DROP_PLAYERS_TABLE);
 		db.execSQL(DROP_GAMES_TABLE);
 		db.execSQL(DROP_PLAYED_TABLE);
+		db.execSQL(DROP_GOALS_TABLE);
 		
 		// Recreate the tables
 		this.onCreate(db);
@@ -361,8 +367,8 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 		attributes.put(KEY_ID, game.getID());
 		attributes.put(KEY_OPPONENT, game.getOpponent());
 		attributes.put(KEY_SELF_NAME, game.getSelf_name());
-		attributes.put(KEY_SELF_GOALS, game.getSelf_goals());
-		attributes.put(KEY_OPPONENT_GOALS, game.getOpponent_goals());
+		attributes.put(KEY_SELF_GOALS, game.getGoalsScored().size());
+		attributes.put(KEY_OPPONENT_GOALS, game.getGoalsConceded().size());
 		attributes.put(KEY_FINISHED, game.isFinished());
 		attributes.put(KEY_IS_HOME, game.isHomeGame());
 
@@ -390,8 +396,8 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 		// Add all games attributes
 		attributes.put(KEY_OPPONENT, game.getOpponent());
 		attributes.put(KEY_SELF_NAME, game.getSelf_name());
-		attributes.put(KEY_SELF_GOALS, game.getSelf_goals());
-		attributes.put(KEY_OPPONENT_GOALS, game.getOpponent_goals());
+		attributes.put(KEY_SELF_GOALS, game.getGoalsScored().size());
+		attributes.put(KEY_OPPONENT_GOALS, game.getGoalsConceded().size());
 		attributes.put(KEY_FINISHED, game.isFinished());
 		attributes.put(KEY_IS_HOME, game.isHomeGame());
 	 
@@ -418,8 +424,8 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 	{
 		Game game = new Game(cursor.getInt(INDEX_GAME_ID), null, null, false);
 		game.setOpponent(cursor.getString(INDEX_GAME_OPPONENT));
-		game.setOpponent_goals(cursor.getInt(INDEX_GAME_OPPONENT_GOALS));
-		game.setSelf_goals(cursor.getInt(INDEX_GAME_SELF_GOALS));
+		game.setOpponent_score(cursor.getInt(INDEX_GAME_OPPONENT_GOALS));
+		game.setSelf_score(cursor.getInt(INDEX_GAME_SELF_GOALS));
 		game.setSelf_name(cursor.getString(INDEX_GAME_SELF_NAME));
 		
 		if ( cursor.getInt(INDEX_GAME_IS_HOME) == 1 )

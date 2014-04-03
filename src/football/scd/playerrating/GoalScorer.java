@@ -3,6 +3,7 @@ package football.scd.playerrating;
 import football.scd.playerrating.contents.PlayersContent;
 import android.os.Bundle;
 import android.app.ListActivity;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,8 +14,12 @@ import android.support.v4.app.NavUtils;
 public class GoalScorer extends ListActivity 
 {
 
+	public static final String EXTRA_GOAL = "football.scd.playerrating.GoalScorer.Goal";
+	
 	private ArrayAdapter<Player> adapter;
-
+	private Game game;
+	private int time;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -22,6 +27,9 @@ public class GoalScorer extends ListActivity
 		
 		// Show the Up button in the action bar.
 		setupActionBar();
+		
+		this.game = (Game) this.getIntent().getSerializableExtra(GameActivity.EXTRA_GAME);
+		this.time = this.getIntent().getIntExtra(GameActivity.EXTRA_GAME_TIME, 0);
 		
 		this.adapter = new ArrayAdapter<Player>(this,
 							android.R.layout.simple_list_item_1, android.R.id.text1,
@@ -75,6 +83,13 @@ public class GoalScorer extends ListActivity
 		Player player = PlayersContent.PLAYERS.get(position);
 		player.setCurrentGameGoals( player.getCurrentGameGoals() + 1 );
 		
+		// Add the goal to the current game
+		Goal goal = new Goal(this.time,player);
+		
+		// Set the result as ok and pass the game back
+		Intent intent = new Intent();
+		intent.putExtra(GoalScorer.EXTRA_GOAL, goal );
+		setResult(RESULT_OK, intent);
 		finish();
 	}
 

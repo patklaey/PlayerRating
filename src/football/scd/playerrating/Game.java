@@ -3,12 +3,16 @@
  */
 package football.scd.playerrating;
 
+import android.annotation.SuppressLint;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author uni
  *
  */
+@SuppressLint("UseSparseArrays")
 public class Game implements Serializable
 {
 	/**
@@ -19,10 +23,12 @@ public class Game implements Serializable
 	private String opponent;
 	private String self_name;
 	private boolean is_home_game;
-	private int self_goals;
-	private int opponent_goals;
 	private boolean finished;
-	
+	private int self_score;
+	private int opponent_score;
+	private List<Goal> goals_scored;
+	private List<Goal> goals_conceded;
+
 	
 	/**
 	 * @param ID
@@ -36,11 +42,13 @@ public class Game implements Serializable
 		this.opponent = _opponent;
 		this.self_name = _self_name;
 		this.is_home_game = _is_home_game;
-		this.self_goals = 0;
-		this.opponent_goals = 0;
 		this.finished = false;
+		this.self_score = 0;
+		this.opponent_score = 0;
+		this.goals_conceded = new ArrayList<Goal>();
+		this.goals_scored = new ArrayList<Goal>();
 	}
-
+	
 	/**
 	 * @return the finished
 	 */
@@ -64,11 +72,11 @@ public class Game implements Serializable
 	public String toString() {
 		
 		if ( this.isHomeGame() )
-			return this.getSelf_name() + " " + this.getSelf_goals() + " : " + 
-				    this.getOpponent_goals() + " " + this.getOpponent();
+			return this.getSelf_name() + " " + this.getSelf_score() + " : " + 
+				    this.getOpponent_score() + " " + this.getOpponent();
 		
-		return this.getOpponent() + " " + this.getOpponent_goals() + " : " + 
-	            this.getSelf_goals() + " " + this.getSelf_name();
+		return this.getOpponent() + " " + this.getOpponent_score() + " : " + 
+	            this.getSelf_score() + " " + this.getSelf_name();
 	}
 
 	// Getters and setters
@@ -84,34 +92,6 @@ public class Game implements Serializable
 	 */
 	public void setSelf_name(String self_name) {
 		this.self_name = self_name;
-	}
-
-	/**
-	 * @return the self_goals
-	 */
-	public int getSelf_goals() {
-		return self_goals;
-	}
-
-	/**
-	 * @param self_goals the self_goals to set
-	 */
-	public void setSelf_goals(int self_goals) {
-		this.self_goals = self_goals;
-	}
-
-	/**
-	 * @return the opponent_goals
-	 */
-	public int getOpponent_goals() {
-		return opponent_goals;
-	}
-
-	/**
-	 * @param opponent_goals the opponent_goals to set
-	 */
-	public void setOpponent_goals(int opponent_goals) {
-		this.opponent_goals = opponent_goals;
 	}
 
 	/**
@@ -161,6 +141,67 @@ public class Game implements Serializable
 	{
 		this.is_home_game = is_home_game;
 	}
+
+	/**
+	 * @return the self_score
+	 */
+	public int getSelf_score() {
+		return self_score;
+	}
+
+	/**
+	 * @param self_score the self_score to set
+	 */
+	public void setSelf_score(int self_score) {
+		this.self_score = self_score;
+	}
+
+	/**
+	 * @return the opponent_score
+	 */
+	public int getOpponent_score()
+	{
+		return opponent_score;
+	}
+
+	/**
+	 * @param opponent_score the opponent_score to set
+	 */
+	public void setOpponent_score(int opponent_score)
+	{
+		this.opponent_score = opponent_score;
+	}
 	
+	/**
+	 * @return the goals_scored
+	 */
+	public List<Goal> getGoalsScored()
+	{
+		return goals_scored;
+	}
+
+	/**
+	 * @param goals_scored the goals_scored to set
+	 */
+	public void setGoalsScored(List<Goal> goals_scored)
+	{
+		this.goals_scored = goals_scored;
+	}
+
+	/**
+	 * @return the goals_conceded
+	 */
+	public List<Goal> getGoalsConceded()
+	{
+		return goals_conceded;
+	}
+
+	/**
+	 * @param goals_conceded the goals_conceded to set
+	 */
+	public void setGoalsConceded(List<Goal> goals_conceded) 
+	{
+		this.goals_conceded = goals_conceded;
+	}
 	
 }
