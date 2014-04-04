@@ -4,9 +4,12 @@ import java.util.HashMap;
 import football.scd.playerrating.contents.GamesContent;
 import football.scd.playerrating.contents.PlayersContent;
 import android.os.Bundle;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
 import android.os.SystemClock;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.util.Log;
@@ -43,7 +46,12 @@ public class GameActivity extends Activity
 	// The goal list adapters
 	private ArrayAdapter<Goal> home_goal_adapter;
 	private ArrayAdapter<Goal> away_goal_adapter;
-
+	
+	// Wake lock
+	PowerManager power_manager;
+	WakeLock wake_lock;
+	private static final String WAKE_LOCK_NAME = "MyWakeLock";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -210,6 +218,9 @@ public class GameActivity extends Activity
 		
 		// Update the current game
 		this.updateGame(null);
+		
+		// Release the wake lock
+		this.wake_lock.release();
 	}
 	
 	// Start the game
@@ -222,6 +233,14 @@ public class GameActivity extends Activity
 			return;
 		}
 		
+		// If the buttons text is finish game, then call the finishGame method
+		if ( ((Button)view).getText().equals("Start Game") )
+		{
+			this.power_manager = (PowerManager)this.getSystemService(Context.POWER_SERVICE);
+			this.wake_lock = this.power_manager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, GameActivity.WAKE_LOCK_NAME);
+			this.wake_lock.acquire();
+		}
+
 		// Set up the chronometer
 		this.chrono.setBase( SystemClock.elapsedRealtime() );
 		this.chrono.setOnChronometerTickListener( new GameChronometer(this) );
@@ -331,7 +350,6 @@ public class GameActivity extends Activity
 		if ( this.game.isHomeGame() )
 		{
 			Intent scorer = new Intent(this,GoalScorer.class);
-			scorer.putExtra(GameActivity.EXTRA_GAME, this.game);
 			scorer.putExtra(GameActivity.EXTRA_GAME_TIME, minute);
 			this.startActivityForResult(scorer, GameActivity.SELF_GOAL_SCORED);
 		} else
@@ -339,6 +357,7 @@ public class GameActivity extends Activity
 			// Otherwise just add the minute and a dummy player
 			this.game.getGoalsConceded().add(new Goal(minute, new Player(-1, "Goal", "Against")));
 			((ArrayAdapter<Goal>)((ListView)findViewById(R.id.away_goal_list_view)).getAdapter()).notifyDataSetChanged();
+			this.game.setOpponent_score( this.game.getOpponent_score() + 1 );
 		}
 	}
 	
@@ -365,7 +384,6 @@ public class GameActivity extends Activity
 		if ( ! this.game.isHomeGame() )
 		{
 			Intent scorer = new Intent(this,GoalScorer.class);
-			scorer.putExtra(GameActivity.EXTRA_GAME, this.game);
 			scorer.putExtra(GameActivity.EXTRA_GAME_TIME, minute );
 			this.startActivityForResult(scorer, GameActivity.SELF_GOAL_SCORED);
 		} else
@@ -373,6 +391,7 @@ public class GameActivity extends Activity
 			// Otherwise just add the minute and a dummy player
 			this.game.getGoalsConceded().add(new Goal(minute, new Player(-1, "Goal", "Against")));
 			((ArrayAdapter<Goal>)((ListView)findViewById(R.id.away_goal_list_view)).getAdapter()).notifyDataSetChanged();
+			this.game.setOpponent_score( this.game.getOpponent_score() + 1 );
 		}
 	}
 	
@@ -516,14 +535,14 @@ public class GameActivity extends Activity
     {
     	super.onActivityResult(request_code, result_code, data);
     	
-        // Check which request we're responding to
-    	Log.d("Activity Result","Got the result which request code " + request_code + " result code " + result_code );
-        if ( request_code == GameActivity.SELF_GOAL_SCORED )
+        // If it was a SELF_GOAL_SCORED activity and it returned ok, add the
+    	// goal to the goals scored list
+        if ( request_code == GameActivity.SELF_GOAL_SCORED && result_code == RESULT_OK )
         {
         	Goal goal = (Goal) data.getSerializableExtra(GoalScorer.EXTRA_GOAL);
         	this.game.getGoalsScored().add(goal);
-       		Log.d("Result","Should update ..." + this.game.getGoalsScored() );
 			((ArrayAdapter<Goal>)((ListView)findViewById(R.id.home_goal_list_view)).getAdapter()).notifyDataSetChanged();
+			this.game.setSelf_score( this.game.getSelf_score() + 1 );
         }
     }
 }

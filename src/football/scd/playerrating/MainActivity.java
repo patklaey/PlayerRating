@@ -53,7 +53,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	private static Backend backend;
 	
 	public static final String MY_TEAM_NAME = "SC Düdingen Cb";
-	public static final int HALF_TIME_DURATION = 2;
+	public static final int HALF_TIME_DURATION = 5;
 	
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide

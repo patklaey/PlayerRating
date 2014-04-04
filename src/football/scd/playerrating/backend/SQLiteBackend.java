@@ -367,8 +367,8 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 		attributes.put(KEY_ID, game.getID());
 		attributes.put(KEY_OPPONENT, game.getOpponent());
 		attributes.put(KEY_SELF_NAME, game.getSelf_name());
-		attributes.put(KEY_SELF_GOALS, game.getGoalsScored().size());
-		attributes.put(KEY_OPPONENT_GOALS, game.getGoalsConceded().size());
+		attributes.put(KEY_SELF_GOALS, game.getSelf_score());
+		attributes.put(KEY_OPPONENT_GOALS, game.getOpponent_score());
 		attributes.put(KEY_FINISHED, game.isFinished());
 		attributes.put(KEY_IS_HOME, game.isHomeGame());
 
@@ -396,8 +396,8 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 		// Add all games attributes
 		attributes.put(KEY_OPPONENT, game.getOpponent());
 		attributes.put(KEY_SELF_NAME, game.getSelf_name());
-		attributes.put(KEY_SELF_GOALS, game.getGoalsScored().size());
-		attributes.put(KEY_OPPONENT_GOALS, game.getGoalsConceded().size());
+		attributes.put(KEY_SELF_GOALS, game.getSelf_score());
+		attributes.put(KEY_OPPONENT_GOALS, game.getOpponent_score());
 		attributes.put(KEY_FINISHED, game.isFinished());
 		attributes.put(KEY_IS_HOME, game.isHomeGame());
 	 

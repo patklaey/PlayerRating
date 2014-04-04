@@ -17,7 +17,6 @@ public class GoalScorer extends ListActivity
 	public static final String EXTRA_GOAL = "football.scd.playerrating.GoalScorer.Goal";
 	
 	private ArrayAdapter<Player> adapter;
-	private Game game;
 	private int time;
 	
 	@Override
@@ -28,7 +27,6 @@ public class GoalScorer extends ListActivity
 		// Show the Up button in the action bar.
 		setupActionBar();
 		
-		this.game = (Game) this.getIntent().getSerializableExtra(GameActivity.EXTRA_GAME);
 		this.time = this.getIntent().getIntExtra(GameActivity.EXTRA_GAME_TIME, 0);
 		
 		this.adapter = new ArrayAdapter<Player>(this,
