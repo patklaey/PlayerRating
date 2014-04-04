@@ -328,14 +328,7 @@ public class GameActivity extends Activity
 	}
 
 	public void increaseHomeScore(View view)
-	{
-		// Get the text of the home score field
-		TextView home_score_text = (TextView)findViewById(R.id.home_team_score);
-		int home_score = Integer.parseInt((String)home_score_text.getText());
-		
-		// Set the text of the home score field to home_score + 1
-		home_score_text.setText( "" + (home_score + 1));
-		
+	{	
 		// Get the current minute
 		int minute = Integer.parseInt((this.chrono.getText().toString().split(":"))[0]);
 				
@@ -358,18 +351,18 @@ public class GameActivity extends Activity
 			this.game.getGoalsConceded().add(new Goal(minute, new Player(-1, "Goal", "Against")));
 			((ArrayAdapter<Goal>)((ListView)findViewById(R.id.away_goal_list_view)).getAdapter()).notifyDataSetChanged();
 			this.game.setOpponent_score( this.game.getOpponent_score() + 1 );
+			
+			// Get the text of the home score field
+			TextView home_score_text = (TextView)findViewById(R.id.home_team_score);
+			int home_score = Integer.parseInt((String)home_score_text.getText());
+			
+			// Set the text of the home score field to home_score + 1
+			home_score_text.setText( "" + (home_score + 1));
 		}
 	}
 	
 	public void increaseAwayScore(View view)
-	{
-		// Get the text of the home score field
-		TextView away_score_text = (TextView)findViewById(R.id.away_team_score);
-		int away_score = Integer.parseInt((String)away_score_text.getText());
-		
-		// Set the text of the home score field to home_score + 1
-		away_score_text.setText( "" + (away_score + 1));
-		
+	{	
 		// Get the current minute
 		int minute = Integer.parseInt((this.chrono.getText().toString().split(":"))[0]);
 				
@@ -392,6 +385,13 @@ public class GameActivity extends Activity
 			this.game.getGoalsConceded().add(new Goal(minute, new Player(-1, "Goal", "Against")));
 			((ArrayAdapter<Goal>)((ListView)findViewById(R.id.away_goal_list_view)).getAdapter()).notifyDataSetChanged();
 			this.game.setOpponent_score( this.game.getOpponent_score() + 1 );
+			
+			// Get the text of the home score field
+			TextView away_score_text = (TextView)findViewById(R.id.away_team_score);
+			int away_score = Integer.parseInt((String)away_score_text.getText());
+			
+			// Set the text of the home score field to home_score + 1
+			away_score_text.setText( "" + (away_score + 1));
 		}
 	}
 	
@@ -543,6 +543,25 @@ public class GameActivity extends Activity
         	this.game.getGoalsScored().add(goal);
 			((ArrayAdapter<Goal>)((ListView)findViewById(R.id.home_goal_list_view)).getAdapter()).notifyDataSetChanged();
 			this.game.setSelf_score( this.game.getSelf_score() + 1 );
+			
+			// And update the text field
+			if ( this.game.isHomeGame() )
+			{
+				// Get the text of the home score field
+				TextView home_score_text = (TextView)findViewById(R.id.home_team_score);
+				int home_score = Integer.parseInt((String)home_score_text.getText());
+				
+				// Set the text of the home score field to home_score + 1
+				home_score_text.setText( "" + (home_score + 1));
+			} else
+			{
+				// Get the text of the home score field
+				TextView away_score_text = (TextView)findViewById(R.id.away_team_score);
+				int away_score = Integer.parseInt((String)away_score_text.getText());
+				
+				// Set the text of the home score field to home_score + 1
+				away_score_text.setText( "" + (away_score + 1));
+			}
         }
     }
 }
