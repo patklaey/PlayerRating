@@ -6,7 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import football.scd.playerrating.Game;
+import football.scd.playerrating.Goal;
+import football.scd.playerrating.MainActivity;
 import football.scd.playerrating.Player;
+import football.scd.playerrating.contents.PlayersContent;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
@@ -64,7 +67,12 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
     private static final int INDEX_PLAYED_GAME_ID = 2;
     private static final int INDEX_PLAYED_TIME = 3;
     private static final int INDEX_PLAYED_RATING = 4;
+//    private static final int INDEX_GOAL_ID = 0;
+    private static final int INDEX_GOAL_PLAYER_ID = 1;
+//    private static final int INDEX_GOAL_GAME_ID = 2;
+    private static final int INDEX_GOAL_MINUTE = 3;
 
+    
     // Create table strings
     private static final String CREATE_PLAYERS_TABLE = "CREATE TABLE " + PLAYERS_TABLE + "("
                 + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT,"
@@ -195,7 +203,7 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 		SQLiteDatabase db = this.getReadableDatabase();
 		
 		// Create the query string
-		String query = "SELECT ID from " + PLAYERS_TABLE + ";";
+		String query = "SELECT " + KEY_ID + " from " + PLAYERS_TABLE + ";";
 		
 		// Execute the query
 		Cursor cursor = db.rawQuery(query, null);
@@ -242,6 +250,43 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 			game = gameFromCursor(cursor);
 		}
 		
+		// Get the goals belonging to this game
+		query = "SELECT * FROM " + GOALS_TABLE + " WHERE " + KEY_GAME_ID + "=" + ID + ";";
+		
+		// Execute the query
+		cursor = db.rawQuery(query, null);
+		
+		// Create the lists
+		List<Goal> goals_scored = new ArrayList<Goal>();
+		List<Goal> goals_conceded = new ArrayList<Goal>();
+		
+		// If the player already played in games, get the data
+		if ( cursor.moveToFirst() )
+		{
+			do
+			{
+				// Get the goals minute, player id and game id
+				int min = cursor.getInt(INDEX_GOAL_MINUTE);
+				int player_id = cursor.getInt(INDEX_GOAL_PLAYER_ID);
+				
+				// If it is a goal scored (i.e. player id is not -1) add it 
+				// to the goals scored list, otherwise add it to the goals
+				// conceded list
+				if ( player_id != MainActivity.GOAL_AGAINS_PLAYER.getID() )
+				{
+					goals_scored.add(new Goal(min, PlayersContent.PLAYER_MAP.get(player_id)));
+				} else
+				{
+					goals_conceded.add( new Goal(min, MainActivity.GOAL_AGAINS_PLAYER ) );
+				}
+				
+			} while ( cursor.moveToNext() );
+			
+			// Add the games scored and conceded goals
+			game.setGoalsConceded(goals_conceded);
+			game.setGoalsScored(goals_scored);
+		}
+				
 		// Close the database connection
 		db.close();
 		
@@ -256,7 +301,7 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 		SQLiteDatabase db = this.getReadableDatabase();
 		
 		// Create the query string
-		String query = "SELECT * from " + GAMES_TABLE + ";";
+		String query = "SELECT " + KEY_ID + " from " + GAMES_TABLE + ";";
 		
 		// Execute the query
 		Cursor cursor = db.rawQuery(query, null);
@@ -271,7 +316,7 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 		do
 		{
 			// Add the player from the current row to the list
-            games.add(gameFromCursor(cursor));
+            games.add( this.getGameByID( (cursor.getInt(INDEX_GAME_ID) ) ) );
             
         } while (cursor.moveToNext());
 		
@@ -324,14 +369,8 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 			played.put(KEY_RATING, player.getRatings().get(entry.getKey()));
 			
 			// Add the entry to the db
-			success = db.insert(PLAYED_TABLE, null, played);
-			
-			// Close the db connection and return false if something went wrong
-			if ( success == -1 )
-			{
-				db.close();
-				return false;
-			}
+			db.insert(PLAYED_TABLE, null, played);
+	
 		}
 		
 			
@@ -375,38 +414,56 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 		// Insert the player into the database
 		long success = db.insert(GAMES_TABLE, null, attributes);
 		
-		// Close the database connection
-		db.close();
-		
+		// If the game could not be created, stop here
 		if (success == -1 )
+		{
+			// Close the database connection
+			db.close();
 			return false;
+		}
 		
+		// Otherwise add all goals to the goals table
+		// If there are no goals, we can stop here
+		if ( game.getGoalsConceded().size() == 0 && game.getGoalsScored().size() == 0 )
+		{
+			// Close the database connection
+			db.close();
+			return true;
+		}
+		
+		// If there are goals, add them to the table
+		for (Goal self_goal : game.getGoalsScored() ) 
+		{
+			ContentValues goal = new ContentValues();
+			goal.put(KEY_PLAYER_ID, self_goal.getPlayer().getID() );
+			goal.put(KEY_GAME_ID, game.getID() );
+			goal.put(KEY_TIME, self_goal.getMinute() );
+			
+			// Add the entry to the db
+			db.insert(GOALS_TABLE, null, goal);
+		}
+		
+		// Also add the goals conceded
+		for (Goal goal_against : game.getGoalsConceded() ) 
+		{
+			ContentValues goal = new ContentValues();
+			goal.put(KEY_PLAYER_ID, goal_against.getPlayer().getID() );
+			goal.put(KEY_GAME_ID, game.getID() );
+			goal.put(KEY_TIME, goal_against.getMinute() );
+			
+			// Add the entry to the db
+			db.insert(GOALS_TABLE, null, goal);
+		}
+				
 		return true;
 	}
 
 	@Override
 	public boolean updateGame(Game game)
 	{
-		// Get writable access to the database
-	    SQLiteDatabase db = this.getWritableDatabase();
-	    
-		// Create the attributes
-	    ContentValues attributes = new ContentValues();
-	    
-		// Add all games attributes
-		attributes.put(KEY_OPPONENT, game.getOpponent());
-		attributes.put(KEY_SELF_NAME, game.getSelf_name());
-		attributes.put(KEY_SELF_GOALS, game.getSelf_score());
-		attributes.put(KEY_OPPONENT_GOALS, game.getOpponent_score());
-		attributes.put(KEY_FINISHED, game.isFinished());
-		attributes.put(KEY_IS_HOME, game.isHomeGame());
-	 
-	    // updating row
-	    long success = db.update(GAMES_TABLE, attributes, KEY_ID + " = ?",
-	            new String[] { String.valueOf(game.getID()) });
-	    
-	    if ( success == -1 )
-	    	return false;
+		// Simply remove and readd the game
+		this.removeGame(game);
+		this.createGame(game);
 	    
 	    return true;
 	}
@@ -459,7 +516,6 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 	    long success = db.delete(PLAYERS_TABLE, KEY_ID + " = ?",
 	            new String[] { String.valueOf( ID ) });
 	    
-	    
 	    // Delete all the players ratings and minutes
 	    success = db.delete(PLAYED_TABLE, KEY_PLAYER_ID + " = ?", 
 	    		new String[] { String.valueOf( ID ) } );
@@ -481,6 +537,12 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 	    // Delete the given player
 	    long success = db.delete(GAMES_TABLE, KEY_ID + " = ?",
 	            new String[] { String.valueOf( ID ) });
+	    
+	    // Delete all the goals belonging to this game
+	    success = db.delete(GOALS_TABLE, KEY_GAME_ID + " = ?", 
+	    		new String[] { String.valueOf( ID ) } );
+	    
+	    
 	    db.close();
 	    
 	    if ( success == 1 )

@@ -85,6 +85,8 @@ public class GameActivity extends Activity
 				((TextView)findViewById(R.id.home_team_score)).setText("" + this.game.getSelf_score());
 				((TextView)findViewById(R.id.away_team_score)).setText("" + this.game.getOpponent_score());
 								
+				Log.d("Goals scored:", "" + this.game.getGoalsScored());
+				
 				// The home goal adapter
 				this.home_goal_adapter = new ArrayAdapter<Goal>(this,
 						android.R.layout.simple_list_item_1,android.R.id.text1,
@@ -126,10 +128,6 @@ public class GameActivity extends Activity
 				((TextView)findViewById(R.id.half_time_text)).setText("Finished");
 				findViewById(R.id.game_minutes_played).setVisibility(View.INVISIBLE);
 			}
-			
-			
-			Log.d("Test","Everything set up");
-			Log.d("Goals","Self: " + this.game.getGoalsScored().toString() );
 			
 			// Assign chronometer
 			this.chrono = (Chronometer)findViewById(R.id.game_minutes_played);
@@ -348,7 +346,7 @@ public class GameActivity extends Activity
 		} else
 		{
 			// Otherwise just add the minute and a dummy player
-			this.game.getGoalsConceded().add(new Goal(minute, new Player(-1, "Goal", "Against")));
+			this.game.getGoalsConceded().add(new Goal(minute, MainActivity.GOAL_AGAINS_PLAYER ));
 			((ArrayAdapter<Goal>)((ListView)findViewById(R.id.away_goal_list_view)).getAdapter()).notifyDataSetChanged();
 			this.game.setOpponent_score( this.game.getOpponent_score() + 1 );
 			
@@ -382,7 +380,7 @@ public class GameActivity extends Activity
 		} else
 		{
 			// Otherwise just add the minute and a dummy player
-			this.game.getGoalsConceded().add(new Goal(minute, new Player(-1, "Goal", "Against")));
+			this.game.getGoalsConceded().add(new Goal(minute, MainActivity.GOAL_AGAINS_PLAYER ));
 			((ArrayAdapter<Goal>)((ListView)findViewById(R.id.away_goal_list_view)).getAdapter()).notifyDataSetChanged();
 			this.game.setOpponent_score( this.game.getOpponent_score() + 1 );
 			
