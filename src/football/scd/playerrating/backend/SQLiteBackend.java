@@ -38,7 +38,7 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
     private static final String KEY_ID = "ID";
     private static final String KEY_NAME = "Name";
     private static final String KEY_GIVENNAME = "Givenname";
-    private static final String KEY_GOALS = "Goals";
+//    private static final String KEY_GOALS = "Goals";
     private static final String KEY_RATING = "Rating";
     private static final String KEY_OPPONENT = "Opponent";
     private static final String KEY_IS_HOME = "Is_Home";
@@ -54,7 +54,6 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
     private static final int INDEX_PLAYER_ID = 0;
     private static final int INDEX_PLAYER_NAME = 1;
     private static final int INDEX_PLAYER_GIVENNAME = 2;
-    private static final int INDEX_PLAYER_GOALS = 3;
     private static final int INDEX_GAME_ID = 0;
     private static final int INDEX_GAME_OPPONENT = 1;
     private static final int INDEX_GAME_IS_HOME = 2;
@@ -69,14 +68,14 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
     private static final int INDEX_PLAYED_RATING = 4;
 //    private static final int INDEX_GOAL_ID = 0;
     private static final int INDEX_GOAL_PLAYER_ID = 1;
-//    private static final int INDEX_GOAL_GAME_ID = 2;
+    private static final int INDEX_GOAL_GAME_ID = 2;
     private static final int INDEX_GOAL_MINUTE = 3;
 
     
     // Create table strings
     private static final String CREATE_PLAYERS_TABLE = "CREATE TABLE " + PLAYERS_TABLE + "("
                 + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT,"
-                + KEY_GIVENNAME + " TEXT," + KEY_GOALS + " INTEGER " + ")";
+                + KEY_GIVENNAME + " TEXT " + ")";
     
     private static final String CREATE_GAMES_TABLE = "CREATE TABLE " + GAMES_TABLE + "("
             + KEY_ID + " INTEGER PRIMARY KEY," + KEY_OPPONENT + " TEXT,"
@@ -189,6 +188,32 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 		player.setRatings(ratings);
 		player.setMinutes(minutes);
 		
+		// Get the players goals
+		query = "SELECT * FROM " + GOALS_TABLE + " WHERE " + KEY_PLAYER_ID + "=" + ID + ";";
+		
+		// Execute the query
+		cursor = db.rawQuery(query, null);
+		
+		// Create a empty list
+		List<Goal> goals = new ArrayList<Goal>();
+		
+		// If the player already played in games, get the data
+		if ( cursor.moveToFirst() )
+		{
+			do
+			{
+				// Get the goals minute and game_id
+				int minute = cursor.getInt(INDEX_GOAL_MINUTE);
+				int game_id = cursor.getInt(INDEX_GOAL_GAME_ID);
+				
+				// Add the goal to the list
+				goals.add(new Goal(minute, player , game_id ));
+			} while ( cursor.moveToNext() );
+		}
+		
+		// Add the goals list to the player
+		player.setGoals(goals);
+		
 		// Close the database connection
 		db.close();
 		
@@ -274,10 +299,10 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 				// conceded list
 				if ( player_id != MainActivity.GOAL_AGAINS_PLAYER.getID() )
 				{
-					goals_scored.add(new Goal(min, PlayersContent.PLAYER_MAP.get(player_id)));
+					goals_scored.add(new Goal(min, PlayersContent.PLAYER_MAP.get(player_id), game.getID() ));
 				} else
 				{
-					goals_conceded.add( new Goal(min, MainActivity.GOAL_AGAINS_PLAYER ) );
+					goals_conceded.add( new Goal(min, MainActivity.GOAL_AGAINS_PLAYER, game.getID() ) );
 				}
 				
 			} while ( cursor.moveToNext() );
@@ -339,7 +364,6 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 		attributes.put(KEY_ID, player.getID());
 		attributes.put(KEY_NAME, player.getName());
 		attributes.put(KEY_GIVENNAME, player.getGivenname());
-		attributes.put(KEY_GOALS, player.getGoals());
 
 		// Insert the player into the database
 		long success = db.insert(PLAYERS_TABLE, null, attributes);
@@ -373,7 +397,30 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 	
 		}
 		
+		// Insert the players goals 
+		for (Goal goal : player.getGoals() )
+		{
+			// Check if this goal already exists (since the goals will be 
+			// written by the game too)
+			String query = "SELECT * FROM " + GOALS_TABLE + " WHERE " + KEY_GAME_ID
+					     + "=" + goal.getGameId() + " AND " + KEY_PLAYER_ID + "=" 
+					     + player.getID() + " AND " + KEY_TIME + "=" + goal.getMinute();
 			
+			// Execute the query
+			Cursor cursor = db.rawQuery(query, null);
+			
+			if ( ! cursor.moveToFirst() )
+			{
+				ContentValues pl_goal = new ContentValues();
+				pl_goal.put(KEY_PLAYER_ID, player.getID());
+				pl_goal.put(KEY_GAME_ID, goal.getGameId());
+				pl_goal.put(KEY_TIME, goal.getMinute() );
+				
+				// Add the entry to the db
+				db.insert(GOALS_TABLE, null, pl_goal);
+			}
+		}	
+		
 		// Close the database connection
 		db.close();
 		
@@ -436,7 +483,7 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 		{
 			ContentValues goal = new ContentValues();
 			goal.put(KEY_PLAYER_ID, self_goal.getPlayer().getID() );
-			goal.put(KEY_GAME_ID, game.getID() );
+			goal.put(KEY_GAME_ID, self_goal.getGameId() );
 			goal.put(KEY_TIME, self_goal.getMinute() );
 			
 			// Add the entry to the db
@@ -448,7 +495,7 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 		{
 			ContentValues goal = new ContentValues();
 			goal.put(KEY_PLAYER_ID, goal_against.getPlayer().getID() );
-			goal.put(KEY_GAME_ID, game.getID() );
+			goal.put(KEY_GAME_ID, goal_against.getGameId() );
 			goal.put(KEY_TIME, goal_against.getMinute() );
 			
 			// Add the entry to the db
@@ -473,7 +520,6 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 		Player player = new Player(cursor.getInt(INDEX_PLAYER_ID));
 		player.setName(cursor.getString(INDEX_PLAYER_NAME));
 		player.setGivenname(cursor.getString(INDEX_PLAYER_GIVENNAME));
-		player.setGoals(cursor.getInt(INDEX_PLAYER_GOALS));
 		return player;
 	}
 	

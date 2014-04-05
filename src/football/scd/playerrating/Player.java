@@ -3,7 +3,9 @@ package football.scd.playerrating;
 import android.annotation.SuppressLint;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @SuppressLint("UseSparseArrays")
 public class Player implements Serializable
@@ -17,7 +19,7 @@ public class Player implements Serializable
 	private int ID;
 	private String name;
 	private String givenname;
-	private int goals;
+	private List<Goal> goals;
 	private int current_game_minutes;
 	private int current_game_goals;
 	
@@ -41,7 +43,7 @@ public class Player implements Serializable
 		this.ID = _ID;
 		this.name = _name;
 		this.givenname = _givenname;
-		this.goals = 0;
+		this.goals = new ArrayList<Goal>();
 		this.minutes = new HashMap<Integer, Integer>();
 		this.ratings = new HashMap<Integer, Integer>();
 		this.playing = false;
@@ -59,7 +61,7 @@ public class Player implements Serializable
 		this.givenname = "John";
 		this.name = "Doe";
 		this.minutes = new HashMap<Integer, Integer>();
-		this.goals = 0;
+		this.goals = new ArrayList<Goal>();
 		this.ratings = new HashMap<Integer, Integer>();
 		this.playing = false;
 		this.current_game_minutes = 0;
@@ -143,7 +145,7 @@ public class Player implements Serializable
 	/**
 	 * @return the goals
 	 */
-	public int getGoals() 
+	public List<Goal> getGoals() 
 	{
 		return goals;
 	}
@@ -151,7 +153,7 @@ public class Player implements Serializable
 	/**
 	 * @param goals the goals to set
 	 */
-	public void setGoals(int goals)
+	public void setGoals(List<Goal> goals)
 	{
 		this.goals = goals;
 	}

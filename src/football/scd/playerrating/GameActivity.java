@@ -342,11 +342,12 @@ public class GameActivity extends Activity
 		{
 			Intent scorer = new Intent(this,GoalScorer.class);
 			scorer.putExtra(GameActivity.EXTRA_GAME_TIME, minute);
+			scorer.putExtra(GameActivity.EXTRA_GAME_ID, this.game.getID() );
 			this.startActivityForResult(scorer, GameActivity.SELF_GOAL_SCORED);
 		} else
 		{
 			// Otherwise just add the minute and a dummy player
-			this.game.getGoalsConceded().add(new Goal(minute, MainActivity.GOAL_AGAINS_PLAYER ));
+			this.game.getGoalsConceded().add(new Goal(minute, MainActivity.GOAL_AGAINS_PLAYER , this.game.getID() ) );
 			((ArrayAdapter<Goal>)((ListView)findViewById(R.id.away_goal_list_view)).getAdapter()).notifyDataSetChanged();
 			this.game.setOpponent_score( this.game.getOpponent_score() + 1 );
 			
@@ -376,11 +377,12 @@ public class GameActivity extends Activity
 		{
 			Intent scorer = new Intent(this,GoalScorer.class);
 			scorer.putExtra(GameActivity.EXTRA_GAME_TIME, minute );
+			scorer.putExtra(GameActivity.EXTRA_GAME_ID, this.game.getID() );
 			this.startActivityForResult(scorer, GameActivity.SELF_GOAL_SCORED);
 		} else
 		{
 			// Otherwise just add the minute and a dummy player
-			this.game.getGoalsConceded().add(new Goal(minute, MainActivity.GOAL_AGAINS_PLAYER ));
+			this.game.getGoalsConceded().add(new Goal(minute, MainActivity.GOAL_AGAINS_PLAYER, this.game.getID() ));
 			((ArrayAdapter<Goal>)((ListView)findViewById(R.id.away_goal_list_view)).getAdapter()).notifyDataSetChanged();
 			this.game.setOpponent_score( this.game.getOpponent_score() + 1 );
 			

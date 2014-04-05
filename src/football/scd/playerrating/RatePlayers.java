@@ -126,9 +126,6 @@ public class RatePlayers extends Activity
 		// Add the players rating to the hashmap with the current game ID
 		player.getRatings().put(this.game_id, rating);
 		
-		// Add the players goals 
-		player.setGoals( player.getGoals() + player.getCurrentGameGoals() );
-		
 		// Update the player locally
 		PlayersContent.updatePlayer(player);
 		

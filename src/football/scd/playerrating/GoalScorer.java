@@ -17,6 +17,7 @@ public class GoalScorer extends ListActivity
 	
 	private ArrayAdapter<Player> adapter;
 	private int time;
+	private int game_id;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -27,6 +28,7 @@ public class GoalScorer extends ListActivity
 		setupActionBar();
 		
 		this.time = this.getIntent().getIntExtra(GameActivity.EXTRA_GAME_TIME, 0);
+		this.game_id = this.getIntent().getIntExtra(GameActivity.EXTRA_GAME_ID, 0);
 		
 		this.adapter = new ArrayAdapter<Player>(this,
 							android.R.layout.simple_list_item_1, android.R.id.text1,
@@ -82,7 +84,10 @@ public class GoalScorer extends ListActivity
 		player.setCurrentGameGoals( player.getCurrentGameGoals() + 1 );
 		
 		// Add the goal to the current game
-		Goal goal = new Goal(this.time,player);
+		Goal goal = new Goal( this.time, player, this.game_id );
+		
+		// Add the goal to the player
+		
 		
 		// Set the result as ok and pass the game back
 		Intent intent = new Intent();

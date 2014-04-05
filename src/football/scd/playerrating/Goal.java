@@ -10,17 +10,35 @@ public class Goal implements Serializable
 	private static final long serialVersionUID = -6563522635304334751L;
 	private int minute;
 	private Player player;
+	private int game_id;
 	
-	public Goal( int min, Player pl )
+	public Goal( int min, Player pl, int game )
 	{
 		this.minute = min;
 		this.player = pl;
+		this.game_id = game;
 	}
 	
 	@Override
 	public String toString()
 	{
 		return this.minute + "' " + this.player.toString();
+	}
+
+	/**
+	 * @return the game_id
+	 */
+	public int getGameId()
+	{
+		return game_id;
+	}
+
+	/**
+	 * @param game_id the game_id to set
+	 */
+	public void setGameId(int game_id)
+	{
+		this.game_id = game_id;
 	}
 
 	/**

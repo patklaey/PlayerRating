@@ -1,8 +1,6 @@
 package football.scd.playerrating;
 
-import java.util.HashMap;
 import java.util.Map;
-
 import football.scd.playerrating.contents.PlayersContent;
 import android.os.Bundle;
 import android.app.Activity;
@@ -17,18 +15,12 @@ import android.support.v4.app.NavUtils;
 
 public class PlayerActivity extends Activity 
 {	
-	// Define fields used for player
-	private String player_name;
-	private String player_givenname;
-	private int player_id;
-	private int player_goals;
-	private HashMap<Integer, Integer> player_minutes;
-	private HashMap<Integer, Integer> player_ratings;
+	// Define the player
+	private Player player;
 	private boolean new_player = false;
 	private int total_minutes;
 	private float average_rating;
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -46,6 +38,9 @@ public class PlayerActivity extends Activity
 		// If the extra is TYPE_NEW, then we want to create a new player
 		if ( extra_type.equals(MainActivity.EXTRA_TYPE_NEW))
 		{
+			// Create a new player
+			this.player = new Player( MainActivity.next_free_player_id++);
+			
 			// Enable the name fields and the save button
 			((EditText)findViewById(R.id.player_edit_name)).setEnabled(true);
 			((EditText)findViewById(R.id.player_edit_givenname)).setEnabled(true);
@@ -60,33 +55,28 @@ public class PlayerActivity extends Activity
 		} else if ( extra_type.equals(MainActivity.EXTRA_TYPE_SHOW) )
 		{
 			// Set the fields
-			this.player_name = intent.getStringExtra(MainActivity.EXTRA_NAME);
-			this.player_givenname = intent.getStringExtra(MainActivity.EXTRA_GIVENNAME);
-			this.player_id = intent.getIntExtra(MainActivity.EXTRA_ID, -1);
-			this.player_minutes = (HashMap<Integer, Integer>) intent.getSerializableExtra(MainActivity.EXTRA_MINUTES);
-			this.player_ratings = (HashMap<Integer, Integer>) intent.getSerializableExtra(MainActivity.EXTRA_RATING);
-			this.player_goals = intent.getIntExtra(MainActivity.EXTRA_GOALS, 0);
-			
+			this.player = (Player) intent.getSerializableExtra(MainActivity.EXTRA_PLAYER);
+	
 			// Set the corresponding text fields
-			((EditText)findViewById(R.id.player_edit_name)).setText(this.player_name);
-			((EditText)findViewById(R.id.player_edit_givenname)).setText(this.player_givenname);
-			((EditText)findViewById(R.id.player_goals_value)).setText("" + this.player_goals);
+			((EditText)findViewById(R.id.player_edit_name)).setText(this.player.getName() );
+			((EditText)findViewById(R.id.player_edit_givenname)).setText(this.player.getGivenname());
+			((EditText)findViewById(R.id.player_goals_value)).setText("" + this.player.getGoals().size() );
 
 			// Calculate total minutes and average rating
-			if ( this.player_minutes == null || this.player_ratings == null )
+			if ( this.player.getMinutes() == null || this.player.getRatings() == null )
 				return;
 			
 			this.total_minutes = 0;
 			this.average_rating = 0;
 			
-			for (Map.Entry<Integer, Integer> entry : this.player_minutes.entrySet())
+			for (Map.Entry<Integer, Integer> entry : this.player.getMinutes().entrySet())
 				this.total_minutes += entry.getValue();
 
-			for (Map.Entry<Integer, Integer> entry : this.player_ratings.entrySet())
+			for (Map.Entry<Integer, Integer> entry : this.player.getRatings().entrySet())
 				this.average_rating += entry.getValue();
 			
-			if ( this.player_ratings.size() > 0 )
-				this.average_rating = this.average_rating / this.player_ratings.size();
+			if ( this.player.getRatings().size() > 0 )
+				this.average_rating = this.average_rating / this.player.getRatings().size();
 			
 			// Set the corresponding text fields
 			((EditText)findViewById(R.id.player_minutes_value)).setText("" + this.total_minutes);
@@ -121,47 +111,26 @@ public class PlayerActivity extends Activity
 	// Save the players values
 	public void savePlayer(View view)
 	{
-		this.player_givenname = ((EditText)findViewById(R.id.player_edit_givenname)).getText().toString();
-		this.player_name = ((EditText)findViewById(R.id.player_edit_name)).getText().toString();
-		this.player_goals = Integer.parseInt(((EditText)findViewById(R.id.player_goals_value)).getText().toString());
+		this.player.setGivenname(((EditText)findViewById(R.id.player_edit_givenname)).getText().toString());
+		this.player.setName(((EditText)findViewById(R.id.player_edit_name)).getText().toString());
+//		this.player_goals = Integer.parseInt(((EditText)findViewById(R.id.player_goals_value)).getText().toString());
 		//this.player_minutes = Integer.parseInt(((EditText)findViewById(R.id.player_minutes_value)).getText().toString());
 		//this.player_rating = Float.parseFloat(((EditText)findViewById(R.id.player_rating_values)).getText().toString());
 		
-		Player player;
-		
-		if ( this.new_player )
-		{
-			this.player_id = MainActivity.next_free_player_id++;
-			player = new Player(this.player_id);
-		} else
-		{
-			player = PlayersContent.PLAYER_MAP.get(this.player_id);
-			PlayersContent.PLAYER_MAP.remove(this.player_id);
-		}
-		
-		// TODO: Check player values for emptiness
-		
-		// Update the players values
-		player.setGivenname(this.player_givenname);
-		player.setName(this.player_name);
-		player.setGoals(this.player_goals);
-		player.setMinutes(this.player_minutes);
-		player.setRatings(this.player_ratings);
-		
 		if ( this.new_player )
 		{
 			// Save it locally
-			PlayersContent.addPlayer(player);
+			PlayersContent.addPlayer(this.player);
 			
 			// And save it to the database
-			MainActivity.getBackend().createPlayer(player);
+			MainActivity.getBackend().createPlayer(this.player);
 		} else
 		{
 			// Save it locally
-			PlayersContent.updatePlayer(player);
+			PlayersContent.updatePlayer(this.player);
 			
 			// And save it to the database
-			MainActivity.getBackend().updatePlayer(player);
+			MainActivity.getBackend().updatePlayer(this.player);
 		}
 		
 		finish();
@@ -170,10 +139,10 @@ public class PlayerActivity extends Activity
 	public void deletePlayer(View view)
 	{
 		// Remove the player locally
-		PlayersContent.removePlayer( this.player_id );
+		PlayersContent.removePlayer( this.player.getID() );
 		
 		// Remove the player from the database
-		MainActivity.getBackend().removePlayer(this.player_id);
+		MainActivity.getBackend().removePlayer(this.player);
 		
 		finish();
 	}

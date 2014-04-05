@@ -29,12 +29,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public static final String EXTRA_TYPE = "football.scd.playerrating.Type";
 	public static final String EXTRA_TYPE_SHOW = "football.scd.playerrating.Type_Show";
 	public static final String EXTRA_TYPE_NEW = "football.scd.playerrating.Type_New";
-	public static final String EXTRA_NAME = "football.scd.playerrating.Name";
-	public static final String EXTRA_GIVENNAME = "football.scd.playerrating.Givenname";
-	public static final String EXTRA_ID = "football.scd.playerrating.ID";
-	public static final String EXTRA_MINUTES = "football.scd.playerrating.Minutes";
-	public static final String EXTRA_GOALS = "football.scd.playerrating.Goals";
-	public static final String EXTRA_RATING = "football.scd.playerrating.Rating";
+	public static final String EXTRA_PLAYER = "football.scd.playerrating.Player";
 	public static final String EXTRA_GAME = "football.scd.playerrating.Game";
 	public static final String EXTRA_SELF_SCORE = "football.scd.playerrating.Self_Score";
 	public static final String EXTRA_OPPONENT_SCORE = "football.scd.playerrating.Opponent_Score";
@@ -272,12 +267,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	{
     	Intent intent = new Intent(this,PlayerActivity.class);
     	intent.putExtra(MainActivity.EXTRA_TYPE, MainActivity.EXTRA_TYPE_SHOW);
-    	intent.putExtra(MainActivity.EXTRA_NAME, PlayersContent.PLAYER_MAP.get(id).getName());
-    	intent.putExtra(MainActivity.EXTRA_GIVENNAME, PlayersContent.PLAYER_MAP.get(id).getGivenname());
-    	intent.putExtra(MainActivity.EXTRA_ID, PlayersContent.PLAYER_MAP.get(id).getID());
-    	intent.putExtra(MainActivity.EXTRA_MINUTES, PlayersContent.PLAYER_MAP.get(id).getMinutes());
-    	intent.putExtra(MainActivity.EXTRA_GOALS, PlayersContent.PLAYER_MAP.get(id).getGoals());
-    	intent.putExtra(MainActivity.EXTRA_RATING, PlayersContent.PLAYER_MAP.get(id).getRatings());
+    	intent.putExtra(MainActivity.EXTRA_PLAYER, PlayersContent.PLAYER_MAP.get(id) );
     	startActivity(intent);
 	}
 
