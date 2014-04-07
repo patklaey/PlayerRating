@@ -14,7 +14,7 @@
     <string name="Givenname">Givenname</string>
     <string name="Goals">Goals :</string>
     <string name="Minutes">Minutes :</string>
-    <string name="Rating">Rating :</string>
+    <string name="Ratings">Ratings :</string>
     <string name="Zero">0</string>
     <string name="Save">Save</string>
     <string name="Edit">Edit</string>
@@ -46,5 +46,7 @@
     <string name="four">4</string>
     <string name="played_minutes">Played minutes :</string>
     <string name="title_activity_goal_scorer">GoalScorer</string>
+    <string name="Total">Total</string>
+    <string name="Average">Average</string>
 
 </resources>

@@ -48,7 +48,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	private static Backend backend;
 	
 	public static final String MY_TEAM_NAME = "SC Düdingen Cb";
-	public static final int HALF_TIME_DURATION = 1;
+	public static final int HALF_TIME_DURATION = 40;
 	
 	// The evil player ;-)
 	public static final Player GOAL_AGAINS_PLAYER = new Player(-1, "Goal", "Against");

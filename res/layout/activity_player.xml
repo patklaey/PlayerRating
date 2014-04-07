@@ -52,80 +52,20 @@
 
     <TextView
         android:id="@+id/player_goals"
-        android:layout_width="80dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/player_edit_givenname"
         android:layout_below="@id/player_edit_givenname"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="10dp"
         android:text="@string/Goals"
         android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android:id="@+id/player_minutes"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/player_goals"
-        android:layout_below="@+id/player_goals"
-        android:layout_marginTop="15dp"
-        android:text="@string/Minutes"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android:id="@+id/player_rating"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/player_minutes"
-        android:layout_below="@+id/player_minutes"
-        android:layout_marginTop="15dp"
-        android:text="@string/Rating"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <EditText
-        android:id="@+id/player_goals_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/player_goals"
-        android:layout_alignBottom="@+id/player_goals"
-        android:layout_toRightOf="@+id/player_goals"
-        android:ems="2"
-        android:hint="@string/Zero"
-        android:enabled="false"
-        android:text="@string/Zero"
-        android:inputType="number" />
-
-    <EditText
-        android:id="@+id/player_minutes_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:enabled="false"
-        android:layout_alignBaseline="@+id/player_minutes"
-        android:layout_alignBottom="@+id/player_minutes"
-        android:layout_alignLeft="@+id/player_goals_value"
-        android:ems="3"
-        android:hint="@string/Zero"
-        android:text="@string/Zero"
-        android:inputType="number" />
-
-    <EditText
-        android:id="@+id/player_rating_values"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/player_rating"
-        android:layout_alignBottom="@+id/player_rating"
-        android:layout_alignLeft="@+id/player_minutes_value"
-        android:ems="4"
-        android:enabled="false"
-        android:text="@string/Zero"
-        android:hint="@string/Zero"
-        android:inputType="numberDecimal" />
 
     <Button
         android:id="@+id/save_player_button"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/delete_player_button"
-        android:layout_alignBottom="@+id/delete_player_button"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:enabled="false"
         android:onClick="savePlayer"
@@ -136,11 +76,84 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="75dp"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/player_rating_values"
-        android:layout_marginTop="30dp"
         android:onClick="deletePlayer"
-        android:visibility="invisible"
-        android:text="@string/Delete" />
+        android:text="@string/Delete"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/player_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/players_minutes_list"
+        android:text="@string/Ratings"
+        android:layout_marginTop="10dp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/player_minutes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/players_goals_list"
+        android:text="@string/Minutes"
+        android:layout_marginTop="10dp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ListView
+        android:id="@+id/players_goals_list"
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/player_goals" >
+    </ListView>
+    
+    <ListView
+        android:id="@+id/players_minutes_list"
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/player_minutes" >
+    </ListView>
+
+    <ListView
+        android:id="@+id/players_ratings_list"
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/player_rating">
+    </ListView>
+
+    <TextView
+        android:id="@+id/player_total_goals"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/player_goals"
+        android:layout_alignBottom="@+id/player_goals"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/player_goals"
+        android:text="@string/Total"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/player_total_minutes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/player_minutes"
+        android:layout_toRightOf="@+id/player_minutes"
+        android:text="@string/Total"
+        android:layout_marginLeft="10dp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/player_average_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/player_rating"
+        android:layout_toRightOf="@+id/player_rating"
+        android:text="@string/Average"
+        android:layout_marginLeft="10dp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>

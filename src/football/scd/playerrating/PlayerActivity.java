@@ -1,16 +1,24 @@
 package football.scd.playerrating;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+
+import football.scd.playerrating.contents.GamesContent;
 import football.scd.playerrating.contents.PlayersContent;
 import android.os.Bundle;
+import android.os.DropBoxManager.Entry;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.support.v4.app.NavUtils;
 
 public class PlayerActivity extends Activity 
@@ -21,6 +29,16 @@ public class PlayerActivity extends Activity
 	private int total_minutes;
 	private float average_rating;
 	
+	// The goals, minutes, and ratings list are all separate lists
+	private List<String> goals;
+	private List<String> minutes;
+	private List<String> ratings;
+	
+	// The adapters for the corresponding listviews
+	private ArrayAdapter<String> goals_adapter;
+	private ArrayAdapter<String> minutes_adapter;
+	private ArrayAdapter<String> ratings_adapter;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -57,10 +75,56 @@ public class PlayerActivity extends Activity
 			// Set the fields
 			this.player = (Player) intent.getSerializableExtra(MainActivity.EXTRA_PLAYER);
 	
+			// Set the goals list
+			this.goals = new ArrayList<String>();
+			
+			// Fill the goals list
+			for (Goal goal : this.player.getGoals())
+			{
+				Game game = GamesContent.GAME_MAP.get(goal.getGameId());
+				this.goals.add(game.getOpponent() + ": " + goal.toString() );
+			}
+			
+			// Set the goal list views adapter
+			this.goals_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, 
+														   android.R.id.text1, this.goals);
+			((ListView)findViewById(R.id.players_goals_list)).setAdapter(this.goals_adapter);
+			
+			// Set the minutes list
+			this.minutes = new ArrayList<String>();
+			
+			// Fill the minutes list
+			for (Map.Entry<Integer,Integer> entry: this.player.getMinutes().entrySet() )
+			{
+				Game game = GamesContent.GAME_MAP.get(entry.getKey());
+				this.minutes.add(game.getOpponent() + ": " + entry.getValue() );
+			}
+			
+			// Set the minutes list views adapter
+			this.minutes_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, 
+														   android.R.id.text1, this.minutes);
+			((ListView)findViewById(R.id.players_minutes_list)).setAdapter(this.minutes_adapter);
+			
+			// Set the ratings list
+			this.ratings = new ArrayList<String>();
+			
+			// Fill the ratings list
+			for (Map.Entry<Integer,Integer> entry: this.player.getRatings().entrySet() )
+			{
+				Game game = GamesContent.GAME_MAP.get(entry.getKey());
+				this.ratings.add(game.getOpponent() + ": " + entry.getValue() );
+			}
+			
+			// Set the rangs list views adapter
+			this.ratings_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, 
+														     android.R.id.text1, this.ratings);
+			((ListView)findViewById(R.id.players_ratings_list)).setAdapter(this.ratings_adapter);
+
+			
 			// Set the corresponding text fields
 			((EditText)findViewById(R.id.player_edit_name)).setText(this.player.getName() );
 			((EditText)findViewById(R.id.player_edit_givenname)).setText(this.player.getGivenname());
-			((EditText)findViewById(R.id.player_goals_value)).setText("" + this.player.getGoals().size() );
+			((TextView)findViewById(R.id.player_total_goals)).setText("" + this.player.getGoals().size() );
 
 			// Calculate total minutes and average rating
 			if ( this.player.getMinutes() == null || this.player.getRatings() == null )
@@ -79,8 +143,8 @@ public class PlayerActivity extends Activity
 				this.average_rating = this.average_rating / this.player.getRatings().size();
 			
 			// Set the corresponding text fields
-			((EditText)findViewById(R.id.player_minutes_value)).setText("" + this.total_minutes);
-			((EditText)findViewById(R.id.player_rating_values)).setText("" + this.average_rating);
+			((TextView)findViewById(R.id.player_total_minutes)).setText("" + this.total_minutes);
+			((TextView)findViewById(R.id.player_average_rating)).setText("" + this.average_rating);
 			
 			// It is not a new player
 			this.new_player = false;
@@ -96,9 +160,6 @@ public class PlayerActivity extends Activity
 		// Make all EditText fields enabled
 		((EditText)findViewById(R.id.player_edit_name)).setEnabled(true);
 		((EditText)findViewById(R.id.player_edit_givenname)).setEnabled(true);
-		((EditText)findViewById(R.id.player_goals_value)).setEnabled(true);
-		((EditText)findViewById(R.id.player_minutes_value)).setEnabled(true);
-		((EditText)findViewById(R.id.player_rating_values)).setEnabled(true);
 
 		// Enable save and 
 		((Button)findViewById(R.id.save_player_button)).setEnabled(true);
@@ -113,9 +174,6 @@ public class PlayerActivity extends Activity
 	{
 		this.player.setGivenname(((EditText)findViewById(R.id.player_edit_givenname)).getText().toString());
 		this.player.setName(((EditText)findViewById(R.id.player_edit_name)).getText().toString());
-//		this.player_goals = Integer.parseInt(((EditText)findViewById(R.id.player_goals_value)).getText().toString());
-		//this.player_minutes = Integer.parseInt(((EditText)findViewById(R.id.player_minutes_value)).getText().toString());
-		//this.player_rating = Float.parseFloat(((EditText)findViewById(R.id.player_rating_values)).getText().toString());
 		
 		if ( this.new_player )
 		{
