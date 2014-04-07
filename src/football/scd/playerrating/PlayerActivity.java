@@ -7,7 +7,6 @@ import java.util.Map;
 import football.scd.playerrating.contents.GamesContent;
 import football.scd.playerrating.contents.PlayersContent;
 import android.os.Bundle;
-import android.os.DropBoxManager.Entry;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -26,8 +25,6 @@ public class PlayerActivity extends Activity
 	// Define the player
 	private Player player;
 	private boolean new_player = false;
-	private int total_minutes;
-	private float average_rating;
 	
 	// The goals, minutes, and ratings list are all separate lists
 	private List<String> goals;
@@ -124,27 +121,11 @@ public class PlayerActivity extends Activity
 			// Set the corresponding text fields
 			((EditText)findViewById(R.id.player_edit_name)).setText(this.player.getName() );
 			((EditText)findViewById(R.id.player_edit_givenname)).setText(this.player.getGivenname());
-			((TextView)findViewById(R.id.player_total_goals)).setText("" + this.player.getGoals().size() );
-
-			// Calculate total minutes and average rating
-			if ( this.player.getMinutes() == null || this.player.getRatings() == null )
-				return;
-			
-			this.total_minutes = 0;
-			this.average_rating = 0;
-			
-			for (Map.Entry<Integer, Integer> entry : this.player.getMinutes().entrySet())
-				this.total_minutes += entry.getValue();
-
-			for (Map.Entry<Integer, Integer> entry : this.player.getRatings().entrySet())
-				this.average_rating += entry.getValue();
-			
-			if ( this.player.getRatings().size() > 0 )
-				this.average_rating = this.average_rating / this.player.getRatings().size();
+			((TextView)findViewById(R.id.player_total_goals)).setText("" + this.player.getTotalGoals() );
 			
 			// Set the corresponding text fields
-			((TextView)findViewById(R.id.player_total_minutes)).setText("" + this.total_minutes);
-			((TextView)findViewById(R.id.player_average_rating)).setText("" + this.average_rating);
+			((TextView)findViewById(R.id.player_total_minutes)).setText("" + this.player.getTotalMinutes());
+			((TextView)findViewById(R.id.player_average_rating)).setText("" + this.player.getAverageRating());
 			
 			// It is not a new player
 			this.new_player = false;

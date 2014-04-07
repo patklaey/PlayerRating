@@ -48,5 +48,9 @@
     <string name="title_activity_goal_scorer">GoalScorer</string>
     <string name="Total">Total</string>
     <string name="Average">Average</string>
+    <string name="Top_Scorer">Top Scorer: </string>
+    <string name="MVP">MVP: </string>
+    <string name="Most_Played">Most Played: </string>
+    <string name="List">List</string>
 
 </resources>

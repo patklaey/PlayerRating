@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @SuppressLint("UseSparseArrays")
 public class Player implements Serializable
@@ -203,5 +204,46 @@ public class Player implements Serializable
 	{
 		this.current_game_goals = current_game_goals;
 	}
+	
+	public int getTotalGoals()
+	{
+		return this.getGoals().size();
+	}
+	
+	public int getTotalMinutes()
+	{
+		// If there are no entries in the minutes hashtable return zero
+		if ( this.getMinutes() == null || this.getMinutes().size() == 0 )
+			return 0;
+		
+		// Temp var for total minutes
+		int total_minutes = 0;
+		
+		// Sum up the minutes played
+		for (Map.Entry<Integer, Integer> entry : this.getMinutes().entrySet())
+			total_minutes += entry.getValue();
+		
+		// And return them
+		return total_minutes;
+	}
 
+	public float getAverageRating()
+	{
+		// If there are no entries in the minutes hashtable return zero
+		if ( this.getRatings() == null || this.getRatings().size() == 0 )
+			return 0;
+		
+		// Temp var for average rating
+		float average_rating = 0;
+		
+		// Sum up the ratings
+		for (Map.Entry<Integer, Integer> entry : this.getRatings().entrySet())
+			average_rating += entry.getValue();
+		
+		// And divide it by the number of ratings
+		average_rating = average_rating / this.getRatings().size();
+		
+		// And return them
+		return average_rating;
+	}
 }
