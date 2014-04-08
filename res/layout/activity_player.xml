@@ -22,10 +22,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/player_name"
-        android:enabled="false"
         android:layout_below="@id/player_name"
-        android:hint="@string/Name"
-        android:ems="10" >
+        android:ems="10"
+        android:enabled="false"
+        android:hint="@string/Name" >
 
         <requestFocus />
     </EditText>
@@ -44,51 +44,19 @@
         android:id="@+id/player_edit_givenname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:enabled="false"
         android:layout_alignLeft="@id/player_givenname"
         android:layout_below="@id/player_givenname"
-        android:hint="@string/Givenname"
-        android:ems="10" />
-
-    <TextView
-        android:id="@+id/player_goals"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/player_edit_givenname"
-        android:layout_below="@id/player_edit_givenname"
-        android:layout_marginTop="10dp"
-        android:text="@string/Goals"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <Button
-        android:id="@+id/save_player_button"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
+        android:ems="10"
         android:enabled="false"
-        android:onClick="savePlayer"
-        android:text="@string/Save" />
-
-    <Button
-        android:id="@+id/delete_player_button"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="75dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:onClick="deletePlayer"
-        android:text="@string/Delete"
-        android:visibility="invisible" />
+        android:hint="@string/Givenname" />
 
     <TextView
         android:id="@+id/player_rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/players_minutes_list"
-        android:text="@string/Ratings"
         android:layout_marginTop="10dp"
+        android:text="@string/Ratings"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -96,19 +64,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/players_goals_list"
-        android:text="@string/Minutes"
+        android:layout_below="@id/player_edit_givenname"
         android:layout_marginTop="10dp"
+        android:text="@string/Minutes"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <ListView
-        android:id="@+id/players_goals_list"
-        android:layout_width="match_parent"
-        android:layout_height="85dp"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/player_goals" >
-    </ListView>
-    
     <ListView
         android:id="@+id/players_minutes_list"
         android:layout_width="match_parent"
@@ -122,28 +82,17 @@
         android:layout_width="match_parent"
         android:layout_height="85dp"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/player_rating">
+        android:layout_below="@+id/player_rating" >
     </ListView>
-
-    <TextView
-        android:id="@+id/player_total_goals"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/player_goals"
-        android:layout_alignBottom="@+id/player_goals"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/player_goals"
-        android:text="@string/Total"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
         android:id="@+id/player_total_minutes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/player_minutes"
+        android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/player_minutes"
         android:text="@string/Total"
-        android:layout_marginLeft="10dp"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -151,9 +100,62 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/player_rating"
+        android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/player_rating"
         android:text="@string/Average"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/player_goals"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/players_ratings_list"
+        android:layout_marginTop="10dp"
+        android:text="@string/Goals"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/player_total_goals"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/player_goals"
+        android:layout_alignBottom="@+id/player_goals"
+        android:layout_toRightOf="@+id/player_goals"
+        android:text="@string/Total"
         android:layout_marginLeft="10dp"
         android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ListView
+        android:id="@+id/players_goals_list"
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/player_goals" >
+    </ListView>
+
+    <Button
+        android:id="@+id/delete_player_button"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/players_goals_list"
+        android:layout_marginTop="20dp"
+        android:onClick="deletePlayer"
+        android:text="@string/Delete"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/save_player_button"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/players_goals_list"
+		android:visibility="invisible"
+        android:layout_marginTop="20dp"
+        android:onClick="savePlayer"
+        android:text="@string/Save" />
 
 </RelativeLayout>

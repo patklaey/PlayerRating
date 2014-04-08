@@ -1,19 +1,14 @@
 package football.scd.playerrating;
 
+import football.scd.playerrating.contents.PlayersContent;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-
-import football.scd.playerrating.contents.PlayersContent;
-
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

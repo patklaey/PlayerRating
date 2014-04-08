@@ -37,7 +37,8 @@ public class PlayerActivity extends Activity
 	private ArrayAdapter<String> ratings_adapter;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState)
+	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_player);
 		
@@ -133,6 +134,7 @@ public class PlayerActivity extends Activity
 		
 		// Show the Up button in the action bar.
 		setupActionBar();
+		
 	}
 
 	// Edit the players values
@@ -145,9 +147,13 @@ public class PlayerActivity extends Activity
 		// Enable save and 
 		((Button)findViewById(R.id.save_player_button)).setEnabled(true);
 		
-		// Show delete button
+		// Show save and delete button
 		((Button)findViewById(R.id.delete_player_button)).setVisibility(View.VISIBLE);
-
+		((Button)findViewById(R.id.save_player_button)).setVisibility(View.VISIBLE);
+		
+		// Request focus for the players name
+		((EditText)findViewById(R.id.player_edit_name)).requestFocus();
+		
 	}
 	
 	// Save the players values
