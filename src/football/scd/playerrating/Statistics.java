@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,9 +27,9 @@ public class Statistics extends Fragment
 {
 	
 	// The different lists
-	private List<Player> top_scorer_list;
-	private List<Player> mvp_list;
-	private List<Player> most_played_list;
+	private static List<Player> top_scorer_list;
+	private static List<Player> mvp_list;
+	private static List<Player> most_played_list;
 
 	private OnStatsFragmentInteractionListener mListener;
 
@@ -53,13 +54,18 @@ public class Statistics extends Fragment
 	{
 		// Required empty public constructor
 	}
+	
+	public void listTopScorer(View view)
+	{
+		Log.d("Test","List top scorer");
+	}
 
 	@Override
 	public void onViewCreated (View view, Bundle savedInstanceState)
 	{
-		((TextView) this.getView().findViewById(R.id.top_scorer_name)).setText(this.top_scorer_list.get(0).toString());
-		((TextView) this.getView().findViewById(R.id.mvp_name)).setText(this.mvp_list.get(0).toString());
-		((TextView) this.getView().findViewById(R.id.most_played_name)).setText(this.most_played_list.get(0).toString());
+		((TextView) this.getView().findViewById(R.id.top_scorer_name)).setText(Statistics.top_scorer_list.get(0).toString());
+		((TextView) this.getView().findViewById(R.id.mvp_name)).setText(Statistics.mvp_list.get(0).toString());
+		((TextView) this.getView().findViewById(R.id.most_played_name)).setText(Statistics.most_played_list.get(0).toString());
 	}
 	
 	@Override
@@ -68,15 +74,63 @@ public class Statistics extends Fragment
 		super.onCreate(savedInstanceState);
 		
 		// Create the lists and copy the content
-		this.top_scorer_list = new ArrayList<Player>(PlayersContent.PLAYERS);
-		this.mvp_list = new ArrayList<Player>(PlayersContent.PLAYERS);
-		this.most_played_list = new ArrayList<Player>(PlayersContent.PLAYERS);
+		Statistics.top_scorer_list = new ArrayList<Player>(PlayersContent.PLAYERS);
+		Statistics.mvp_list = new ArrayList<Player>(PlayersContent.PLAYERS);
+		Statistics.most_played_list = new ArrayList<Player>(PlayersContent.PLAYERS);
 
 		// Sort the given lists
-		Collections.sort(this.top_scorer_list, new PlayerGoalComparator());
-		Collections.sort(this.mvp_list, new PlayerRatingComparator());
-		Collections.sort(this.most_played_list, new PlayerMinutesComparator());
+		Collections.sort(Statistics.top_scorer_list, new PlayerGoalComparator());
+		Collections.sort(Statistics.mvp_list, new PlayerRatingComparator());
+		Collections.sort(Statistics.most_played_list, new PlayerMinutesComparator());
 
+	}
+
+	/**
+	 * @return the top_scorer_list
+	 */
+	public static List<Player> getTopScorerList() 
+	{
+		return top_scorer_list;
+	}
+
+	/**
+	 * @param top_scorer_list the top_scorer_list to set
+	 */
+	public static void setTopScorerList(List<Player> top_scorer_list) 
+	{
+		Statistics.top_scorer_list = top_scorer_list;
+	}
+
+	/**
+	 * @return the mvp_list
+	 */
+	public static List<Player> getMvpList()
+	{
+		return mvp_list;
+	}
+
+	/**
+	 * @param mvp_list the mvp_list to set
+	 */
+	public static void setMvpList(List<Player> mvp_list)
+	{
+		Statistics.mvp_list = mvp_list;
+	}
+
+	/**
+	 * @return the most_played_list
+	 */
+	public static List<Player> getMostPlayedList() 
+	{
+		return most_played_list;
+	}
+
+	/**
+	 * @param most_played_list the most_played_list to set
+	 */
+	public static void setMostPlayedList(List<Player> most_played_list)
+	{
+		Statistics.most_played_list = most_played_list;
 	}
 
 	@Override
@@ -127,6 +181,14 @@ public class Statistics extends Fragment
 	{
 		// TODO: Update argument type and name
 		public void onStatsFragmentInteraction(Uri uri);
+		
+		public void listTopScorer(View view);
+		
+		public void listMostPlayed(View view);
+		
+		public void listMVP(View view);
+
+
 	}
 	
 	// The sort classes

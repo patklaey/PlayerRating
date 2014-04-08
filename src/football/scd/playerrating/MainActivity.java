@@ -23,6 +23,7 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener, OnGameFragmentInteractionListener, OnPlayerFragmentInteractionListener, OnStatsFragmentInteractionListener{
 
@@ -35,7 +36,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public static final String EXTRA_OPPONENT_SCORE = "football.scd.playerrating.Opponent_Score";
 	public static final String EXTRA_SELF_NAME = "football.scd.playerrating.Self_Name";
 	public static final String EXTRA_IS_HOME_GAME = "football.scd.playerrating.Is_Home_Game";
-	public static final String EXTRA_GAME_FINISHED = "football.scd.playerrating.Game_Finished";
+	public static final String EXTRA_GAME_FINISHED = "football.scd.playerrating.Game_Finished";	
+	public static final int EXTRA_STATS_SCORER = 0;
+	public static final int EXTRA_STATS_MVP = 1;
+	public static final int  EXTRA_STATS_MINUTES = 2;
+	public static final String EXTRA_STATS_TYPE = "football.scd.playerrating.Stats_Type";
 
 	
 	private static final int PLAYER_TAB = 0;
@@ -272,7 +277,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	}
 
 	@Override
-	public void onStatsFragmentInteraction(Uri uri) {
+	public void onStatsFragmentInteraction(Uri uri)
+	{
 		// TODO Auto-generated method stub
 		Log.d("Callback", "Selected setting with uri " + uri);
 	}
@@ -281,5 +287,31 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	{
 		return MainActivity.backend;
 	}
+
+	@Override
+	public void listTopScorer(View view) 
+	{
+		// Create a new intent
+		Intent intent = new Intent(this, StatisticsList.class);
+		intent.putExtra( MainActivity.EXTRA_STATS_TYPE, MainActivity.EXTRA_STATS_SCORER );
+		this.startActivity(intent);
+	}
 	
+	@Override
+	public void listMostPlayed(View view) 
+	{
+		// Create a new intent
+		Intent intent = new Intent(this, StatisticsList.class);
+		intent.putExtra( MainActivity.EXTRA_STATS_TYPE, MainActivity.EXTRA_STATS_MINUTES );
+		this.startActivity(intent);
+	}
+	
+	@Override
+	public void listMVP(View view) 
+	{
+		// Create a new intent
+		Intent intent = new Intent(this, StatisticsList.class);
+		intent.putExtra( MainActivity.EXTRA_STATS_TYPE, MainActivity.EXTRA_STATS_MVP );
+		this.startActivity(intent);
+	}
 }

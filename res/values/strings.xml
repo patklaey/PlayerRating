@@ -52,5 +52,6 @@
     <string name="MVP">MVP: </string>
     <string name="Most_Played">Most Played: </string>
     <string name="List">List</string>
+    <string name="title_activity_statistics_list">StatisticsList</string>
 
 </resources>

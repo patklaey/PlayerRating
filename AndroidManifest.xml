@@ -9,7 +9,7 @@
         android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -26,9 +26,9 @@
         </activity>
         <activity
             android:name="football.scd.playerrating.PlayerActivity"
-            android:windowSoftInputMode="stateHidden"
             android:label="@string/title_activity_player"
-            android:parentActivityName="football.scd.playerrating.MainActivity" >
+            android:parentActivityName="football.scd.playerrating.MainActivity"
+            android:windowSoftInputMode="stateHidden" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="football.scd.playerrating.MainActivity" />
@@ -64,6 +64,14 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="football.scd.playerrating.GameActivity" />
+        </activity>
+        <activity
+            android:name="football.scd.playerrating.StatisticsList"
+            android:label="@string/title_activity_statistics_list"
+            android:parentActivityName="football.scd.playerrating.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="football.scd.playerrating.MainActivity" />
         </activity>
     </application>
 
