@@ -4,7 +4,7 @@ import java.util.Locale;
 
 import football.scd.playerrating.GamesFragment.OnGameFragmentInteractionListener;
 import football.scd.playerrating.PlayersFragment.OnPlayerFragmentInteractionListener;
-import football.scd.playerrating.Statistics.OnStatsFragmentInteractionListener;
+import football.scd.playerrating.PlayerStatistics.OnStatsFragmentInteractionListener;
 import football.scd.playerrating.backend.Backend;
 import football.scd.playerrating.backend.SQLiteBackend;
 import football.scd.playerrating.contents.GamesContent;
@@ -225,7 +225,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		            games.setArguments(args);
 		            return games;
 				case STATS_TAB:
-					Fragment stats = new Statistics();
+					Fragment stats = new PlayerStatistics();
 					stats.setArguments(args);
 		            return stats;
 				default:

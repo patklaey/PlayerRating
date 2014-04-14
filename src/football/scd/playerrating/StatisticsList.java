@@ -40,7 +40,7 @@ public class StatisticsList extends ListActivity
 			case MainActivity.EXTRA_STATS_SCORER:
 				
 				// Go through the players, sorted by goals scored
-				for (Player player : Statistics.getTopScorerList() )
+				for (Player player : PlayerStatistics.getTopScorerList() )
 				{
 					// All players scored the same amount of goals have the
 					// same rank, so only increase the rank counter if the 
@@ -67,7 +67,7 @@ public class StatisticsList extends ListActivity
 			case MainActivity.EXTRA_STATS_MINUTES:
 				
 				// Go through the players, sorted by goals scored
-				for (Player player : Statistics.getMostPlayedList() )
+				for (Player player : PlayerStatistics.getMostPlayedList() )
 				{
 					// All players played the same amount of minutes have the
 					// same rank, so only increase the rank counter if the 
@@ -97,7 +97,7 @@ public class StatisticsList extends ListActivity
 				float average_rating = 0;
 				
 				// Go through the players, sorted by average rating
-				for (Player player : Statistics.getMvpList() )
+				for (Player player : PlayerStatistics.getMvpList() )
 				{
 					// All players played the same average rating have the
 					// same rank, so only increase the rank counter if the 
