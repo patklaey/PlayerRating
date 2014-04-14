@@ -2,6 +2,7 @@ package football.scd.playerrating;
 
 import java.util.Locale;
 
+import football.scd.playerrating.GameStatistics.OnGameStatsFragmentInteractionListener;
 import football.scd.playerrating.GamesFragment.OnGameFragmentInteractionListener;
 import football.scd.playerrating.PlayersFragment.OnPlayerFragmentInteractionListener;
 import football.scd.playerrating.PlayerStatistics.OnStatsFragmentInteractionListener;
@@ -25,8 +26,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener, OnGameFragmentInteractionListener, OnPlayerFragmentInteractionListener, OnStatsFragmentInteractionListener{
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener, OnGameFragmentInteractionListener, OnPlayerFragmentInteractionListener, OnStatsFragmentInteractionListener, OnGameStatsFragmentInteractionListener{
 
+	// All extras
 	public static final String EXTRA_TYPE = "football.scd.playerrating.Type";
 	public static final String EXTRA_TYPE_SHOW = "football.scd.playerrating.Type_Show";
 	public static final String EXTRA_TYPE_NEW = "football.scd.playerrating.Type_New";
@@ -39,13 +41,15 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public static final String EXTRA_GAME_FINISHED = "football.scd.playerrating.Game_Finished";	
 	public static final int EXTRA_STATS_SCORER = 0;
 	public static final int EXTRA_STATS_MVP = 1;
-	public static final int  EXTRA_STATS_MINUTES = 2;
+	public static final int EXTRA_STATS_MINUTES = 2;
 	public static final String EXTRA_STATS_TYPE = "football.scd.playerrating.Stats_Type";
 
-	
-	private static final int PLAYER_TAB = 0;
-	private static final int GAME_TAB = 1;
-	private static final int STATS_TAB = 2;
+	// The sections
+	private static final int NUMBER_OF_TABS = 4;
+	private static final int PLAYER_TAB = 1;
+	private static final int GAME_TAB = 0;
+	private static final int PLAYER_STATS_TAB = 2;
+	private static final int GAME_STATS_TAB = 3;
 	
 	public static int next_free_player_id = 0;
 	public static int next_free_game_id = 0;
@@ -136,7 +140,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-        if ( currentTabSection == STATS_TAB )
+        if ( currentTabSection == PLAYER_STATS_TAB || currentTabSection == GAME_STATS_TAB )
         {
         	menu.findItem(R.id.action_add).setVisible(false);
         } else
@@ -224,10 +228,16 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		            Fragment games = new GamesFragment();
 		            games.setArguments(args);
 		            return games;
-				case STATS_TAB:
+				case PLAYER_STATS_TAB:
+					// Return a PlayerStatistics Fragment
 					Fragment stats = new PlayerStatistics();
 					stats.setArguments(args);
 		            return stats;
+				case GAME_STATS_TAB:
+					// Return a GameStatistics Fragment
+					Fragment game_stats = new GameStatistics();
+					game_stats.setArguments(args);
+		            return game_stats;
 				default:
 		            // Return a PlayersFragment
 		            Fragment fragment = new PlayersFragment();
@@ -238,20 +248,22 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
-            return 3;
+            // Show NUMBER_OF_TABS total pages.
+            return NUMBER_OF_TABS;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             Locale l = Locale.getDefault();
             switch (position) {
-                case 0:
-                    return getString(R.string.title_section1).toUpperCase(l);
-                case 1:
-                    return getString(R.string.title_section2).toUpperCase(l);
-                case 2:
-                    return getString(R.string.title_section3).toUpperCase(l);
+                case PLAYER_TAB:
+                    return getString(R.string.title_players_section).toUpperCase(l);
+                case GAME_TAB:
+                    return getString(R.string.title_games_section).toUpperCase(l);
+                case PLAYER_STATS_TAB:
+                    return getString(R.string.title_players_stats_section).toUpperCase(l);
+                case GAME_STATS_TAB:
+                	return getString(R.string.title_game_stats_section).toUpperCase(l);
             }
             return null;
         }
@@ -313,5 +325,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		Intent intent = new Intent(this, StatisticsList.class);
 		intent.putExtra( MainActivity.EXTRA_STATS_TYPE, MainActivity.EXTRA_STATS_MVP );
 		this.startActivity(intent);
+	}
+
+	@Override
+	public void onGameStatsFragmentInteraction(Uri uri) {
+		// TODO Auto-generated method stub
+		
 	}
 }

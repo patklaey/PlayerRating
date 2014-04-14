@@ -66,7 +66,7 @@ public class PlayerActivity extends Activity
 			((Button)findViewById(R.id.delete_player_button)).setVisibility(View.INVISIBLE);
 			
 			// Show the save player button
-			((Button)findViewById(R.id.save_player_button)).setVisibility(View.INVISIBLE);
+			((Button)findViewById(R.id.save_player_button)).setVisibility(View.VISIBLE);
 			
 			// Remember that it is a new player
 			this.new_player = true;

@@ -3,9 +3,9 @@
 
     <string name="app_name">PlayerRating</string>
     <string name="action_settings">Settings</string>
-    <string name="title_section1">Players</string>
-    <string name="title_section2">Games</string>
-    <string name="title_section3">Stats</string>
+    <string name="title_players_section">Players</string>
+    <string name="title_games_section">Games</string>
+    <string name="title_players_stats_section">Player Stats</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="New">New</string>
     <string name="title_activity_player">PlayerActivity</string>
@@ -53,5 +53,6 @@
     <string name="Most_Played">Most Played: </string>
     <string name="List">List</string>
     <string name="title_activity_statistics_list">StatisticsList</string>
+    <string name="title_game_stats_section">Games Stats</string>
 
 </resources>
