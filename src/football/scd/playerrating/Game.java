@@ -204,4 +204,10 @@ public class Game implements Serializable
 		this.goals_conceded = goals_conceded;
 	}
 	
+	public void addGoal(Goal goal)
+	{
+    	this.getGoalsScored().add(goal);
+
+	}
+	
 }

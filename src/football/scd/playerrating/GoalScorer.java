@@ -79,15 +79,15 @@ public class GoalScorer extends ListActivity
 	{
 		super.onListItemClick(l, v, position, id);
 
-		// Add the goal to the selected player
+		// Add the current goal to the selected player
 		Player player = PlayersContent.PLAYERS.get(position);
 		player.setCurrentGameGoals( player.getCurrentGameGoals() + 1 );
 		
-		// Add the goal to the current game
+		// Create a new goal object to return
 		Goal goal = new Goal( this.time, player, this.game_id );
 		
 		// Add the goal to the player
-		
+		player.addGoal(goal);
 		
 		// Set the result as ok and pass the game back
 		Intent intent = new Intent();

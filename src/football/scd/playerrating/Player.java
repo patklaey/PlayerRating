@@ -246,4 +246,9 @@ public class Player implements Serializable
 		// And return them
 		return average_rating;
 	}
+	
+	public void addGoal(Goal goal)
+	{
+		this.getGoals().add(goal);
+	}
 }

@@ -540,7 +540,7 @@ public class GameActivity extends Activity
         if ( request_code == GameActivity.SELF_GOAL_SCORED && result_code == RESULT_OK )
         {
         	Goal goal = (Goal) data.getSerializableExtra(GoalScorer.EXTRA_GOAL);
-        	this.game.getGoalsScored().add(goal);
+        	this.game.addGoal(goal);
 			((ArrayAdapter<Goal>)((ListView)findViewById(R.id.home_goal_list_view)).getAdapter()).notifyDataSetChanged();
 			this.game.setSelf_score( this.game.getSelf_score() + 1 );
 			
