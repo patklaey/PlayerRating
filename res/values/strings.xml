@@ -55,5 +55,7 @@
     <string name="title_activity_statistics_list">StatisticsList</string>
     <string name="title_game_stats_section">Games Stats</string>
     <string name="Minutes_Per_Goal">Min. per Goal:</string>
+    <string name="Win_Draw_Defeat">Wins-Draws-Defeats:</string>
+    <string name="Goal_Diff">Goal difference:</string>
 
 </resources>

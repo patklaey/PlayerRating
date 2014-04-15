@@ -1,5 +1,6 @@
 package football.scd.playerrating;
 
+import football.scd.playerrating.contents.GamesContent;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 /**
  * A simple {@link android.support.v4.app.Fragment} subclass. Activities that
@@ -18,10 +20,12 @@ import android.view.ViewGroup;
  */
 public class GameStatistics extends Fragment 
 {
-	// TODO: Rename parameter arguments, choose names that match
-	// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-	private static final String ARG_PARAM1 = "param1";
-	private static final String ARG_PARAM2 = "param2";
+	// Base game stats
+	private int wins;
+	private int draws;
+	private int defeats;
+	private int goals_scored;
+	private int goals_conceded;
 
 	private OnGameStatsFragmentInteractionListener mListener;
 
@@ -40,8 +44,6 @@ public class GameStatistics extends Fragment
 	{
 		GameStatistics fragment = new GameStatistics();
 		Bundle args = new Bundle();
-		args.putString(ARG_PARAM1, param1);
-		args.putString(ARG_PARAM2, param2);
 		fragment.setArguments(args);
 		return fragment;
 	}
@@ -49,6 +51,38 @@ public class GameStatistics extends Fragment
 	public GameStatistics() 
 	{
 		// Required empty public constructor
+		this.goals_conceded = 0;
+		this.goals_scored = 0;
+		this.wins = 0;
+		this.defeats = 0;
+		this.draws = 0;
+	}
+	
+	@Override
+	public void onViewCreated (View view, Bundle savedInstanceState)
+	{
+		// Go through each game and collect base stats
+		for (Game game : GamesContent.GAMES )
+		{
+			// Add the goals conceded and scored
+			this.goals_conceded += game.getGoalsConceded().size();
+			this.goals_scored += game.getGoalsScored().size();
+			
+			// Check if it is a win draw or defeat
+			if ( game.getGoalsConceded().size() > game.getGoalsScored().size() )
+				this.defeats++;
+			
+			if ( game.getGoalsConceded().size() == game.getGoalsScored().size() )
+				this.draws++;
+			
+			if ( game.getGoalsConceded().size() < game.getGoalsScored().size() )
+				this.wins++;
+		}
+		
+		// Set the labels
+		((TextView)getView().findViewById(R.id.win_draw_defeat_values)).setText( this.wins + "-" + this.draws + "-" + this.defeats);
+		((TextView)getView().findViewById(R.id.goal_difference_values)).setText( this.goals_scored + ":" + this.goals_conceded);
+		
 	}
 
 	@Override

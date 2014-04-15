@@ -254,10 +254,6 @@ public class Player implements Serializable
 	
 	public double getMinutesPerGoal()
 	{
-		// If the player did not play, return zero
-		if ( this.getTotalMinutes() == 0 )
-			return 0;
-		
 		// If the player did not score any goals, return infinity
 		if ( this.getTotalGoals() == 0)
 			return Double.POSITIVE_INFINITY;

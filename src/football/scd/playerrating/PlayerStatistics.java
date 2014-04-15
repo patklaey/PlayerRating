@@ -60,7 +60,7 @@ public class PlayerStatistics extends Fragment
 	{
 		// Set the top scorer labels
 		((TextView) this.getView().findViewById(R.id.top_scorer_name)).setText(PlayerStatistics.top_scorer_list.get(0).toString());
-		((TextView) this.getView().findViewById(R.id.top_scorer_value)).setText(PlayerStatistics.top_scorer_list.get(0).getTotalGoals());
+		((TextView) this.getView().findViewById(R.id.top_scorer_value)).setText(PlayerStatistics.top_scorer_list.get(0).getTotalGoals() + " Goals");
 		
 		// Set the MVP labels
 		((TextView) this.getView().findViewById(R.id.mvp_name)).setText(PlayerStatistics.mvp_list.get(0).toString());
@@ -68,7 +68,7 @@ public class PlayerStatistics extends Fragment
 		
 		// Set the most played labels
 		((TextView) this.getView().findViewById(R.id.most_played_name)).setText(PlayerStatistics.most_played_list.get(0).toString());
-		((TextView) this.getView().findViewById(R.id.most_played_value)).setText(PlayerStatistics.most_played_list.get(0).getTotalMinutes());
+		((TextView) this.getView().findViewById(R.id.most_played_value)).setText(PlayerStatistics.most_played_list.get(0).getTotalMinutes() + " min");
 		
 		// Set the minutes per goal labels
 		((TextView) this.getView().findViewById(R.id.minutes_per_goal_name)).setText(PlayerStatistics.minutes_per_goal_list.get(0).toString());
@@ -279,10 +279,10 @@ public class PlayerStatistics extends Fragment
 		public int compare(Player lhs, Player rhs)
 		{
 			if ( lhs.getMinutesPerGoal() > rhs.getMinutesPerGoal() )
-				return -1;
+				return 1;
 			
 			if ( lhs.getMinutesPerGoal() < rhs.getMinutesPerGoal() )
-				return 1;
+				return -1;
 			
 			return 0;
 		}
