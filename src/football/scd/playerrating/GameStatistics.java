@@ -56,11 +56,7 @@ public class GameStatistics extends Fragment
 		this.wins = 0;
 		this.defeats = 0;
 		this.draws = 0;
-	}
-	
-	@Override
-	public void onViewCreated (View view, Bundle savedInstanceState)
-	{
+		
 		// Go through each game and collect base stats
 		for (Game game : GamesContent.GAMES )
 		{
@@ -78,7 +74,11 @@ public class GameStatistics extends Fragment
 			if ( game.getGoalsConceded().size() < game.getGoalsScored().size() )
 				this.wins++;
 		}
-		
+	}
+	
+	@Override
+	public void onViewCreated (View view, Bundle savedInstanceState)
+	{	
 		// Set the labels
 		((TextView)getView().findViewById(R.id.win_draw_defeat_values)).setText( this.wins + "-" + this.draws + "-" + this.defeats);
 		((TextView)getView().findViewById(R.id.goal_difference_values)).setText( this.goals_scored + ":" + this.goals_conceded);
