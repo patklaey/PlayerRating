@@ -93,8 +93,8 @@ public class StatisticsList extends ListActivity
 			// List the average rating
 			case MainActivity.EXTRA_STATS_MVP:
 				
-				// We need a float to remember the current value
-				float average_rating = 0;
+				// We need a double to remember the current value
+				double average_rating = 0;
 				
 				// Go through the players, sorted by average rating
 				for (Player player : PlayerStatistics.getMvpList() )
@@ -119,8 +119,8 @@ public class StatisticsList extends ListActivity
 				// List the minutes per goal
 				case MainActivity.EXTRA_STATS_MINUTES_PER_GOALS:
 					
-					// We need a float to remember the current value
-					float minutes_per_goal = 0;
+					// We need a double to remember the current value
+					double minutes_per_goal = 0;
 					
 					// Go through the players, sorted by minutes per goal
 					for (Player player : PlayerStatistics.getMinutesPerGoalList() )

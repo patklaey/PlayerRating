@@ -227,14 +227,14 @@ public class Player implements Serializable
 		return total_minutes;
 	}
 
-	public float getAverageRating()
+	public double getAverageRating()
 	{
 		// If there are no entries in the minutes hashtable return zero
 		if ( this.getRatings() == null || this.getRatings().size() == 0 )
 			return 0;
 		
 		// Temp var for average rating
-		float average_rating = 0;
+		double average_rating = 0;
 		
 		// Sum up the ratings
 		for (Map.Entry<Integer, Integer> entry : this.getRatings().entrySet())
@@ -252,8 +252,17 @@ public class Player implements Serializable
 		this.getGoals().add(goal);
 	}
 	
-	public float getMinutesPerGoal()
+	public double getMinutesPerGoal()
 	{
+		// If the player did not play, return zero
+		if ( this.getTotalMinutes() == 0 )
+			return 0;
+		
+		// If the player did not score any goals, return infinity
+		if ( this.getTotalGoals() == 0)
+			return Double.POSITIVE_INFINITY;
+		
+		// Otherwise return the minutes per goal
 		return this.getTotalMinutes() / this.getTotalGoals();
 	}
 }
