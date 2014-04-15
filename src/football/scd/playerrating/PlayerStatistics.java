@@ -9,7 +9,6 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +29,7 @@ public class PlayerStatistics extends Fragment
 	private static List<Player> top_scorer_list;
 	private static List<Player> mvp_list;
 	private static List<Player> most_played_list;
+	private static List<Player> minutes_per_goal_list;
 
 	private OnStatsFragmentInteractionListener mListener;
 
@@ -54,19 +54,28 @@ public class PlayerStatistics extends Fragment
 	{
 		// Required empty public constructor
 	}
-	
-	public void listTopScorer(View view)
-	{
-		Log.d("Test","List top scorer");
-	}
 
 	@Override
 	public void onViewCreated (View view, Bundle savedInstanceState)
 	{
+		// Set the top scorer labels
 		((TextView) this.getView().findViewById(R.id.top_scorer_name)).setText(PlayerStatistics.top_scorer_list.get(0).toString());
+		((TextView) this.getView().findViewById(R.id.top_scorer_value)).setText(PlayerStatistics.top_scorer_list.get(0).getTotalGoals());
+		
+		// Set the MVP labels
 		((TextView) this.getView().findViewById(R.id.mvp_name)).setText(PlayerStatistics.mvp_list.get(0).toString());
+		((TextView) this.getView().findViewById(R.id.mvp_value)).setText(PlayerStatistics.mvp_list.get(0).getAverageRating() +  "");
+		
+		// Set the most played labels
 		((TextView) this.getView().findViewById(R.id.most_played_name)).setText(PlayerStatistics.most_played_list.get(0).toString());
+		((TextView) this.getView().findViewById(R.id.most_played_value)).setText(PlayerStatistics.most_played_list.get(0).getTotalMinutes());
+		
+		// Set the minutes per goal labels
+		((TextView) this.getView().findViewById(R.id.minutes_per_goal_name)).setText(PlayerStatistics.minutes_per_goal_list.get(0).toString());
+		((TextView) this.getView().findViewById(R.id.minutes_per_goal_value)).setText(PlayerStatistics.minutes_per_goal_list.get(0).getMinutesPerGoal() + "");
+		
 	}
+	
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -77,11 +86,13 @@ public class PlayerStatistics extends Fragment
 		PlayerStatistics.top_scorer_list = new ArrayList<Player>(PlayersContent.PLAYERS);
 		PlayerStatistics.mvp_list = new ArrayList<Player>(PlayersContent.PLAYERS);
 		PlayerStatistics.most_played_list = new ArrayList<Player>(PlayersContent.PLAYERS);
+		PlayerStatistics.minutes_per_goal_list = new ArrayList<Player>(PlayersContent.PLAYERS);
 
 		// Sort the given lists
 		Collections.sort(PlayerStatistics.top_scorer_list, new PlayerGoalComparator());
 		Collections.sort(PlayerStatistics.mvp_list, new PlayerRatingComparator());
 		Collections.sort(PlayerStatistics.most_played_list, new PlayerMinutesComparator());
+		Collections.sort(PlayerStatistics.minutes_per_goal_list, new PlayerMinutesPerGoalComparator());
 
 	}
 
@@ -131,6 +142,22 @@ public class PlayerStatistics extends Fragment
 	public static void setMostPlayedList(List<Player> most_played_list)
 	{
 		PlayerStatistics.most_played_list = most_played_list;
+	}
+
+	/**
+	 * @return the minutes_per_goal_list
+	 */
+	public static List<Player> getMinutesPerGoalList() 
+	{
+		return minutes_per_goal_list;
+	}
+
+	/**
+	 * @param minutes_per_goal_list the minutes_per_goal_list to set
+	 */
+	public static void setMinutesPerGoalList(List<Player> minutes_per_goal_list)
+	{
+		PlayerStatistics.minutes_per_goal_list = minutes_per_goal_list;
 	}
 
 	@Override
@@ -187,6 +214,8 @@ public class PlayerStatistics extends Fragment
 		public void listMostPlayed(View view);
 		
 		public void listMVP(View view);
+		
+		public void listMinutesPerGoal(View view);
 
 
 	}
@@ -236,6 +265,23 @@ public class PlayerStatistics extends Fragment
 				return -1;
 			
 			if ( lhs.getAverageRating() < rhs.getAverageRating() )
+				return 1;
+			
+			return 0;
+		}
+		
+	}
+	
+	public static class PlayerMinutesPerGoalComparator implements Comparator<Player>
+	{
+
+		@Override
+		public int compare(Player lhs, Player rhs)
+		{
+			if ( lhs.getMinutesPerGoal() > rhs.getMinutesPerGoal() )
+				return -1;
+			
+			if ( lhs.getMinutesPerGoal() < rhs.getMinutesPerGoal() )
 				return 1;
 			
 			return 0;

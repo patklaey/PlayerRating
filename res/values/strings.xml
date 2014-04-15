@@ -54,5 +54,6 @@
     <string name="List">List</string>
     <string name="title_activity_statistics_list">StatisticsList</string>
     <string name="title_game_stats_section">Games Stats</string>
+    <string name="Minutes_Per_Goal">Min. per Goal:</string>
 
 </resources>

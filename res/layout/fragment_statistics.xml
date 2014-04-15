@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/list_top_scorer_button"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:text="@string/MVP"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -75,7 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/list_mvp_button"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:text="@string/Most_Played"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -97,6 +97,79 @@
         android:onClick="listMostPlayed"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/textView3"
+        android:layout_marginTop="5dp"
+        android:text="@string/List" />
+
+    <TextView
+        android:id="@+id/top_scorer_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_alignBottom="@+id/top_scorer_name"
+        android:layout_toRightOf="@+id/top_scorer_name"
+        android:text="@string/Top_Scorer"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/mvp_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_alignBottom="@+id/mvp_name"
+        android:layout_toRightOf="@+id/mvp_name"
+        android:text="@string/MVP"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/most_played_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_alignBottom="@+id/most_played_name"
+        android:layout_toRightOf="@+id/most_played_name"
+        android:text="@string/Most_Played"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/list_most_played_button"
+        android:layout_marginTop="30dp"
+        android:text="@string/Minutes_Per_Goal"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/minutes_per_goal_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView4"
+        android:layout_alignBottom="@+id/textView4"
+        android:layout_toRightOf="@+id/textView4"
+        android:text="@string/Minutes_Per_Goal"
+        android:layout_marginLeft="10dp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/minutes_per_goal_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_alignBottom="@+id/minutes_per_goal_name"
+        android:layout_toRightOf="@+id/minutes_per_goal_name"
+        android:text="@string/Minutes_Per_Goal"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Button
+        android:id="@+id/button1"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView4"
+        android:layout_marginTop="5dp"
+        android:onClick="listMinutesPerGoal"
         android:text="@string/List" />
 
 </RelativeLayout>

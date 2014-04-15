@@ -251,4 +251,9 @@ public class Player implements Serializable
 	{
 		this.getGoals().add(goal);
 	}
+	
+	public float getMinutesPerGoal()
+	{
+		return this.getTotalMinutes() / this.getTotalGoals();
+	}
 }

@@ -116,6 +116,32 @@ public class StatisticsList extends ListActivity
 					
 				break;
 				
+				// List the minutes per goal
+				case MainActivity.EXTRA_STATS_MINUTES_PER_GOALS:
+					
+					// We need a float to remember the current value
+					float minutes_per_goal = 0;
+					
+					// Go through the players, sorted by minutes per goal
+					for (Player player : PlayerStatistics.getMinutesPerGoalList() )
+					{
+						// All players played the same minutes per goal have
+						// the same rank, so only increase the rank counter if
+						// the minutes per goal is more than what we had before
+						if ( minutes_per_goal != player.getMinutesPerGoal() )
+							i++;
+						
+						// Remember the current minutes per goal for the
+						// next iteration
+						minutes_per_goal = player.getMinutesPerGoal();
+
+						// Add the composed sting to the list which will be
+						// set as adapter later
+						list.add(i + ".      " + minutes_per_goal + "       " +  player.toString()  );	
+					}
+						
+					break;
+				
 			default:
 				break;
 		}
