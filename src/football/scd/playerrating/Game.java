@@ -6,7 +6,10 @@ package football.scd.playerrating;
 import android.annotation.SuppressLint;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+
+import football.scd.playerrating.contents.PlayersContent;
 
 /**
  * @author uni
@@ -208,6 +211,34 @@ public class Game implements Serializable
 	{
     	this.getGoalsScored().add(goal);
 
+	}
+	
+	// Get the average rating for this particular game
+	public double getAverageRating()
+	{
+		double sum = 0;
+		int counter = 0;
+		
+		/* Get all ratings which belong to this match
+		 * To do so, iterate over all players and get the rating belonging to
+		 * the currents game id
+		 */
+		for( Player player : PlayersContent.PLAYERS )
+		{
+			if ( !player.getRatings().containsKey( this.getID() ) )
+				continue;
+			
+			sum += player.getRatings().get( this.getID() );
+			counter++;
+		}
+		
+		// Return zero if there are no ratings
+		if ( counter == 0 )
+			return 0;
+		
+		// Otherwise return the average rating
+		return sum / counter;
+	
 	}
 	
 }

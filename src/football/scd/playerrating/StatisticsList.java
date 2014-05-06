@@ -111,7 +111,7 @@ public class StatisticsList extends ListActivity
 
 					// Add the composed sting to the list which will be
 					// set as adapter later
-					list.add(i + ".      " + average_rating + "       " +  player.toString()  );	
+					list.add(i + ".      " + String.format("%.2f", average_rating) + "       " +  player.toString()  );	
 				}
 					
 				break;
@@ -137,7 +137,39 @@ public class StatisticsList extends ListActivity
 
 						// Add the composed sting to the list which will be
 						// set as adapter later
-						list.add(i + ".      " + minutes_per_goal + "       " +  player.toString()  );	
+						list.add(i + ".      " + String.format("%.2f", minutes_per_goal) + "       " +  player.toString()  );	
+					}
+						
+					break;
+					
+				// List average ratings
+				case MainActivity.EXTRA_STATS_MATCH_RATINGS:
+					
+					// We need a double to remember the current value
+					double average_match_rating = 0;
+					
+					// Go through the players, sorted by minutes per goal
+					for (Game game : GameStatistics.getAverageMatchRatingList() )
+					{
+						// All players played the same minutes per goal have
+						// the same rank, so only increase the rank counter if
+						// the minutes per goal is more than what we had before
+						if ( average_match_rating != game.getAverageRating() )
+							i++;
+						
+						// Remember the current minutes per goal for the
+						// next iteration
+						average_match_rating = game.getAverageRating();
+
+						// Add the composed sting to the list which will be
+						// set as adapter later
+						if ( game.isHomeGame() )
+						{
+							list.add(i + ".      " + String.format("%.2f", average_match_rating) + "       " +  game.getSelf_name() + " - " + game.getOpponent() );	
+						} else
+						{
+							list.add(i + ".      " + String.format("%.2f", average_match_rating) + "       " +  game.getOpponent() + " - " + game.getSelf_name() );	
+						}
 					}
 						
 					break;
@@ -184,7 +216,8 @@ public class StatisticsList extends ListActivity
 			//
 			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
 			//
-			NavUtils.navigateUpFromSameTask(this);
+			//NavUtils.navigateUpFromSameTask(this);
+			finish();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

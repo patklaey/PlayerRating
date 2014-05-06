@@ -1,5 +1,9 @@
 package football.scd.playerrating;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
 import football.scd.playerrating.contents.GamesContent;
 import android.app.Activity;
 import android.net.Uri;
@@ -26,6 +30,9 @@ public class GameStatistics extends Fragment
 	private int defeats;
 	private int goals_scored;
 	private int goals_conceded;
+	
+	// Lists
+	private static List<Game> average_rating_list;
 
 	private OnGameStatsFragmentInteractionListener mListener;
 
@@ -57,6 +64,10 @@ public class GameStatistics extends Fragment
 		this.defeats = 0;
 		this.draws = 0;
 		
+		// Get all games in the average ratings list and sort it according to the ratings
+		GameStatistics.average_rating_list = new LinkedList<Game>( GamesContent.GAMES);
+		Collections.sort( GameStatistics.average_rating_list, new GameRatingComparator() );
+		
 		// Go through each game and collect base stats
 		for (Game game : GamesContent.GAMES )
 		{
@@ -83,6 +94,8 @@ public class GameStatistics extends Fragment
 		((TextView)getView().findViewById(R.id.win_draw_defeat_values)).setText( this.wins + "-" + this.draws + "-" + this.defeats);
 		((TextView)getView().findViewById(R.id.goal_difference_values)).setText( this.goals_scored + ":" + this.goals_conceded);
 		
+		((TextView)getView().findViewById(R.id.best_rating_opponent_name)).setText( GameStatistics.average_rating_list.get(0).getOpponent());
+		((TextView)getView().findViewById(R.id.best_rating_rating_value)).setText( String.format("%.2f", GameStatistics.average_rating_list.get(0).getAverageRating() ) );
 	}
 
 	@Override
@@ -126,6 +139,11 @@ public class GameStatistics extends Fragment
 		super.onDetach();
 		mListener = null;
 	}
+	
+	public static List<Game> getAverageMatchRatingList()
+	{
+		return GameStatistics.average_rating_list;
+	}
 
 	/**
 	 * This interface must be implemented by activities that contain this
@@ -138,8 +156,26 @@ public class GameStatistics extends Fragment
 	 */
 	public interface OnGameStatsFragmentInteractionListener
 	{
-		// TODO: Update argument type and name
 		public void onGameStatsFragmentInteraction(Uri uri);
+		
+		public void listBestRatings(View view);
+	}
+	
+	public static class GameRatingComparator implements Comparator<Game>
+	{
+
+		@Override
+		public int compare(Game lhs, Game rhs)
+		{
+			if ( lhs.getAverageRating() > rhs.getAverageRating() )
+				return -1;
+			
+			if ( lhs.getAverageRating() < rhs.getAverageRating() )
+				return 1;
+			
+			return 0;
+		}
+		
 	}
 
 }

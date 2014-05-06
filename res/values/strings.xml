@@ -57,5 +57,6 @@
     <string name="Minutes_Per_Goal">Min. per Goal:</string>
     <string name="Win_Draw_Defeat">Wins-Draws-Defeats:</string>
     <string name="Goal_Diff">Goal difference:</string>
+    <string name="Best_Average_Rating">Best Rating:</string>
 
 </resources>

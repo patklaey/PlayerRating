@@ -24,10 +24,10 @@ public class Player implements Serializable
 	private int current_game_minutes;
 	private int current_game_goals;
 	
-	// Hashmap for the players ratings
+	// Hashmap<GameID,Rating> for the players ratings
 	private HashMap<Integer, Integer> ratings;
 	
-	// Hashmap for the players minutes
+	// Hashmap<GameID,MinutesPlayed> for the players minutes
 	private HashMap<Integer, Integer> minutes;
 	
 
