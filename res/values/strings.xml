@@ -58,5 +58,11 @@
     <string name="Win_Draw_Defeat">Wins-Draws-Defeats:</string>
     <string name="Goal_Diff">Goal difference:</string>
     <string name="Best_Average_Rating">Best Rating:</string>
+    <string name="First_half_first">1/1</string>
+    <string name="First_half_second">1/2</string>
+    <string name="First_half_third">1/3</string>
+    <string name="Second_half_first">2/1</string>
+    <string name="Second_half_second">2/2</string>
+    <string name="Second_half_third">2/3</string>
 
 </resources>
