@@ -53,7 +53,7 @@ public class StatisticsList extends ListActivity
 					current_val = player.getTotalGoals();
 					
 					// The string for goals
-					String goals = (current_val == 1 ? "Goals" : "Goal" );
+					String goals = (current_val == 1 ? "Goal" : "Goals" );
 					
 					// Add the composed sting to the list which will be
 					// set as adapter later
@@ -80,7 +80,7 @@ public class StatisticsList extends ListActivity
 					current_val = player.getTotalMinutes();
 					
 					// The string for minutes
-					String minutes = (current_val == 1 ? "Minutes" : "Minute" );
+					String minutes = (current_val == 1 ? "Minute" : "Minutes" );
 					
 					// Add the composed sting to the list which will be
 					// set as adapter later
