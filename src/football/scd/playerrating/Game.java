@@ -6,7 +6,6 @@ package football.scd.playerrating;
 import android.annotation.SuppressLint;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import football.scd.playerrating.contents.PlayersContent;

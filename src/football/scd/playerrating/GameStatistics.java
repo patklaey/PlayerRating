@@ -31,6 +31,10 @@ public class GameStatistics extends Fragment
 	private int goals_scored;
 	private int goals_conceded;
 	
+	// Goal scoring and conceding stats
+	private int scoring[] = {0,0,0,0,0,0};
+	private int conceding[] = {0,0,0,0,0,0};
+	
 	// Lists
 	private static List<Game> average_rating_list;
 
@@ -84,6 +88,80 @@ public class GameStatistics extends Fragment
 			
 			if ( game.getGoalsConceded().size() < game.getGoalsScored().size() )
 				this.wins++;
+			
+			// Collect goal statistics for all scored goals
+			for (Goal goal : game.getGoalsScored())
+			{
+				if ( goal.getMinute() <= MainActivity.HALF_TIME_DURATION / 3 )
+				{
+					this.scoring[0]++;
+					continue;
+				}
+
+				if ( goal.getMinute() <= (MainActivity.HALF_TIME_DURATION / 3) * 2 )
+				{
+					this.scoring[1]++;
+					continue;
+				}
+				
+				if ( goal.getMinute() <= MainActivity.HALF_TIME_DURATION + 1 )
+				{
+					this.scoring[2]++;
+					continue;
+				}
+				
+				if ( goal.getMinute() <= ( MainActivity.HALF_TIME_DURATION / 3 ) + MainActivity.HALF_TIME_DURATION )
+				{
+					this.scoring[3]++;
+					continue;
+				}
+				
+				if ( goal.getMinute() <= (MainActivity.HALF_TIME_DURATION / 3 * 2) + MainActivity.HALF_TIME_DURATION )
+				{
+					this.scoring[4]++;
+					continue;
+				}
+				
+				this.scoring[5]++;
+				
+			}
+			
+			// Collect goal statistics for all conceded goals
+			for ( Goal goal : game.getGoalsConceded() )
+			{
+				if ( goal.getMinute() <= MainActivity.HALF_TIME_DURATION / 3 )
+				{
+					this.conceding[0]++;
+					continue;
+				}
+
+				if ( goal.getMinute() <= (MainActivity.HALF_TIME_DURATION / 3) * 2 )
+				{
+					this.conceding[1]++;
+					continue;
+				}
+				
+				if ( goal.getMinute() <= MainActivity.HALF_TIME_DURATION + 1 )
+				{
+					this.conceding[2]++;
+					continue;
+				}
+				
+				if ( goal.getMinute() <= ( MainActivity.HALF_TIME_DURATION / 3 ) + MainActivity.HALF_TIME_DURATION )
+				{
+					this.conceding[3]++;
+					continue;
+				}
+				
+				if ( goal.getMinute() <= (MainActivity.HALF_TIME_DURATION / 3 * 2) + MainActivity.HALF_TIME_DURATION )
+				{
+					this.conceding[4]++;
+					continue;
+				}
+				
+				this.conceding[5]++;
+				
+			}
 		}
 	}
 	
@@ -96,6 +174,33 @@ public class GameStatistics extends Fragment
 		
 		((TextView)getView().findViewById(R.id.best_rating_opponent_name)).setText( GameStatistics.average_rating_list.get(0).getOpponent());
 		((TextView)getView().findViewById(R.id.best_rating_rating_value)).setText( String.format("%.2f", GameStatistics.average_rating_list.get(0).getAverageRating() ) );
+		
+		// The text fields for goal scoring
+		int scoring_textfields[] = { R.id.scoring_first_half_1,
+									 R.id.scoring_first_half_2,
+									 R.id.scoring_first_half_3,
+									 R.id.scoring_second_half_1,
+									 R.id.scoring_second_half_2,
+									 R.id.scoring_second_half_3
+									};
+		
+		int conceding_textfields[] = { R.id.conceding_first_half_1,
+									   R.id.conceding_first_half_2,
+									   R.id.conceding_first_half_3,
+									   R.id.conceding_second_half_1,
+									   R.id.conceding_second_half_2,
+									   R.id.conceding_second_half_3
+									  };
+				
+		// Set the goals scored stats
+		for (int i = 0; i < this.scoring.length; i++)
+			((TextView)getView().findViewById(scoring_textfields[i])).setText("" + 
+		    this.scoring[i] + "\n" + 100 * this.scoring[i] / this.goals_scored + "%");
+		
+		// Set the goals conceded stats
+		for (int i = 0; i < this.conceding.length; i++)
+			((TextView)getView().findViewById(conceding_textfields[i])).setText("" + 
+		    this.conceding[i] + "\n" + 100 * this.conceding[i] / this.goals_conceded + "%");
 	}
 
 	@Override
