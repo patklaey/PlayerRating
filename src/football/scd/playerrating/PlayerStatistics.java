@@ -59,21 +59,24 @@ public class PlayerStatistics extends Fragment
 	public void onViewCreated (View view, Bundle savedInstanceState)
 	{
 		// Set the top scorer labels
-		((TextView) this.getView().findViewById(R.id.top_scorer_name)).setText(PlayerStatistics.top_scorer_list.get(0).toString());
-		((TextView) this.getView().findViewById(R.id.top_scorer_value)).setText(PlayerStatistics.top_scorer_list.get(0).getTotalGoals() + " Goals");
-		
-		// Set the MVP labels
-		((TextView) this.getView().findViewById(R.id.mvp_name)).setText(PlayerStatistics.mvp_list.get(0).toString());
-		((TextView) this.getView().findViewById(R.id.mvp_value)).setText(PlayerStatistics.mvp_list.get(0).getAverageRating() +  "");
-		
-		// Set the most played labels
-		((TextView) this.getView().findViewById(R.id.most_played_name)).setText(PlayerStatistics.most_played_list.get(0).toString());
-		((TextView) this.getView().findViewById(R.id.most_played_value)).setText(PlayerStatistics.most_played_list.get(0).getTotalMinutes() + " min");
-		
-		// Set the minutes per goal labels
-		((TextView) this.getView().findViewById(R.id.minutes_per_goal_name)).setText(PlayerStatistics.minutes_per_goal_list.get(0).toString());
-		((TextView) this.getView().findViewById(R.id.minutes_per_goal_value)).setText(PlayerStatistics.minutes_per_goal_list.get(0).getMinutesPerGoal() + "");
-		
+		if ( PlayerStatistics.top_scorer_list.size() > 0 )
+		{
+			((TextView) this.getView().findViewById(R.id.top_scorer_name)).setText(PlayerStatistics.top_scorer_list.get(0).toString());
+			((TextView) this.getView().findViewById(R.id.top_scorer_value)).setText(PlayerStatistics.top_scorer_list.get(0).getTotalGoals() + " Goals");
+			
+			// Set the MVP labels
+			((TextView) this.getView().findViewById(R.id.mvp_name)).setText(PlayerStatistics.mvp_list.get(0).toString());
+			((TextView) this.getView().findViewById(R.id.mvp_value)).setText(PlayerStatistics.mvp_list.get(0).getAverageRating() +  "");
+			
+			// Set the most played labels
+			((TextView) this.getView().findViewById(R.id.most_played_name)).setText(PlayerStatistics.most_played_list.get(0).toString());
+			((TextView) this.getView().findViewById(R.id.most_played_value)).setText(PlayerStatistics.most_played_list.get(0).getTotalMinutes() + " min");
+			
+			// Set the minutes per goal labels
+			((TextView) this.getView().findViewById(R.id.minutes_per_goal_name)).setText(PlayerStatistics.minutes_per_goal_list.get(0).toString());
+			((TextView) this.getView().findViewById(R.id.minutes_per_goal_value)).setText(PlayerStatistics.minutes_per_goal_list.get(0).getMinutesPerGoal() + "");
+		}
+				
 	}
 	
 	

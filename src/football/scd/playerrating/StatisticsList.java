@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
-import android.support.v4.app.NavUtils;
 
 public class StatisticsList extends ListActivity 
 {

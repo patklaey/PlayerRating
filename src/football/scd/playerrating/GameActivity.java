@@ -48,9 +48,16 @@ public class GameActivity extends Activity
 	private ArrayAdapter<Goal> away_goal_adapter;
 	
 	// Wake lock
-	PowerManager power_manager;
-	WakeLock wake_lock;
+	PowerManager power_manager = null;
+	WakeLock wake_lock = null;
 	private static final String WAKE_LOCK_NAME = "MyWakeLock";
+	
+	@Override
+	public void onBackPressed() 
+	{
+		if ( this.game.isFinished() || this.wake_lock == null )
+			super.onBackPressed();
+	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -178,7 +185,7 @@ public class GameActivity extends Activity
 				//
 				// http://developer.android.com/design/patterns/navigation.html#up-vs-back
 				//
-				NavUtils.navigateUpFromSameTask(this);
+				// NavUtils.navigateUpFromSameTask(this);
 				return true;
 				
 			case R.id.action_edit:

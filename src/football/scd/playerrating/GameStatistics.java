@@ -194,13 +194,30 @@ public class GameStatistics extends Fragment
 				
 		// Set the goals scored stats
 		for (int i = 0; i < this.scoring.length; i++)
-			((TextView)getView().findViewById(scoring_textfields[i])).setText("" + 
-		    this.scoring[i] + "\n" + 100 * this.scoring[i] / this.goals_scored + "%");
+		{
+			if ( this.goals_scored > 0 )
+			{
+				((TextView)getView().findViewById(scoring_textfields[i])).setText("" + 
+				this.scoring[i] + "\n" + 100 * this.scoring[i] / this.goals_scored + "%");
+			} else
+			{
+				((TextView)getView().findViewById(scoring_textfields[i])).setText("0%");
+			}
+		}
 		
 		// Set the goals conceded stats
 		for (int i = 0; i < this.conceding.length; i++)
-			((TextView)getView().findViewById(conceding_textfields[i])).setText("" + 
-		    this.conceding[i] + "\n" + 100 * this.conceding[i] / this.goals_conceded + "%");
+		{
+			if ( this.goals_conceded > 0 )
+			{
+				((TextView)getView().findViewById(conceding_textfields[i])).setText("" + 
+					    this.conceding[i] + "\n" + 100 * this.conceding[i] / this.goals_conceded + "%");
+			} else
+			{
+				((TextView)getView().findViewById(conceding_textfields[i])).setText("0%");
+			}
+		}
+			
 	}
 
 	@Override
