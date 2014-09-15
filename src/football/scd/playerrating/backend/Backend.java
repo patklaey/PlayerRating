@@ -48,5 +48,7 @@ public interface Backend
 	
 	// Remove a game by ID
 	public boolean removeGame(int ID);
+
+	public void debug();
 	
 }

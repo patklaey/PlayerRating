@@ -16,6 +16,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 @SuppressLint("UseSparseArrays")
 public class SQLiteBackend extends SQLiteOpenHelper implements Backend
@@ -597,5 +598,43 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 		return false;
 	}
 	
+	public void debug()
+	{
+		// Get writable database access
+	    SQLiteDatabase db = this.getWritableDatabase();
+	    
+	    // Create the query string
+	 	String query = "SELECT * from " + PLAYERS_TABLE + ";";
+	 		
+	 	// Execute the query
+	 	Cursor cursor = db.rawQuery(query, null);
+	 	
+	 	cursor.moveToFirst();
+	 	
+		do
+		{
+			// Add the player from the current row to the list
+			Log.d("database", cursor.getString( INDEX_PLAYER_NAME ) + " " + cursor.getInt(INDEX_PLAYER_ID));
+            
+        } while (cursor.moveToNext());
+		
+		query = "SELECT * from " + GOALS_TABLE + ";";
+ 		
+	 	// Execute the query
+	 	cursor = db.rawQuery(query, null);
+	 	
+	 	cursor.moveToFirst();
+	 	
+		do
+		{
+			// Add the player from the current row to the list
+			Log.d("database", cursor.getInt( 0 ) + " " + cursor.getInt(INDEX_GOAL_PLAYER_ID));
+            
+        } while (cursor.moveToNext());
+		
+	    //ContentValues args = new ContentValues();
+	    //args.put(KEY_PLAYER_ID, "17");
+	    //db.update(GOALS_TABLE, args, KEY_ID + "=12" , null);
+	}
 	
 }
