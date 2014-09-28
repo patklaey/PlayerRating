@@ -158,4 +158,37 @@
         android:onClick="savePlayer"
         android:text="@string/Save" />
 
+    <Button
+        android:id="@+id/edit_minutes"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/player_total_minutes"
+        android:layout_alignBottom="@+id/player_total_minutes"
+        android:layout_alignRight="@+id/player_edit_givenname"
+        android:visibility="invisible"
+        android:text="@string/Edit" />
+
+    <Button
+        android:id="@+id/edit_ratings"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/player_average_rating"
+        android:layout_alignBottom="@+id/player_average_rating"
+        android:layout_alignRight="@+id/edit_minutes"
+        android:visibility="invisible"
+        android:text="@string/Edit" />
+
+    <Button
+        android:id="@+id/edit_goals"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/player_total_goals"
+        android:layout_alignBottom="@+id/player_total_goals"
+        android:layout_alignRight="@+id/edit_ratings"
+        android:visibility="invisible"
+        android:text="@string/Edit" />
+
 </RelativeLayout>

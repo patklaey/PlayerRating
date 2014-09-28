@@ -154,6 +154,11 @@ public class PlayerActivity extends Activity
 		((Button)findViewById(R.id.delete_player_button)).setVisibility(View.VISIBLE);
 		((Button)findViewById(R.id.save_player_button)).setVisibility(View.VISIBLE);
 		
+		// Show edit buttons for minutes, ratings and goals
+		((Button)findViewById(R.id.edit_goals)).setVisibility(View.VISIBLE);
+		((Button)findViewById(R.id.edit_minutes)).setVisibility(View.VISIBLE);
+		((Button)findViewById(R.id.edit_ratings)).setVisibility(View.VISIBLE);
+		
 		// Request focus for the players name
 		((EditText)findViewById(R.id.player_edit_name)).requestFocus();
 		
