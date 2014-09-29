@@ -166,6 +166,7 @@
         android:layout_alignBaseline="@+id/player_total_minutes"
         android:layout_alignBottom="@+id/player_total_minutes"
         android:layout_alignRight="@+id/player_edit_givenname"
+        android:onClick="editMinutes"
         android:visibility="invisible"
         android:text="@string/Edit" />
 
@@ -177,6 +178,7 @@
         android:layout_alignBaseline="@+id/player_average_rating"
         android:layout_alignBottom="@+id/player_average_rating"
         android:layout_alignRight="@+id/edit_minutes"
+		android:onClick="editRatings"
         android:visibility="invisible"
         android:text="@string/Edit" />
 
@@ -189,6 +191,19 @@
         android:layout_alignBottom="@+id/player_total_goals"
         android:layout_alignRight="@+id/edit_ratings"
         android:visibility="invisible"
+        android:onClick="editGoals"
         android:text="@string/Edit" />
+
+    <Button
+        android:id="@+id/cancel_edit_player"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/delete_player_button"
+        android:layout_alignBottom="@+id/delete_player_button"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible"
+        android:onClick="cancelEdit"
+        android:text="@string/Cancel" />
 
 </RelativeLayout>

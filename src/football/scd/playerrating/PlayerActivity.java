@@ -35,6 +35,12 @@ public class PlayerActivity extends Activity
 	private ArrayAdapter<String> goals_adapter;
 	private ArrayAdapter<String> minutes_adapter;
 	private ArrayAdapter<String> ratings_adapter;
+	
+	// Extra strings to pass to the editProperty activity
+	public static final String EXTRA_EDITABLE_PROPERTY = "football.scd.playerrating.playeractivity.property";
+	public static final int EXTRA_EDITABLE_PROPERTY_GOALS = 0;
+	public static final int EXTRA_EDITABLE_PROPERTY_MINUTES = 1;
+	public static final int EXTRA_EDITABLE_PROPERTY_RATINGS = 2;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -150,8 +156,9 @@ public class PlayerActivity extends Activity
 		// Enable save and 
 		((Button)findViewById(R.id.save_player_button)).setEnabled(true);
 		
-		// Show save and delete button
+		// Show save cancel and delete button
 		((Button)findViewById(R.id.delete_player_button)).setVisibility(View.VISIBLE);
+		((Button)findViewById(R.id.cancel_edit_player)).setVisibility(View.VISIBLE);
 		((Button)findViewById(R.id.save_player_button)).setVisibility(View.VISIBLE);
 		
 		// Show edit buttons for minutes, ratings and goals
@@ -162,6 +169,52 @@ public class PlayerActivity extends Activity
 		// Request focus for the players name
 		((EditText)findViewById(R.id.player_edit_name)).requestFocus();
 		
+	}
+	
+	// Cancel the editing
+	public void cancelEdit(View view)
+	{
+		// Make all EditText fields enabled
+		((EditText)findViewById(R.id.player_edit_name)).setEnabled(false);
+		((EditText)findViewById(R.id.player_edit_givenname)).setEnabled(false);
+		
+		// Show save cancel and delete button
+		((Button)findViewById(R.id.delete_player_button)).setVisibility(View.INVISIBLE);
+		((Button)findViewById(R.id.cancel_edit_player)).setVisibility(View.INVISIBLE);
+		((Button)findViewById(R.id.save_player_button)).setVisibility(View.INVISIBLE);
+		
+		// Show edit buttons for minutes, ratings and goals
+		((Button)findViewById(R.id.edit_goals)).setVisibility(View.INVISIBLE);
+		((Button)findViewById(R.id.edit_minutes)).setVisibility(View.INVISIBLE);
+		((Button)findViewById(R.id.edit_ratings)).setVisibility(View.INVISIBLE);
+
+	}
+	
+	// Edit the players goals
+	public void editGoals(View view)
+	{
+		Intent intent = new Intent(this, EditPlayerProperty.class);
+		intent.putExtra(MainActivity.EXTRA_PLAYER, this.player);
+		intent.putExtra(PlayerActivity.EXTRA_EDITABLE_PROPERTY,PlayerActivity.EXTRA_EDITABLE_PROPERTY_GOALS);
+		this.startActivity(intent);
+	}
+	
+	// Edit the players goals
+	public void editMinutes(View view)
+	{
+		Intent intent = new Intent(this, EditPlayerProperty.class);
+		intent.putExtra(MainActivity.EXTRA_PLAYER, this.player);
+		intent.putExtra(PlayerActivity.EXTRA_EDITABLE_PROPERTY,PlayerActivity.EXTRA_EDITABLE_PROPERTY_MINUTES);
+		this.startActivity(intent);
+	}
+	
+	// Edit the players goals
+	public void editRatings(View view)
+	{
+		Intent intent = new Intent(this, EditPlayerProperty.class);
+		intent.putExtra(MainActivity.EXTRA_PLAYER, this.player);
+		intent.putExtra(PlayerActivity.EXTRA_EDITABLE_PROPERTY,PlayerActivity.EXTRA_EDITABLE_PROPERTY_RATINGS);
+		this.startActivity(intent);
 	}
 	
 	// Save the players values

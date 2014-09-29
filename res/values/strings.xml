@@ -64,5 +64,8 @@
     <string name="Second_half_first">2/1</string>
     <string name="Second_half_second">2/2</string>
     <string name="Second_half_third">2/3</string>
+    <string name="title_activity_edit_player_property">EditPlayerProperty</string>
+    <string name="Add">Add</string>
+    <string name="SelectPropertyToEdit">or select a property from below to edit</string>
 
 </resources>
