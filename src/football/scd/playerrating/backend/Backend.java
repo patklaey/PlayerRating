@@ -48,6 +48,15 @@ public interface Backend
 	
 	// Remove a game by ID
 	public boolean removeGame(int ID);
+	
+	// Get the max game ID
+	public int getMaxGameID();
+	
+	// Get the max player ID
+	public int getMaxPlayerID();
+	
+	// Get the max goal ID
+	public int getMaxGoalID();
 
 	public void debug();
 	

@@ -11,9 +11,11 @@ public class Goal implements Serializable
 	private int minute;
 	private Player player;
 	private int game_id;
+	private int id;
 	
-	public Goal( int min, Player pl, int game )
+	public Goal( int id, int min, Player pl, int game )
 	{
+		this.id = id;
 		this.minute = min;
 		this.player = pl;
 		this.game_id = game;
@@ -71,5 +73,21 @@ public class Goal implements Serializable
 	public void setPlayer(Player player)
 	{
 		this.player = player;
+	}
+
+	public int getGameID() {
+		return game_id;
+	}
+
+	public void setGameID(int game_id) {
+		this.game_id = game_id;
+	}
+
+	public int getID() {
+		return id;
+	}
+
+	public void setID(int id) {
+		this.id = id;
 	}
 }

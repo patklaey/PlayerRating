@@ -3,15 +3,16 @@ package football.scd.playerrating;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import football.scd.playerrating.contents.GamesContent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.support.v4.app.NavUtils;
 
 public class EditPlayerProperty extends Activity {
 
@@ -23,12 +24,16 @@ public class EditPlayerProperty extends Activity {
 	private List<String> minutes;
 	private List<String> ratings;
 	
+	// We need a public games list which is accessed from the the onItemClick method
+	public static List<Game> games;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit_player_property);
 		
 		this.player = (Player) this.getIntent().getSerializableExtra(MainActivity.EXTRA_PLAYER);
+		EditPlayerProperty.games = new ArrayList<Game>();
 		
 		// Setup the list view adapter according to the property which is to 
 		// edit
@@ -44,6 +49,7 @@ public class EditPlayerProperty extends Activity {
 				for (Goal goal : this.player.getGoals())
 				{
 					Game game = GamesContent.GAME_MAP.get(goal.getGameId());
+					EditPlayerProperty.games.add( game );
 					this.goals.add(game.getOpponent() + ": " + goal.toString() );
 				}
 				
@@ -62,6 +68,7 @@ public class EditPlayerProperty extends Activity {
 				for (Map.Entry<Integer,Integer> entry: this.player.getMinutes().entrySet() )
 				{
 					Game game = GamesContent.GAME_MAP.get(entry.getKey());
+					EditPlayerProperty.games.add( game );
 					this.minutes.add(game.getOpponent() + ": " + entry.getValue() );
 				}
 				
@@ -82,6 +89,7 @@ public class EditPlayerProperty extends Activity {
 				for (Map.Entry<Integer,Integer> entry: this.player.getRatings().entrySet() )
 				{
 					Game game = GamesContent.GAME_MAP.get(entry.getKey());
+					EditPlayerProperty.games.add( game );
 					this.ratings.add(game.getOpponent() + ": " + entry.getValue() );
 				}
 				
@@ -96,7 +104,20 @@ public class EditPlayerProperty extends Activity {
 				break;
 		}
 
+		// Set the list views adapter
 		((ListView)findViewById(R.id.propertyList)).setAdapter(this.adapter);
+		
+		// And create a new onitemclick listener for the list view
+		((ListView)findViewById(R.id.propertyList)).setOnItemClickListener(new OnItemClickListener()
+		{
+			// Override the onItemClick function
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+			{
+				// Simply print the value selected
+				System.out.println( EditPlayerProperty.games.get(position) );
+			}
+		});
 		
 		// Show the Up button in the action bar.
 		setupActionBar();
@@ -129,7 +150,7 @@ public class EditPlayerProperty extends Activity {
 			//
 			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
 			//
-			NavUtils.navigateUpFromSameTask(this);
+			//NavUtils.navigateUpFromSameTask(this);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

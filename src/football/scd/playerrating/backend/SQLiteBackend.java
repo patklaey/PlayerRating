@@ -67,7 +67,7 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
     private static final int INDEX_PLAYED_GAME_ID = 2;
     private static final int INDEX_PLAYED_TIME = 3;
     private static final int INDEX_PLAYED_RATING = 4;
-//    private static final int INDEX_GOAL_ID = 0;
+    private static final int INDEX_GOAL_ID = 0;
     private static final int INDEX_GOAL_PLAYER_ID = 1;
     private static final int INDEX_GOAL_GAME_ID = 2;
     private static final int INDEX_GOAL_MINUTE = 3;
@@ -206,9 +206,10 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 				// Get the goals minute and game_id
 				int minute = cursor.getInt(INDEX_GOAL_MINUTE);
 				int game_id = cursor.getInt(INDEX_GOAL_GAME_ID);
+				int id = cursor.getInt(INDEX_GOAL_ID);
 				
 				// Add the goal to the list
-				goals.add(new Goal(minute, player , game_id ));
+				goals.add(new Goal(id, minute, player , game_id ));
 			} while ( cursor.moveToNext() );
 		}
 		
@@ -294,16 +295,17 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 				// Get the goals minute, player id and game id
 				int min = cursor.getInt(INDEX_GOAL_MINUTE);
 				int player_id = cursor.getInt(INDEX_GOAL_PLAYER_ID);
+				int id = cursor.getInt(INDEX_GOAL_ID);
 				
 				// If it is a goal scored (i.e. player id is not -1) add it 
 				// to the goals scored list, otherwise add it to the goals
 				// conceded list
 				if ( player_id != MainActivity.GOAL_AGAINS_PLAYER.getID() )
 				{
-					goals_scored.add(new Goal(min, PlayersContent.PLAYER_MAP.get(player_id), game.getID() ));
+					goals_scored.add(new Goal(id, min, PlayersContent.PLAYER_MAP.get(player_id), game.getID() ));
 				} else
 				{
-					goals_conceded.add( new Goal(min, MainActivity.GOAL_AGAINS_PLAYER, game.getID() ) );
+					goals_conceded.add( new Goal(id, min, MainActivity.GOAL_AGAINS_PLAYER, game.getID() ) );
 				}
 				
 			} while ( cursor.moveToNext() );
@@ -419,6 +421,9 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 				
 				// Add the entry to the db
 				db.insert(GOALS_TABLE, null, pl_goal);
+			} else
+			{
+				// TODO update all goals here as minute of goal might have changed!
 			}
 		}	
 		
@@ -483,6 +488,7 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 		for (Goal self_goal : game.getGoalsScored() ) 
 		{
 			ContentValues goal = new ContentValues();
+			goal.put(KEY_ID, self_goal.getID() );
 			goal.put(KEY_PLAYER_ID, self_goal.getPlayer().getID() );
 			goal.put(KEY_GAME_ID, self_goal.getGameId() );
 			goal.put(KEY_TIME, self_goal.getMinute() );
@@ -495,6 +501,7 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 		for (Goal goal_against : game.getGoalsConceded() ) 
 		{
 			ContentValues goal = new ContentValues();
+			goal.put(KEY_ID, goal_against.getID() );
 			goal.put(KEY_PLAYER_ID, goal_against.getPlayer().getID() );
 			goal.put(KEY_GAME_ID, goal_against.getGameId() );
 			goal.put(KEY_TIME, goal_against.getMinute() );
@@ -635,6 +642,60 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 	    //ContentValues args = new ContentValues();
 	    //args.put(KEY_PLAYER_ID, "17");
 	    //db.update(GOALS_TABLE, args, KEY_ID + "=12" , null);
+	}
+
+	@Override
+	public int getMaxGameID()
+	{
+		// Get a readable db access
+		SQLiteDatabase db = this.getReadableDatabase();
+		
+		// The query string
+		String query = "SELECT MAX(" + KEY_ID + ") FROM " + GAMES_TABLE;
+		
+		// Execute the query
+		Cursor cursor = db.rawQuery(query, null);
+		
+		if ( ! cursor.moveToFirst() )
+			return 0;
+		
+		return cursor.getInt(0);
+	}
+
+	@Override
+	public int getMaxPlayerID() 
+	{
+		// Get a readable db access
+		SQLiteDatabase db = this.getReadableDatabase();
+		
+		// The query string
+		String query = "SELECT MAX(" + KEY_ID + ") FROM " + PLAYERS_TABLE;
+		
+		// Execute the query
+		Cursor cursor = db.rawQuery(query, null);
+		
+		if ( ! cursor.moveToFirst() )
+			return 0;
+		
+		return cursor.getInt(0);
+	}
+
+	@Override
+	public int getMaxGoalID()
+	{
+		// Get a readable db access
+		SQLiteDatabase db = this.getReadableDatabase();
+		
+		// The query string
+		String query = "SELECT MAX(" + KEY_ID + ") FROM " + GOALS_TABLE;
+		
+		// Execute the query
+		Cursor cursor = db.rawQuery(query, null);
+		
+		if ( ! cursor.moveToFirst() )
+			return 0;
+		
+		return cursor.getInt(0);
 	}
 	
 }

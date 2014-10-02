@@ -8,7 +8,6 @@ import java.util.Map;
 import android.annotation.SuppressLint;
 import football.scd.playerrating.Game;
 import football.scd.playerrating.GamesFragment;
-import football.scd.playerrating.MainActivity;
 
 @SuppressLint("UseSparseArrays") 
 public class GamesContent 
@@ -28,10 +27,7 @@ public class GamesContent
 	{
 		GAMES.add(game);
 		GAME_MAP.put(game.getID(), game);
-		
-		// Check if the MainActivity.next_free_player_id needs to be increased
-		if ( game.getID() >= MainActivity.next_free_game_id )
-			MainActivity.next_free_game_id = game.getID() + 1;
+		System.out.println("GameID: " + game.getID() );
 	}
 
 	public static void addGames(List<Game> games)

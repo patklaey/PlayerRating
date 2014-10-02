@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import android.annotation.SuppressLint;
-import football.scd.playerrating.MainActivity;
 import football.scd.playerrating.Player;
 import football.scd.playerrating.PlayersFragment;
 
@@ -29,10 +28,7 @@ public class PlayersContent
 		// Add the player to the local maps
 		PLAYERS.add(player);
 		PLAYER_MAP.put(player.getID(), player);
-
-		// Check if the MainActivity.next_free_player_id needs to be increased
-		if ( player.getID() >= MainActivity.next_free_player_id )
-			MainActivity.next_free_player_id = player.getID() + 1;
+		System.out.println("Player ID: " + player.getID());
 	}
 	
 	public static void updatePlayer(Player player)

@@ -84,7 +84,7 @@ public class GoalScorer extends ListActivity
 		player.setCurrentGameGoals( player.getCurrentGameGoals() + 1 );
 		
 		// Create a new goal object to return
-		Goal goal = new Goal( this.time, player, this.game_id );
+		Goal goal = new Goal(MainActivity.next_free_goal_id++, this.time, player, this.game_id );
 		
 		// Add the goal to the player
 		player.addGoal(goal);

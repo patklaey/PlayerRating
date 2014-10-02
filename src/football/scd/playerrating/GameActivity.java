@@ -24,7 +24,6 @@ import android.widget.Chronometer.OnChronometerTickListener;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.support.v4.app.NavUtils;
 
 @SuppressLint("UseSparseArrays")
 @SuppressWarnings("unchecked")
@@ -354,7 +353,8 @@ public class GameActivity extends Activity
 		} else
 		{
 			// Otherwise just add the minute and a dummy player
-			this.game.getGoalsConceded().add(new Goal(minute, MainActivity.GOAL_AGAINS_PLAYER , this.game.getID() ) );
+			int id = MainActivity.next_free_goal_id++;
+			this.game.getGoalsConceded().add(new Goal(id, minute, MainActivity.GOAL_AGAINS_PLAYER , this.game.getID() ) );
 			((ArrayAdapter<Goal>)((ListView)findViewById(R.id.away_goal_list_view)).getAdapter()).notifyDataSetChanged();
 			this.game.setOpponent_score( this.game.getOpponent_score() + 1 );
 			
@@ -389,7 +389,8 @@ public class GameActivity extends Activity
 		} else
 		{
 			// Otherwise just add the minute and a dummy player
-			this.game.getGoalsConceded().add(new Goal(minute, MainActivity.GOAL_AGAINS_PLAYER, this.game.getID() ));
+			int id = MainActivity.next_free_goal_id++;
+			this.game.getGoalsConceded().add(new Goal(id, minute, MainActivity.GOAL_AGAINS_PLAYER, this.game.getID() ));
 			((ArrayAdapter<Goal>)((ListView)findViewById(R.id.away_goal_list_view)).getAdapter()).notifyDataSetChanged();
 			this.game.setOpponent_score( this.game.getOpponent_score() + 1 );
 			

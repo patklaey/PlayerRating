@@ -58,6 +58,7 @@ public class Player implements Serializable
 	public Player(int _ID) 
 	{
 		super();
+		System.out.println("ID Passed: " + _ID);
 		this.ID = _ID;
 		this.givenname = "John";
 		this.name = "Doe";
