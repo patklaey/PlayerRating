@@ -59,7 +59,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
 	private static Backend backend;
 	
-	public static final String MY_TEAM_NAME = "SC Düdingen Cb";
+	public static final String MY_TEAM_NAME = "SC DÃ¼dingen Cb";
 	public static final int HALF_TIME_DURATION = 1;
 	
 	// The evil player ;-)
@@ -103,10 +103,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         MainActivity.next_free_game_id = MainActivity.backend.getMaxGameID() + 1;
         MainActivity.next_free_player_id = MainActivity.backend.getMaxPlayerID() + 1;
         MainActivity.next_free_goal_id = MainActivity.backend.getMaxGoalID() + 1;
-        
-        System.out.println("Game id: " + MainActivity.next_free_game_id );
-        System.out.println("Goal id: " + MainActivity.next_free_goal_id );
-        System.out.println("Player id: " + MainActivity.next_free_player_id );
         
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();

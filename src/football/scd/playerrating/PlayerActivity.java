@@ -44,7 +44,6 @@ public class PlayerActivity extends Activity
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-		System.out.println("PlayerActivity on create");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_player);
 		
@@ -61,7 +60,6 @@ public class PlayerActivity extends Activity
 		if ( extra_type.equals(MainActivity.EXTRA_TYPE_NEW))
 		{
 			// Create a new player
-			System.out.println("Creating new player");
 			this.player = new Player( MainActivity.next_free_player_id );
 			
 			// Increase the next free player ID
@@ -224,14 +222,12 @@ public class PlayerActivity extends Activity
 	// Save the players values
 	public void savePlayer(View view)
 	{
-		System.out.println("PlayerActivity saving player");
 		this.player.setGivenname(((EditText)findViewById(R.id.player_edit_givenname)).getText().toString());
 		this.player.setName(((EditText)findViewById(R.id.player_edit_name)).getText().toString());
 		
 		if ( this.new_player )
 		{
 			// Save it locally
-			System.out.println("Saving new player");
 			PlayersContent.addPlayer(this.player);
 			
 			// And save it to the database
@@ -244,9 +240,7 @@ public class PlayerActivity extends Activity
 			// And save it to the database
 			MainActivity.getBackend().updatePlayer(this.player);
 		}
-		
-		System.out.println("PlayerActivity finish");
-		
+				
 		finish();
 	}
 	
