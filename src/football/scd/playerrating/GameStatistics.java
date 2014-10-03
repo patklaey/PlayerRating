@@ -168,6 +168,10 @@ public class GameStatistics extends Fragment
 	@Override
 	public void onViewCreated (View view, Bundle savedInstanceState)
 	{	
+		// Check if there are any games
+		if ( GameStatistics.average_rating_list.isEmpty() )
+			return;
+		
 		// Set the labels
 		((TextView)getView().findViewById(R.id.win_draw_defeat_values)).setText( this.wins + "-" + this.draws + "-" + this.defeats);
 		((TextView)getView().findViewById(R.id.goal_difference_values)).setText( this.goals_scored + ":" + this.goals_conceded);
