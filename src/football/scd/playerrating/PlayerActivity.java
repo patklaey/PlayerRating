@@ -26,13 +26,11 @@ public class PlayerActivity extends Activity
 	
 	// The goals, minutes, and ratings list are all separate lists
 	private List<String> goals;
-	private List<String> minutes;
-	private List<String> ratings;
 	
 	// The adapters for the corresponding listviews
 	private ArrayAdapter<Goal> goals_adapter;
-	private ArrayAdapter<String> minutes_adapter;
-	private ArrayAdapter<String> ratings_adapter;
+	private ArrayAdapter<Minute> minutes_adapter;
+	private ArrayAdapter<Rating> ratings_adapter;
 	
 	// Extra strings to pass to the editProperty activity
 	public static final String EXTRA_EDITABLE_PROPERTY = "football.scd.playerrating.playeractivity.property";
@@ -98,32 +96,14 @@ public class PlayerActivity extends Activity
 														   android.R.id.text1, this.player.getGoals() );
 			((ListView)findViewById(R.id.players_goals_list)).setAdapter(this.goals_adapter);
 			
-			// Set the minutes list
-			this.minutes = new ArrayList<String>();
-			
-			// Fill the minutes list
-			for ( Minute minute : this.player.getMinutes() )
-			{
-				this.minutes.add( minute.toString() );
-			}
-			
 			// Set the minutes list views adapter
-			this.minutes_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, 
-														   android.R.id.text1, this.minutes);
+			this.minutes_adapter = new ArrayAdapter<Minute>(this, android.R.layout.simple_list_item_1, 
+														   android.R.id.text1, this.player.getMinutes() );
 			((ListView)findViewById(R.id.players_minutes_list)).setAdapter(this.minutes_adapter);
-			
-			// Set the ratings list
-			this.ratings = new ArrayList<String>();
-			
-			// Fill the ratings list
-			for ( Rating rating : this.player.getRatings() )
-			{
-				this.ratings.add( rating.toString() );
-			}
-			
+
 			// Set the rangs list views adapter
-			this.ratings_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, 
-														     android.R.id.text1, this.ratings);
+			this.ratings_adapter = new ArrayAdapter<Rating>(this, android.R.layout.simple_list_item_1, 
+														     android.R.id.text1, this.player.getRatings() );
 			((ListView)findViewById(R.id.players_ratings_list)).setAdapter(this.ratings_adapter);
 
 			
