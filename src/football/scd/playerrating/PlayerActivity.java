@@ -2,7 +2,6 @@ package football.scd.playerrating;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import football.scd.playerrating.contents.GamesContent;
 import football.scd.playerrating.contents.PlayersContent;
 import android.os.Bundle;
@@ -31,7 +30,7 @@ public class PlayerActivity extends Activity
 	private List<String> ratings;
 	
 	// The adapters for the corresponding listviews
-	private ArrayAdapter<String> goals_adapter;
+	private ArrayAdapter<Goal> goals_adapter;
 	private ArrayAdapter<String> minutes_adapter;
 	private ArrayAdapter<String> ratings_adapter;
 	
@@ -95,18 +94,17 @@ public class PlayerActivity extends Activity
 			}
 			
 			// Set the goal list views adapter
-			this.goals_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, 
-														   android.R.id.text1, this.goals);
+			this.goals_adapter = new ArrayAdapter<Goal>(this, android.R.layout.simple_list_item_1, 
+														   android.R.id.text1, this.player.getGoals() );
 			((ListView)findViewById(R.id.players_goals_list)).setAdapter(this.goals_adapter);
 			
 			// Set the minutes list
 			this.minutes = new ArrayList<String>();
 			
 			// Fill the minutes list
-			for (Map.Entry<Integer,Integer> entry: this.player.getMinutes().entrySet() )
+			for ( Minute minute : this.player.getMinutes() )
 			{
-				Game game = GamesContent.GAME_MAP.get(entry.getKey());
-				this.minutes.add(game.getOpponent() + ": " + entry.getValue() );
+				this.minutes.add( minute.toString() );
 			}
 			
 			// Set the minutes list views adapter
@@ -118,10 +116,9 @@ public class PlayerActivity extends Activity
 			this.ratings = new ArrayList<String>();
 			
 			// Fill the ratings list
-			for (Map.Entry<Integer,Integer> entry: this.player.getRatings().entrySet() )
+			for ( Rating rating : this.player.getRatings() )
 			{
-				Game game = GamesContent.GAME_MAP.get(entry.getKey());
-				this.ratings.add(game.getOpponent() + ": " + entry.getValue() );
+				this.ratings.add( rating.toString() );
 			}
 			
 			// Set the rangs list views adapter

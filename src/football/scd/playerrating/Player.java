@@ -4,9 +4,7 @@ import android.annotation.SuppressLint;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @SuppressLint("UseSparseArrays")
 public class Player implements Serializable
@@ -21,14 +19,16 @@ public class Player implements Serializable
 	private String name;
 	private String givenname;
 	private List<Goal> goals;
+	private List<Rating> ratings;
+	private List<Minute> minutes;
 	private int current_game_minutes;
 	private int current_game_goals;
 	
 	// Hashmap<GameID,Rating> for the players ratings
-	private HashMap<Integer, Integer> ratings;
+	//private HashMap<Integer, Integer> ratings;
 	
 	// Hashmap<GameID,MinutesPlayed> for the players minutes
-	private HashMap<Integer, Integer> minutes;
+	//private HashMap<Integer, Integer> minutes;
 	
 
 	private boolean playing;
@@ -45,8 +45,8 @@ public class Player implements Serializable
 		this.name = _name;
 		this.givenname = _givenname;
 		this.goals = new ArrayList<Goal>();
-		this.minutes = new HashMap<Integer, Integer>();
-		this.ratings = new HashMap<Integer, Integer>();
+		this.minutes = new ArrayList<Minute>();
+		this.ratings = new ArrayList<Rating>();
 		this.playing = false;
 		this.current_game_minutes = 0;
 		this.current_game_goals = 0;
@@ -62,9 +62,9 @@ public class Player implements Serializable
 		this.ID = _ID;
 		this.givenname = "John";
 		this.name = "Doe";
-		this.minutes = new HashMap<Integer, Integer>();
+		this.minutes = new ArrayList<Minute>();
 		this.goals = new ArrayList<Goal>();
-		this.ratings = new HashMap<Integer, Integer>();
+		this.ratings = new ArrayList<Rating>();
 		this.playing = false;
 		this.current_game_minutes = 0;
 		this.current_game_goals = 0;
@@ -89,7 +89,7 @@ public class Player implements Serializable
 	/**
 	 * @return the ratings
 	 */
-	public HashMap<Integer, Integer> getRatings() 
+	public List<Rating> getRatings() 
 	{
 		return ratings;
 	}
@@ -97,7 +97,7 @@ public class Player implements Serializable
 	/**
 	 * @param ratings the ratings to set
 	 */
-	public void setRatings(HashMap<Integer, Integer> ratings) 
+	public void setRatings(List<Rating> ratings) 
 	{
 		this.ratings = ratings;
 	}
@@ -105,7 +105,7 @@ public class Player implements Serializable
 	/**
 	 * @return the minutes
 	 */
-	public HashMap<Integer, Integer> getMinutes() 
+	public List<Minute> getMinutes() 
 	{
 		return minutes;
 	}
@@ -113,7 +113,7 @@ public class Player implements Serializable
 	/**
 	 * @param minutes the minutes to set
 	 */
-	public void setMinutes(HashMap<Integer, Integer> minutes) 
+	public void setMinutes(List<Minute> minutes) 
 	{
 		this.minutes = minutes;
 	}
@@ -221,8 +221,8 @@ public class Player implements Serializable
 		int total_minutes = 0;
 		
 		// Sum up the minutes played
-		for (Map.Entry<Integer, Integer> entry : this.getMinutes().entrySet())
-			total_minutes += entry.getValue();
+		for (Minute minute : this.getMinutes() )
+			total_minutes += minute.getMinutes();
 		
 		// And return them
 		return total_minutes;
@@ -238,8 +238,8 @@ public class Player implements Serializable
 		double average_rating = 0;
 		
 		// Sum up the ratings
-		for (Map.Entry<Integer, Integer> entry : this.getRatings().entrySet())
-			average_rating += entry.getValue();
+		for (Rating rating : this.getRatings() )
+			average_rating += rating.getRating();
 		
 		// And divide it by the number of ratings
 		average_rating = average_rating / this.getRatings().size();

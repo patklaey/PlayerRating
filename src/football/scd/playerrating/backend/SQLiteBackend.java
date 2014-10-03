@@ -1,15 +1,16 @@
 package football.scd.playerrating.backend;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import football.scd.playerrating.Game;
 import football.scd.playerrating.Goal;
 import football.scd.playerrating.MainActivity;
+import football.scd.playerrating.Minute;
 import football.scd.playerrating.Player;
+import football.scd.playerrating.Rating;
 import football.scd.playerrating.contents.PlayersContent;
+
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
@@ -169,19 +170,25 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 		cursor = db.rawQuery(query, null);
 		
 		// Create the hashmaps
-		HashMap<Integer, Integer> ratings = new HashMap<Integer, Integer>();
-		HashMap<Integer, Integer> minutes = new HashMap<Integer, Integer>();
+		List<Rating> ratings = new ArrayList<Rating>();
+		List<Minute> minutes = new ArrayList<Minute>();
 		
 		// If the player already played in games, get the data
 		if ( cursor.moveToFirst() )
 		{
 			do
 			{
-				// Add the game id and the minutes to the minutes hash
-				minutes.put(cursor.getInt(INDEX_PLAYED_GAME_ID), cursor.getInt(INDEX_PLAYED_TIME));
+				// Get the different values
+				int game_id = cursor.getInt(INDEX_PLAYED_GAME_ID);
+				int time = cursor.getInt(INDEX_PLAYED_TIME);
+				int rating = cursor.getInt(INDEX_PLAYED_RATING);
 				
-				// Add the game id and the rating to the ratings hash
-				ratings.put(cursor.getInt(INDEX_PLAYED_GAME_ID), cursor.getInt(INDEX_PLAYED_RATING));
+				// Add the corresponding minute object to the list
+				minutes.add( new Minute(ID, game_id, time) );
+				
+				// Add the corresponding rating object to the list
+				ratings.add( new Rating(ID, game_id, rating) );
+				
 			} while ( cursor.moveToNext() );
 		}
 		
@@ -387,13 +394,20 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 		}
 		
 		// Insert the players minutes and ratings
-		for (Map.Entry<Integer, Integer> entry : player.getMinutes().entrySet())
+		for ( Minute minute : player.getMinutes() )
 		{
 			ContentValues played = new ContentValues();
-			played.put(KEY_PLAYER_ID, player.getID());
-			played.put(KEY_GAME_ID, entry.getKey());
-			played.put(KEY_TIME, entry.getValue());
-			played.put(KEY_RATING, player.getRatings().get(entry.getKey()));
+			played.put(KEY_PLAYER_ID, player.getID() );
+			played.put(KEY_GAME_ID, minute.getGameId() );
+			played.put(KEY_TIME, minute.getMinutes() );
+			
+			// Search for the corresponding rating object and add the rating 
+			// to the value set
+			for ( Rating rating : player.getRatings() )
+			{
+				if ( rating.getGameId() == minute.getGameId() )
+					played.put(KEY_RATING, rating.getRating() );
+			}
 			
 			// Add the entry to the db
 			db.insert(PLAYED_TABLE, null, played);
@@ -421,9 +435,6 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 				
 				// Add the entry to the db
 				db.insert(GOALS_TABLE, null, pl_goal);
-			} else
-			{
-				// TODO update all goals here as minute of goal might have changed!
 			}
 		}	
 		

@@ -65,11 +65,11 @@ public class EditPlayerProperty extends Activity {
 				this.minutes = new ArrayList<String>();
 				
 				// Fill the minutes list
-				for (Map.Entry<Integer,Integer> entry: this.player.getMinutes().entrySet() )
+				for ( Minute minute : this.player.getMinutes() )
 				{
-					Game game = GamesContent.GAME_MAP.get(entry.getKey());
+					Game game = GamesContent.GAME_MAP.get( minute.getGameId() );
 					EditPlayerProperty.games.add( game );
-					this.minutes.add(game.getOpponent() + ": " + entry.getValue() );
+					this.minutes.add(game.getOpponent() + ": " + minute.toString() );
 				}
 				
 				
@@ -86,11 +86,11 @@ public class EditPlayerProperty extends Activity {
 				this.ratings = new ArrayList<String>();
 				
 				// Fill the ratings list
-				for (Map.Entry<Integer,Integer> entry: this.player.getRatings().entrySet() )
+				for ( Rating rating : this.player.getRatings() )
 				{
-					Game game = GamesContent.GAME_MAP.get(entry.getKey());
+					Game game = GamesContent.GAME_MAP.get( rating.getGameId() );
 					EditPlayerProperty.games.add( game );
-					this.ratings.add(game.getOpponent() + ": " + entry.getValue() );
+					this.ratings.add(game.getOpponent() + ": " + rating.toString() );
 				}
 				
 				// Set the players ratings as array adapter content

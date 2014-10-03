@@ -224,10 +224,20 @@ public class Game implements Serializable
 		 */
 		for( Player player : PlayersContent.PLAYERS )
 		{
-			if ( !player.getRatings().containsKey( this.getID() ) )
+			Rating rating = null;
+			
+			// Go through all the players rating and check if the current game
+			// is present
+			for (Rating tmp : player.getRatings() ) 
+			{
+				if ( tmp.getGameId() == this.getID() )
+					rating = tmp;
+			}
+			
+			if ( rating == null )
 				continue;
 			
-			sum += player.getRatings().get( this.getID() );
+			sum += rating.getRating();
 			counter++;
 		}
 		
