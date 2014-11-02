@@ -10,6 +10,7 @@ import football.scd.playerrating.contents.PlayersContent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,6 +34,9 @@ public class RatePlayers extends Activity
 		setContentView(R.layout.activity_rate_players);
 		// Show the Up button in the action bar.
 		setupActionBar();
+		
+		// Request portrait orientation
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		
 		// Create an empty player list
 		this.player_list = new ArrayList<Player>();
