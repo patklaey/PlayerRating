@@ -81,6 +81,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="football.scd.playerrating.PlayerActivity" />
         </activity>
+        <activity
+            android:name="football.scd.playerrating.EditGoal"
+            android:label="@string/title_activity_edit_goal"
+            android:parentActivityName="football.scd.playerrating.EditPlayerProperty" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="football.scd.playerrating.EditPlayerProperty" />
+        </activity>
     </application>
 
 </manifest>

@@ -67,5 +67,8 @@
     <string name="title_activity_edit_player_property">EditPlayerProperty</string>
     <string name="Add">Add</string>
     <string name="SelectPropertyToEdit">or select a property from below to edit</string>
+    <string name="title_activity_edit_goal">EditGoal</string>
+    <string name="Player">Player</string>
+    <string name="Minute">Minute</string>
 
 </resources>

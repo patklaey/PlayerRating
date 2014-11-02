@@ -17,7 +17,7 @@
         android:text="@string/Add" />
 
     <ListView
-        android:id="@+id/propertyList"
+        android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/addProperty"
