@@ -332,26 +332,24 @@ public class GameActivity extends Activity
 	}
 
 	public void increaseHomeScore(View view)
-	{	
-		// Get the current minute
-		int minute = Integer.parseInt((this.chrono.getText().toString().split(":"))[0]);
-				
-		// Check if it is the second half
-		if ( ! this.first_half )
-			minute += MainActivity.HALF_TIME_DURATION;
-		
-		// Add one to the minutes
-		minute++;
-				
+	{			
 		// If it is a home game, select the scorer
 		if ( this.game.isHomeGame() )
 		{
 			Intent scorer = new Intent(this,GoalScorer.class);
-			scorer.putExtra(GameActivity.EXTRA_GAME_TIME, minute);
-			scorer.putExtra(GameActivity.EXTRA_GAME_ID, this.game.getID() );
 			this.startActivityForResult(scorer, GameActivity.SELF_GOAL_SCORED);
 		} else
 		{
+    		// Get the current minute
+    		int minute = Integer.parseInt((this.chrono.getText().toString().split(":"))[0]);
+    				
+    		// Check if it is the second half
+    		if ( ! this.first_half )
+    			minute += MainActivity.HALF_TIME_DURATION;
+    		
+    		// Add one to the minutes
+    		minute++;
+    		
 			// Otherwise just add the minute and a dummy player
 			int id = MainActivity.next_free_goal_id++;
 			this.game.getGoalsConceded().add(new Goal(id, minute, MainActivity.GOAL_AGAINS_PLAYER , this.game.getID() ) );
@@ -368,26 +366,24 @@ public class GameActivity extends Activity
 	}
 	
 	public void increaseAwayScore(View view)
-	{	
-		// Get the current minute
-		int minute = Integer.parseInt((this.chrono.getText().toString().split(":"))[0]);
-				
-		// Check if it is the second half
-		if ( ! this.first_half )
-			minute += MainActivity.HALF_TIME_DURATION;
-		
-		// Add one to the minutes
-		minute++;
-		
+	{		
 		// If it is not a home game, select the scorer
 		if ( ! this.game.isHomeGame() )
 		{
 			Intent scorer = new Intent(this,GoalScorer.class);
-			scorer.putExtra(GameActivity.EXTRA_GAME_TIME, minute );
-			scorer.putExtra(GameActivity.EXTRA_GAME_ID, this.game.getID() );
 			this.startActivityForResult(scorer, GameActivity.SELF_GOAL_SCORED);
 		} else
 		{
+			// Get the current minute
+			int minute = Integer.parseInt((this.chrono.getText().toString().split(":"))[0]);
+					
+			// Check if it is the second half
+			if ( ! this.first_half )
+				minute += MainActivity.HALF_TIME_DURATION;
+			
+			// Add one to the minutes
+			minute++;
+			
 			// Otherwise just add the minute and a dummy player
 			int id = MainActivity.next_free_goal_id++;
 			this.game.getGoalsConceded().add(new Goal(id, minute, MainActivity.GOAL_AGAINS_PLAYER, this.game.getID() ));
@@ -547,7 +543,28 @@ public class GameActivity extends Activity
     	// goal to the goals scored list
         if ( request_code == GameActivity.SELF_GOAL_SCORED && result_code == RESULT_OK )
         {
-        	Goal goal = (Goal) data.getSerializableExtra(GoalScorer.EXTRA_GOAL);
+        	Player returned = (Player) data.getSerializableExtra(GoalScorer.EXTRA_PLAYER);
+        	
+        	// Get the player from the map to not edit a copy of the player
+        	Player player = PlayersContent.PLAYER_MAP.get(returned.getID());
+    		player.setCurrentGameGoals( player.getCurrentGameGoals() + 1 );
+    		
+    		// Get the current minute
+    		int minute = Integer.parseInt((this.chrono.getText().toString().split(":"))[0]);
+    				
+    		// Check if it is the second half
+    		if ( ! this.first_half )
+    			minute += MainActivity.HALF_TIME_DURATION;
+    		
+    		// Add one to the minutes
+    		minute++;
+    		
+    		// Create a new goal object to return
+    		Goal goal = new Goal(MainActivity.next_free_goal_id++, minute, player, this.game.getID() );
+    		
+    		// Add the goal to the player
+    		player.addGoal(goal);
+        	
         	this.game.addGoal(goal);
 			((ArrayAdapter<Goal>)((ListView)findViewById(R.id.home_goal_list_view)).getAdapter()).notifyDataSetChanged();
 			this.game.setSelf_score( this.game.getSelf_score() + 1 );

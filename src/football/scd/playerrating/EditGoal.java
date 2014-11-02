@@ -1,6 +1,5 @@
 package football.scd.playerrating;
 
-import football.scd.playerrating.contents.PlayersContent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;

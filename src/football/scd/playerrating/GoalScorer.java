@@ -13,11 +13,9 @@ import android.widget.ListView;
 public class GoalScorer extends ListActivity 
 {
 
-	public static final String EXTRA_GOAL = "football.scd.playerrating.GoalScorer.Goal";
+	public static final String EXTRA_PLAYER = "football.scd.playerrating.GoalScorer.player";
 	
 	private ArrayAdapter<Player> adapter;
-	private int time;
-	private int game_id;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -26,9 +24,6 @@ public class GoalScorer extends ListActivity
 		
 		// Show the Up button in the action bar.
 		setupActionBar();
-		
-		this.time = this.getIntent().getIntExtra(GameActivity.EXTRA_GAME_TIME, 0);
-		this.game_id = this.getIntent().getIntExtra(GameActivity.EXTRA_GAME_ID, 0);
 		
 		this.adapter = new ArrayAdapter<Player>(this,
 							android.R.layout.simple_list_item_1, android.R.id.text1,
@@ -81,17 +76,10 @@ public class GoalScorer extends ListActivity
 
 		// Add the current goal to the selected player
 		Player player = PlayersContent.PLAYERS.get(position);
-		player.setCurrentGameGoals( player.getCurrentGameGoals() + 1 );
-		
-		// Create a new goal object to return
-		Goal goal = new Goal(MainActivity.next_free_goal_id++, this.time, player, this.game_id );
-		
-		// Add the goal to the player
-		player.addGoal(goal);
 		
 		// Set the result as ok and pass the game back
 		Intent intent = new Intent();
-		intent.putExtra(GoalScorer.EXTRA_GOAL, goal );
+		intent.putExtra(GoalScorer.EXTRA_PLAYER, player );
 		setResult(RESULT_OK, intent);
 		finish();
 	}
