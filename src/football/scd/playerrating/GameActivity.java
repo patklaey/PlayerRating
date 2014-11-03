@@ -336,7 +336,7 @@ public class GameActivity extends Activity
 		// If it is a home game, select the scorer
 		if ( this.game.isHomeGame() )
 		{
-			Intent scorer = new Intent(this,GoalScorer.class);
+			Intent scorer = new Intent(this,SelectPlayer.class);
 			this.startActivityForResult(scorer, GameActivity.SELF_GOAL_SCORED);
 		} else
 		{
@@ -370,7 +370,7 @@ public class GameActivity extends Activity
 		// If it is not a home game, select the scorer
 		if ( ! this.game.isHomeGame() )
 		{
-			Intent scorer = new Intent(this,GoalScorer.class);
+			Intent scorer = new Intent(this,SelectPlayer.class);
 			this.startActivityForResult(scorer, GameActivity.SELF_GOAL_SCORED);
 		} else
 		{
@@ -543,7 +543,7 @@ public class GameActivity extends Activity
     	// goal to the goals scored list
         if ( request_code == GameActivity.SELF_GOAL_SCORED && result_code == RESULT_OK )
         {
-        	Player returned = (Player) data.getSerializableExtra(GoalScorer.EXTRA_PLAYER);
+        	Player returned = (Player) data.getSerializableExtra(SelectPlayer.EXTRA_PLAYER);
         	
         	// Get the player from the map to not edit a copy of the player
         	Player player = PlayersContent.PLAYER_MAP.get(returned.getID());

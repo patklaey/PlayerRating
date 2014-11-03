@@ -584,6 +584,10 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 	    // Delete all the players ratings and minutes
 	    success = db.delete(PLAYED_TABLE, KEY_PLAYER_ID + " = ?", 
 	    		new String[] { String.valueOf( ID ) } );
+
+	    // Delete all the players goals
+	    success = db.delete(GOALS_TABLE, KEY_PLAYER_ID + " = ?", 
+	    		new String[] { String.valueOf( ID ) } );
 	    
 	    db.close();
 	    

@@ -78,6 +78,7 @@
         android:layout_alignBaseline="@+id/player_textview"
         android:layout_alignBottom="@+id/player_textview"
         android:layout_alignParentRight="true"
+        android:onClick="changePlayer"
         android:text="@string/Edit" />
 
 </RelativeLayout>

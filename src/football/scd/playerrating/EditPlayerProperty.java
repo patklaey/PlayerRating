@@ -27,6 +27,7 @@ public class EditPlayerProperty extends ListActivity {
 	// The property
 	private int property;
 	private int property_position;
+	private Object old_property;
 
 	// The extra to pass to the edit activity
 	public static final String EXTRA_PROPERTY = "football.scd.playerrating.editplayerproperty.extra_property";
@@ -161,6 +162,7 @@ public class EditPlayerProperty extends ListActivity {
 				// Start the EditGoal activity
 				Intent intent = new Intent(this, EditGoal.class);
 				intent.putExtra(EditPlayerProperty.EXTRA_PROPERTY, this.goals.get(position) );
+				this.old_property = this.goals.get(position);
 				this.property_position = position;
 				this.startActivityForResult(intent, EditPlayerProperty.EDIT_RESULT);
 				
@@ -199,15 +201,36 @@ public class EditPlayerProperty extends ListActivity {
     				
     				// Replace the goal in the players goal list
     				Goal goal = (Goal) data.getSerializableExtra(EditPlayerProperty.EXTRA_PROPERTY);
-    				List<Goal> goal_list = this.player.getGoals();
-    				goal_list.set(this.property_position, goal);
-    				this.player.setGoals(goal_list);
     				
-    				PlayersContent.updatePlayer( this.player );
-    				
-    				MainActivity.getBackend().updatePlayer( this.player );
-    				
-    				break;
+    				// Check if it is the same player
+    				if ( ((Goal)this.old_property).getPlayer() == goal.getPlayer() )
+    				{
+	    				List<Goal> goal_list = this.player.getGoals();
+	    				goal_list.set(this.property_position, goal);
+	    				this.player.setGoals(goal_list);
+	    				PlayersContent.updatePlayer( this.player );
+	    				MainActivity.getBackend().updatePlayer( this.player );
+	    				
+	    				break;
+    				} else
+    				{
+    					// Remove the goal from the old player
+    					List<Goal> goal_list = this.player.getGoals();
+    					goal_list.remove(this.property_position);
+    					this.player.setGoals(goal_list);
+	    				PlayersContent.updatePlayer( this.player );
+	    				MainActivity.getBackend().updatePlayer( this.player );
+	    				
+	    				// Add the goal to the new player
+	    				Player new_scorer = PlayersContent.PLAYER_MAP.get( goal.getPlayer().getID() );
+	    				List<Goal> new_goal_list = new_scorer.getGoals();
+	    				new_goal_list.add(goal);
+	    				new_scorer.setGoals(new_goal_list);
+	    				PlayersContent.updatePlayer( new_scorer );
+	    				MainActivity.getBackend().updatePlayer( new_scorer );
+	    				
+	    				break;
+    				}
     				
     			case PlayerActivity.EXTRA_EDITABLE_PROPERTY_MINUTES :
 

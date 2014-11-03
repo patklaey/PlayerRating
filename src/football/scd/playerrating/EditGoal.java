@@ -13,6 +13,7 @@ import android.support.v4.app.NavUtils;
 public class EditGoal extends Activity 
 {
 
+	private static final int CHANGE_SCORER = 1;
 	private Goal goal;
 	private EditText goal_minute_view;
 	private Player goal_scorer;
@@ -46,12 +47,20 @@ public class EditGoal extends Activity
 	{
 		// Set the goals minute
 		this.goal.setMinute( Integer.valueOf( this.goal_minute_view.getText().toString() ) );
+		this.goal.setPlayer( this.goal_scorer );
 		
-		// Set the result as ok and pass the game back
+		// Set the result as OK and pass the game back
 		Intent intent = new Intent();
 		intent.putExtra( EditPlayerProperty.EXTRA_PROPERTY, this.goal );
 		setResult(RESULT_OK, intent);
 		finish();
+	}
+	
+	public void changePlayer(View view)
+	{
+		// Get the player
+		Intent scorer = new Intent(this,SelectPlayer.class);
+		this.startActivityForResult(scorer, EditGoal.CHANGE_SCORER);
 	}
 
 	/**
@@ -86,5 +95,20 @@ public class EditGoal extends Activity
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+	@Override
+    protected void onActivityResult(int request_code, int result_code, Intent data)
+    {
+    	super.onActivityResult(request_code, result_code, data);
+    	
+        // If it was a SELF_GOAL_SCORED activity and it returned ok, add the
+    	// goal to the goals scored list
+        if ( request_code == EditGoal.CHANGE_SCORER && result_code == RESULT_OK )
+        {
+        	Player returned = (Player) data.getSerializableExtra(SelectPlayer.EXTRA_PLAYER);
+        	this.goal_scorer = returned;
+        	this.goal_scorer_view.setText( this.goal_scorer.getGivenname() + " " + this.goal_scorer.getName() );	
+        }
+    }
 
 }

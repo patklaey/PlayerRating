@@ -58,7 +58,7 @@
                 android:value="football.scd.playerrating.GameActivity" />
         </activity>
         <activity
-            android:name="football.scd.playerrating.GoalScorer"
+            android:name="football.scd.playerrating.SelectPlayer"
             android:label="@string/title_activity_goal_scorer"
             android:parentActivityName="football.scd.playerrating.GameActivity" >
             <meta-data
