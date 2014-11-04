@@ -37,6 +37,7 @@ public class PlayerActivity extends Activity
 	public static final int EXTRA_EDITABLE_PROPERTY_GOALS = 0;
 	public static final int EXTRA_EDITABLE_PROPERTY_MINUTES = 1;
 	public static final int EXTRA_EDITABLE_PROPERTY_RATINGS = 2;
+	public static final int EXTRA_EDIT_FINISHED = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -80,41 +81,9 @@ public class PlayerActivity extends Activity
 		{
 			// Set the fields
 			this.player = (Player) intent.getSerializableExtra(MainActivity.EXTRA_PLAYER);
-	
-			// Set the goals list
 			this.goals = new ArrayList<String>();
-			
-			// Fill the goals list
-			for (Goal goal : this.player.getGoals())
-			{
-				Game game = GamesContent.GAME_MAP.get(goal.getGameId());
-				this.goals.add(game.getOpponent() + ": " + goal.toString() );
-			}
-			
-			// Set the goal list views adapter
-			this.goals_adapter = new ArrayAdapter<Goal>(this, android.R.layout.simple_list_item_1, 
-														   android.R.id.text1, this.player.getGoals() );
-			((ListView)findViewById(R.id.players_goals_list)).setAdapter(this.goals_adapter);
-			
-			// Set the minutes list views adapter
-			this.minutes_adapter = new ArrayAdapter<Minute>(this, android.R.layout.simple_list_item_1, 
-														   android.R.id.text1, this.player.getMinutes() );
-			((ListView)findViewById(R.id.players_minutes_list)).setAdapter(this.minutes_adapter);
-
-			// Set the rangs list views adapter
-			this.ratings_adapter = new ArrayAdapter<Rating>(this, android.R.layout.simple_list_item_1, 
-														     android.R.id.text1, this.player.getRatings() );
-			((ListView)findViewById(R.id.players_ratings_list)).setAdapter(this.ratings_adapter);
-
-			
-			// Set the corresponding text fields
-			((EditText)findViewById(R.id.player_edit_name)).setText(this.player.getName() );
-			((EditText)findViewById(R.id.player_edit_givenname)).setText(this.player.getGivenname());
-			((TextView)findViewById(R.id.player_total_goals)).setText("" + this.player.getTotalGoals() );
-			
-			// Set the corresponding text fields
-			((TextView)findViewById(R.id.player_total_minutes)).setText("" + this.player.getTotalMinutes());
-			((TextView)findViewById(R.id.player_average_rating)).setText("" + this.player.getAverageRating());
+	
+			setupUI();
 			
 			// It is not a new player
 			this.new_player = false;
@@ -150,6 +119,48 @@ public class PlayerActivity extends Activity
 		
 	}
 	
+	@SuppressWarnings("unchecked")
+	private void setupUI()
+	{
+		// Set the goals list
+		this.goals.clear();
+		
+		// Fill the goals list
+		for (Goal goal : this.player.getGoals())
+		{
+			Game game = GamesContent.GAME_MAP.get(goal.getGameId());
+			this.goals.add(game.getOpponent() + ": " + goal.toString() );
+		}
+		
+		// Set the goal list views adapter
+		this.goals_adapter = new ArrayAdapter<Goal>(this, android.R.layout.simple_list_item_1, 
+													   android.R.id.text1, this.player.getGoals() );
+		((ListView)findViewById(R.id.players_goals_list)).setAdapter(this.goals_adapter);
+		((ArrayAdapter<Goal>)((ListView)findViewById(R.id.players_goals_list)).getAdapter()).notifyDataSetChanged();
+		
+		// Set the minutes list views adapter
+		this.minutes_adapter = new ArrayAdapter<Minute>(this, android.R.layout.simple_list_item_1, 
+													   android.R.id.text1, this.player.getMinutes() );
+		((ListView)findViewById(R.id.players_minutes_list)).setAdapter(this.minutes_adapter);
+		((ArrayAdapter<Minute>)((ListView)findViewById(R.id.players_minutes_list)).getAdapter()).notifyDataSetChanged();
+
+
+		// Set the ratings list views adapter
+		this.ratings_adapter = new ArrayAdapter<Rating>(this, android.R.layout.simple_list_item_1, 
+													     android.R.id.text1, this.player.getRatings() );
+		((ListView)findViewById(R.id.players_ratings_list)).setAdapter(this.ratings_adapter);
+		((ArrayAdapter<Rating>)((ListView)findViewById(R.id.players_ratings_list)).getAdapter()).notifyDataSetChanged();
+		
+		// Set the corresponding text fields
+		((EditText)findViewById(R.id.player_edit_name)).setText(this.player.getName() );
+		((EditText)findViewById(R.id.player_edit_givenname)).setText(this.player.getGivenname());
+		((TextView)findViewById(R.id.player_total_goals)).setText("" + this.player.getTotalGoals() );
+		
+		// Set the corresponding text fields
+		((TextView)findViewById(R.id.player_total_minutes)).setText("" + this.player.getTotalMinutes());
+		((TextView)findViewById(R.id.player_average_rating)).setText("" + this.player.getAverageRating());
+	}
+	
 	// Cancel the editing
 	public void cancelEdit(View view)
 	{
@@ -175,7 +186,7 @@ public class PlayerActivity extends Activity
 		Intent intent = new Intent(this, EditPlayerProperty.class);
 		intent.putExtra(MainActivity.EXTRA_PLAYER, this.player);
 		intent.putExtra(PlayerActivity.EXTRA_EDITABLE_PROPERTY,PlayerActivity.EXTRA_EDITABLE_PROPERTY_GOALS);
-		this.startActivity(intent);
+		this.startActivityForResult(intent, EXTRA_EDIT_FINISHED);
 	}
 	
 	// Edit the players goals
@@ -281,5 +292,18 @@ public class PlayerActivity extends Activity
 		}
 		
 	}
-
+	
+	@Override
+    protected void onActivityResult(int request_code, int result_code, Intent data)
+    {
+    	super.onActivityResult(request_code, result_code, data);
+    	
+        // 
+        if ( request_code == PlayerActivity.EXTRA_EDIT_FINISHED && result_code == RESULT_OK )
+        {
+        	int player_id = (int) data.getIntExtra(EditPlayerProperty.EXTRA_PROPERTY_PLAYER_ID, 0);
+        	this.player = PlayersContent.PLAYER_MAP.get(player_id);
+        	this.setupUI();
+        }
+    }
 }

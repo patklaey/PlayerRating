@@ -70,5 +70,6 @@
     <string name="title_activity_edit_goal">EditGoal</string>
     <string name="Player">Player</string>
     <string name="Minute">Minute</string>
+    <string name="done">Done</string>
 
 </resources>

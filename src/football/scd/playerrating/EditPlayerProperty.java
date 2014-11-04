@@ -32,6 +32,7 @@ public class EditPlayerProperty extends ListActivity {
 	// The extra to pass to the edit activity
 	public static final String EXTRA_PROPERTY = "football.scd.playerrating.editplayerproperty.extra_property";
 	public static final int EDIT_RESULT = 1;
+	public static final String EXTRA_PROPERTY_PLAYER_ID = "football.scd.playerrating.editplayerproperty.extra_property_player_id";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -48,22 +49,32 @@ public class EditPlayerProperty extends ListActivity {
 		// Get the player which is passed
 		this.player = (Player) this.getIntent().getSerializableExtra(MainActivity.EXTRA_PLAYER);
 		
+		// Set the adapter content
+		this.setAdapterContent();
+		
+		// Show the Up button in the action bar.
+		setupActionBar();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void setAdapterContent()
+	{
 		// Setup the list view adapter according to the property which is to 
 		// edit
 		switch ( this.property ) 
 		{
 			case PlayerActivity.EXTRA_EDITABLE_PROPERTY_GOALS :
-				
+						
 				// Set the minutes list
 				this.goals_string = new ArrayList<String>();
-				
+						
 				// Fill the goals list
 				for (Goal goal : this.player.getGoals())
 				{
 					this.goals.add( goal );
 					this.goals_string.add(GamesContent.GAME_MAP.get(goal.getGameId()).getOpponent() + ": " + goal.toString() );
 				}
-				
+						
 				// Set the players goals as array adapter content
 				this.goal_adapter = new ArrayAdapter<String>(this,
 						android.R.layout.simple_list_item_1,android.R.id.text1,
@@ -71,6 +82,7 @@ public class EditPlayerProperty extends ListActivity {
 				
 				// Set the listvies adapter
 				((ListView)findViewById(android.R.id.list)).setAdapter(this.goal_adapter);
+				((ArrayAdapter<String>)((ListView)findViewById(android.R.id.list)).getAdapter()).notifyDataSetChanged();
 				
 				break;
 				
@@ -101,20 +113,15 @@ public class EditPlayerProperty extends ListActivity {
 			default:
 				break;
 		}
-		
-//		// And create a new onitemclick listener for the list view
-//		((ListView)findViewById(R.id.propertyList)).setOnItemClickListener(new OnItemClickListener()
-//		{
-//			// Override the onItemClick function
-//			@Override
-//			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-//			{
-//				
-//			}
-//		});
-		
-		// Show the Up button in the action bar.
-		setupActionBar();
+	}
+	
+	public void finishEdit(View view) 
+	{
+		// Set the result as OK and pass the player back
+		Intent intent = new Intent();
+		intent.putExtra( EditPlayerProperty.EXTRA_PROPERTY_PLAYER_ID, this.player.getID() );
+		setResult(RESULT_OK, intent);
+		finish();
 	}
 
 	/**
@@ -191,6 +198,7 @@ public class EditPlayerProperty extends ListActivity {
     protected void onActivityResult(int request_code, int result_code, Intent data)
     {
     	super.onActivityResult(request_code, result_code, data);
+    	this.setAdapterContent();
     	
         // 
         if ( request_code == EditPlayerProperty.EDIT_RESULT && result_code == RESULT_OK )
@@ -211,7 +219,6 @@ public class EditPlayerProperty extends ListActivity {
 	    				PlayersContent.updatePlayer( this.player );
 	    				MainActivity.getBackend().updatePlayer( this.player );
 	    				
-	    				break;
     				} else
     				{
     					// Remove the goal from the old player
@@ -228,9 +235,10 @@ public class EditPlayerProperty extends ListActivity {
 	    				new_scorer.setGoals(new_goal_list);
 	    				PlayersContent.updatePlayer( new_scorer );
 	    				MainActivity.getBackend().updatePlayer( new_scorer );
-	    				
-	    				break;
     				}
+    				
+    				this.setAdapterContent();
+    				break;
     				
     			case PlayerActivity.EXTRA_EDITABLE_PROPERTY_MINUTES :
 
