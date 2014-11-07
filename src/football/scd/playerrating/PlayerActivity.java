@@ -195,7 +195,7 @@ public class PlayerActivity extends Activity
 		Intent intent = new Intent(this, EditPlayerProperty.class);
 		intent.putExtra(MainActivity.EXTRA_PLAYER, this.player);
 		intent.putExtra(PlayerActivity.EXTRA_EDITABLE_PROPERTY,PlayerActivity.EXTRA_EDITABLE_PROPERTY_MINUTES);
-		this.startActivity(intent);
+		this.startActivityForResult(intent, EXTRA_EDIT_FINISHED);
 	}
 	
 	// Edit the players goals
@@ -204,7 +204,7 @@ public class PlayerActivity extends Activity
 		Intent intent = new Intent(this, EditPlayerProperty.class);
 		intent.putExtra(MainActivity.EXTRA_PLAYER, this.player);
 		intent.putExtra(PlayerActivity.EXTRA_EDITABLE_PROPERTY,PlayerActivity.EXTRA_EDITABLE_PROPERTY_RATINGS);
-		this.startActivity(intent);
+		this.startActivityForResult(intent, EXTRA_EDIT_FINISHED);
 	}
 	
 	// Save the players values
@@ -228,7 +228,8 @@ public class PlayerActivity extends Activity
 			// And save it to the database
 			MainActivity.getBackend().updatePlayer(this.player);
 		}
-				
+		
+		PlayersFragment.updateList();
 		finish();
 	}
 	

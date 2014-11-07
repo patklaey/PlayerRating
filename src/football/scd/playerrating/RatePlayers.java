@@ -125,10 +125,10 @@ public class RatePlayers extends Activity
 		Player player = this.player_list.get(this.player_to_rate);
 		
 		// Add the players current minutes to the list of minutes
-		player.getMinutes().add( new Minute(player.getID(), this.game_id, player.getCurrentGameMinutes()) );
+		player.addMinute( new Minute(player.getID(), this.game_id, player.getCurrentGameMinutes()) );
 		
 		// Add the players rating  to the list of ratings
-		player.getRatings().add( new Rating(player.getID(), this.game_id, rating) );
+		player.addRating( new Rating(player.getID(), this.game_id, rating) );
 		
 		// Update the player locally
 		PlayersContent.updatePlayer(player);

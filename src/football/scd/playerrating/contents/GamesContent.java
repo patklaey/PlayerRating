@@ -27,7 +27,7 @@ public class GamesContent
 	{
 		GAMES.add(game);
 		GAME_MAP.put(game.getID(), game);
-		System.out.println("GameID: " + game.getID() );
+		//GamesFragment.updateList();
 	}
 
 	public static void addGames(List<Game> games)

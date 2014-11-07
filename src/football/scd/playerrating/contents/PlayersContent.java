@@ -28,7 +28,7 @@ public class PlayersContent
 		// Add the player to the local maps
 		PLAYERS.add(player);
 		PLAYER_MAP.put(player.getID(), player);
-		System.out.println("Player ID: " + player.getID());
+		//PlayersFragment.updateList();
 	}
 	
 	public static void updatePlayer(Player player)

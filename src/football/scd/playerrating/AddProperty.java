@@ -88,17 +88,36 @@ public class AddProperty extends Activity
 		Intent intent = new Intent();
 		
 		// Check which property it is and act accordingly
+		int minutes;
 		switch ( EditPlayerProperty.getProperty() )
 		{
 			case PlayerActivity.EXTRA_EDITABLE_PROPERTY_GOALS:
 				
 				// Create a new goal and add it to the intent
-				int minutes = Integer.valueOf( ((TextView) findViewById(R.id.add_property_property_input )).getText().toString() );
+				minutes = Integer.valueOf( ((TextView) findViewById(R.id.add_property_property_input )).getText().toString() );
 				Goal goal = new Goal(MainActivity.next_free_goal_id, minutes, new Player(0), this.game.getID() );
 				intent.putExtra(AddProperty.EXTRA_NEW_PROPERTY, goal);
 				
 				break;
+				
+			case PlayerActivity.EXTRA_EDITABLE_PROPERTY_MINUTES:
+				
+				// Create a new minute object and add it to the intent
+				minutes = Integer.valueOf( ((TextView) findViewById(R.id.add_property_property_input )).getText().toString() );
+				Minute minute = new Minute(0, this.game.getID(), minutes);
+				intent.putExtra(AddProperty.EXTRA_NEW_PROPERTY, minute);
+				
+				break;
 	
+			case PlayerActivity.EXTRA_EDITABLE_PROPERTY_RATINGS:
+				
+				// Create a new rating and add it to the intent
+				int rating_value = Integer.valueOf( ((TextView) findViewById(R.id.add_property_property_input )).getText().toString() );
+				Rating rating = new Rating(0, this.game.getID(), rating_value);
+				intent.putExtra(AddProperty.EXTRA_NEW_PROPERTY, rating);
+				
+				break;
+				
 			default:
 				break;
 		}

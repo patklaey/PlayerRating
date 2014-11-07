@@ -48,7 +48,8 @@ public class EditPlayerProperty extends ListActivity {
 		this.goals = new ArrayList<Goal>();
 		
 		// Get the player which is passed
-		this.player = (Player) this.getIntent().getSerializableExtra(MainActivity.EXTRA_PLAYER);
+		int player_id = ((Player) this.getIntent().getSerializableExtra(MainActivity.EXTRA_PLAYER)).getID();
+		this.player = PlayersContent.PLAYER_MAP.get(player_id);
 		
 		// Set the adapter content
 		this.setAdapterContent();
@@ -270,18 +271,34 @@ public class EditPlayerProperty extends ListActivity {
 						// Get the goal and add the correct player
 						Goal goal = (Goal) data.getSerializableExtra(AddProperty.EXTRA_NEW_PROPERTY);
 						goal.setPlayer(this.player);
-						
-						// Add the goal to the players goal list and update the
-						// player
 						this.player.addGoal(goal);
-	    				PlayersContent.updatePlayer( this.player );
-	    				MainActivity.getBackend().updatePlayer( this.player );
 						
 	    				break;
+	    				
+					case PlayerActivity.EXTRA_EDITABLE_PROPERTY_MINUTES:
+						
+						// Get the minutes object and add the correct player
+						Minute minute = (Minute) data.getSerializableExtra(AddProperty.EXTRA_NEW_PROPERTY);
+						minute.setPlayerId(this.player.getID());
+						this.player.addMinute(minute);
+						
+						break;
+						
+					case PlayerActivity.EXTRA_EDITABLE_PROPERTY_RATINGS:
+						
+						// Get the rating object and add the correct player
+						Rating rating = (Rating) data.getSerializableExtra(AddProperty.EXTRA_NEW_PROPERTY);
+						rating.setPlayerId(this.player.getID());
+						this.player.addRating(rating);
+						
+						break;
 	
 					default:
 						break;
 				}
+        		
+				PlayersContent.updatePlayer( this.player );
+				MainActivity.getBackend().updatePlayer( this.player );
         	}
         }
         

@@ -253,6 +253,16 @@ public class Player implements Serializable
 		this.getGoals().add(goal);
 	}
 	
+	public void addMinute(Minute minute)
+	{
+		this.getMinutes().add(minute);
+	}
+	
+	public void addRating(Rating rating)
+	{
+		this.getRatings().add(rating);
+	}
+	
 	public double getMinutesPerGoal()
 	{
 		// If the player did not score any goals, return infinity
