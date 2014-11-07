@@ -141,7 +141,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/players_goals_list"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:onClick="deletePlayer"
         android:text="@string/Delete"
         android:visibility="invisible" />
@@ -154,27 +154,27 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/players_goals_list"
 		android:visibility="invisible"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:onClick="savePlayer"
         android:text="@string/Save" />
-
+    
     <Button
-        android:id="@+id/edit_minutes"
+        android:id="@+id/cancel_edit_player"
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
+        android:layout_width="75dp"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/player_total_minutes"
-        android:layout_alignBottom="@+id/player_total_minutes"
-        android:layout_alignRight="@+id/player_edit_givenname"
-        android:onClick="editMinutes"
+        android:layout_below="@+id/players_goals_list"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
         android:visibility="invisible"
-        android:text="@string/Edit" />
+        android:onClick="cancelEdit"
+        android:text="@string/Cancel" />
 
     <Button
         android:id="@+id/edit_ratings"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:layout_alignBaseline="@+id/player_average_rating"
         android:layout_alignBottom="@+id/player_average_rating"
         android:layout_alignRight="@+id/edit_minutes"
@@ -186,7 +186,7 @@
         android:id="@+id/edit_goals"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:layout_alignBaseline="@+id/player_total_goals"
         android:layout_alignBottom="@+id/player_total_goals"
         android:layout_alignRight="@+id/edit_ratings"
@@ -195,15 +195,15 @@
         android:text="@string/Edit" />
 
     <Button
-        android:id="@+id/cancel_edit_player"
+        android:id="@+id/edit_minutes"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/delete_player_button"
-        android:layout_alignBottom="@+id/delete_player_button"
-        android:layout_centerHorizontal="true"
-        android:visibility="invisible"
-        android:onClick="cancelEdit"
-        android:text="@string/Cancel" />
+        android:layout_height="35dp"
+        android:layout_alignBaseline="@+id/player_total_minutes"
+        android:layout_alignBottom="@+id/player_total_minutes"
+        android:layout_alignParentRight="true"
+        android:onClick="editMinutes"
+        android:text="@string/Edit"
+        android:visibility="invisible" />
 
 </RelativeLayout>
