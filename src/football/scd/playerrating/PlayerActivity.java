@@ -28,7 +28,7 @@ public class PlayerActivity extends Activity
 	private List<String> goals;
 	
 	// The adapters for the corresponding listviews
-	private ArrayAdapter<Goal> goals_adapter;
+	private ArrayAdapter<String> goals_adapter;
 	private ArrayAdapter<Minute> minutes_adapter;
 	private ArrayAdapter<Rating> ratings_adapter;
 	
@@ -133,10 +133,10 @@ public class PlayerActivity extends Activity
 		}
 		
 		// Set the goal list views adapter
-		this.goals_adapter = new ArrayAdapter<Goal>(this, android.R.layout.simple_list_item_1, 
-													   android.R.id.text1, this.player.getGoals() );
+		this.goals_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, 
+													   android.R.id.text1, this.goals );
 		((ListView)findViewById(R.id.players_goals_list)).setAdapter(this.goals_adapter);
-		((ArrayAdapter<Goal>)((ListView)findViewById(R.id.players_goals_list)).getAdapter()).notifyDataSetChanged();
+		((ArrayAdapter<String>)((ListView)findViewById(R.id.players_goals_list)).getAdapter()).notifyDataSetChanged();
 		
 		// Set the minutes list views adapter
 		this.minutes_adapter = new ArrayAdapter<Minute>(this, android.R.layout.simple_list_item_1, 
