@@ -25,13 +25,14 @@ public class EditPlayerProperty extends ListActivity {
 	private List<Goal> goals;
 
 	// The property
-	private int property;
+	private static int property;
 	private int property_position;
 	private Object old_property;
 
 	// The extra to pass to the edit activity
 	public static final String EXTRA_PROPERTY = "football.scd.playerrating.editplayerproperty.extra_property";
-	public static final int EDIT_RESULT = 1;
+	private static final int EDIT_PROPERTY_RESULT = 1;
+	private static final int ADD_PROPERTY_RESULT = 2; 
 	public static final String EXTRA_PROPERTY_PLAYER_ID = "football.scd.playerrating.editplayerproperty.extra_property_player_id";
 	
 	@Override
@@ -43,7 +44,7 @@ public class EditPlayerProperty extends ListActivity {
 		
 		// Set the static property as it needs to be accessed from the onClick
 		// listener
-		this.property = this.getIntent().getIntExtra(PlayerActivity.EXTRA_EDITABLE_PROPERTY, 0);
+		EditPlayerProperty.property = this.getIntent().getIntExtra(PlayerActivity.EXTRA_EDITABLE_PROPERTY, 0);
 		this.goals = new ArrayList<Goal>();
 		
 		// Get the player which is passed
@@ -61,7 +62,7 @@ public class EditPlayerProperty extends ListActivity {
 	{
 		// Setup the list view adapter according to the property which is to 
 		// edit
-		switch ( this.property ) 
+		switch ( EditPlayerProperty.property ) 
 		{
 			case PlayerActivity.EXTRA_EDITABLE_PROPERTY_GOALS :
 						
@@ -162,7 +163,7 @@ public class EditPlayerProperty extends ListActivity {
 	{
 		super.onListItemClick(l, v, position, id);
 		
-		switch ( this.property ) 
+		switch ( EditPlayerProperty.property ) 
 		{
 			case PlayerActivity.EXTRA_EDITABLE_PROPERTY_GOALS :
 				
@@ -171,7 +172,7 @@ public class EditPlayerProperty extends ListActivity {
 				intent.putExtra(EditPlayerProperty.EXTRA_PROPERTY, this.goals.get(position) );
 				this.old_property = this.goals.get(position);
 				this.property_position = position;
-				this.startActivityForResult(intent, EditPlayerProperty.EDIT_RESULT);
+				this.startActivityForResult(intent, EditPlayerProperty.EDIT_PROPERTY_RESULT);
 				
 				break;
 				
@@ -198,12 +199,11 @@ public class EditPlayerProperty extends ListActivity {
     protected void onActivityResult(int request_code, int result_code, Intent data)
     {
     	super.onActivityResult(request_code, result_code, data);
-    	this.setAdapterContent();
     	
-        // 
-        if ( request_code == EditPlayerProperty.EDIT_RESULT && result_code == RESULT_OK )
+        // If the result is from edit property
+        if ( request_code == EditPlayerProperty.EDIT_PROPERTY_RESULT && result_code == RESULT_OK )
         {
-        	switch ( this.property ) 
+        	switch ( EditPlayerProperty.property ) 
     		{
     			case PlayerActivity.EXTRA_EDITABLE_PROPERTY_GOALS :
     				
@@ -230,14 +230,11 @@ public class EditPlayerProperty extends ListActivity {
 	    				
 	    				// Add the goal to the new player
 	    				Player new_scorer = PlayersContent.PLAYER_MAP.get( goal.getPlayer().getID() );
-	    				List<Goal> new_goal_list = new_scorer.getGoals();
-	    				new_goal_list.add(goal);
-	    				new_scorer.setGoals(new_goal_list);
+	    				new_scorer.addGoal(goal);
 	    				PlayersContent.updatePlayer( new_scorer );
 	    				MainActivity.getBackend().updatePlayer( new_scorer );
     				}
     				
-    				this.setAdapterContent();
     				break;
     				
     			case PlayerActivity.EXTRA_EDITABLE_PROPERTY_MINUTES :
@@ -258,5 +255,49 @@ public class EditPlayerProperty extends ListActivity {
     				break;
     		}
         }
+        
+        // If the result is from add property
+        if ( request_code == EditPlayerProperty.ADD_PROPERTY_RESULT )
+        {
+        	// Did the user save?
+        	if ( result_code == RESULT_OK )
+        	{
+        		// Check which property it is
+        		switch ( EditPlayerProperty.property )
+        		{
+					case PlayerActivity.EXTRA_EDITABLE_PROPERTY_GOALS:
+						
+						// Get the goal and add the correct player
+						Goal goal = (Goal) data.getSerializableExtra(AddProperty.EXTRA_NEW_PROPERTY);
+						goal.setPlayer(this.player);
+						
+						// Add the goal to the players goal list and update the
+						// player
+						this.player.addGoal(goal);
+	    				PlayersContent.updatePlayer( this.player );
+	    				MainActivity.getBackend().updatePlayer( this.player );
+						
+	    				break;
+	
+					default:
+						break;
+				}
+        	}
+        }
+        
+        // Update the property list
+		this.setAdapterContent();
     }
+	
+	public void addProperty(View view)
+	{
+		// Start the add property activity
+		Intent intent = new Intent(this, AddProperty.class);
+		this.startActivityForResult(intent, EditPlayerProperty.ADD_PROPERTY_RESULT);
+	}
+	
+	public static int getProperty() 
+	{
+		return EditPlayerProperty.property;
+	}
 }

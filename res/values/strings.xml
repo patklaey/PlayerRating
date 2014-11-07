@@ -71,5 +71,8 @@
     <string name="Player">Player</string>
     <string name="Minute">Minute</string>
     <string name="done">Done</string>
+    <string name="title_activity_add_goal">AddGoal</string>
+    <string name="selectGame">Select Game</string>
+    <string name="Rating">Rating</string>
 
 </resources>
