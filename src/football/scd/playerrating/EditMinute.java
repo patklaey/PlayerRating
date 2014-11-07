@@ -1,0 +1,77 @@
+package football.scd.playerrating;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class EditMinute extends Activity
+{
+
+	private Minute minute;
+	private TextView minute_view;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_edit_minute);
+		
+		this.minute = (Minute) getIntent().getSerializableExtra(EditPlayerProperty.EXTRA_PROPERTY);
+		this.minute_view = (TextView) findViewById(R.id.edit_minute_minute);
+		this.minute_view.setText("" + this.minute.getMinutes());
+		
+	}
+	
+	public void save(View view)
+	{
+		int value = Integer.valueOf( this.minute_view.getText().toString() );
+		
+		// Check if the value is correct
+		if ( value < 0 || value > MainActivity.HALF_TIME_DURATION * 2 )
+		{
+			Context context = getApplicationContext();
+			String message = "The entered minutes value is not valid!\nMinutes must be between 0 and ";
+			message += MainActivity.HALF_TIME_DURATION * 2;
+			Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.show();
+			return;
+		}
+		
+		// Add the correct rating
+		this.minute.setMinutes(value);
+		Intent intent = new Intent();
+		intent.putExtra(EditPlayerProperty.EXTRA_PROPERTY, this.minute);
+		setResult(RESULT_OK, intent);
+		finish();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.edit_minute, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) 
+	{
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+		if (id == R.id.action_settings)
+		{
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+}

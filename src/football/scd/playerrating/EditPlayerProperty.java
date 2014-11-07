@@ -163,13 +163,14 @@ public class EditPlayerProperty extends ListActivity {
 	public void onListItemClick(ListView l, View v, int position, long id) 
 	{
 		super.onListItemClick(l, v, position, id);
+		Intent intent;
 		
 		switch ( EditPlayerProperty.property ) 
 		{
 			case PlayerActivity.EXTRA_EDITABLE_PROPERTY_GOALS :
 				
 				// Start the EditGoal activity
-				Intent intent = new Intent(this, EditGoal.class);
+				intent = new Intent(this, EditGoal.class);
 				intent.putExtra(EditPlayerProperty.EXTRA_PROPERTY, this.goals.get(position) );
 				this.old_property = this.goals.get(position);
 				this.property_position = position;
@@ -179,15 +180,21 @@ public class EditPlayerProperty extends ListActivity {
 				
 			case PlayerActivity.EXTRA_EDITABLE_PROPERTY_MINUTES :
 
-				// Start the EditMinute activity
-				System.out.println("Edit minutes: " + this.player.getMinutes().get(position) );
+				// Start the EditRating activity
+				intent = new Intent(this, EditMinute.class);
+				intent.putExtra(EditPlayerProperty.EXTRA_PROPERTY, this.player.getMinutes().get(position) );
+				this.property_position = position;
+				this.startActivityForResult(intent, EditPlayerProperty.EDIT_PROPERTY_RESULT);
 				
 				break;
 				
 			case PlayerActivity.EXTRA_EDITABLE_PROPERTY_RATINGS :
 				
 				// Start the EditRating activity
-				System.out.println("Edit rating: " + this.player.getRatings().get(position) );
+				intent = new Intent(this, EditRating.class);
+				intent.putExtra(EditPlayerProperty.EXTRA_PROPERTY, this.player.getRatings().get(position) );
+				this.property_position = position;
+				this.startActivityForResult(intent, EditPlayerProperty.EDIT_PROPERTY_RESULT);
 				
 				break;
 				
@@ -217,8 +224,6 @@ public class EditPlayerProperty extends ListActivity {
 	    				List<Goal> goal_list = this.player.getGoals();
 	    				goal_list.set(this.property_position, goal);
 	    				this.player.setGoals(goal_list);
-	    				PlayersContent.updatePlayer( this.player );
-	    				MainActivity.getBackend().updatePlayer( this.player );
 	    				
     				} else
     				{
@@ -226,8 +231,6 @@ public class EditPlayerProperty extends ListActivity {
     					List<Goal> goal_list = this.player.getGoals();
     					goal_list.remove(this.property_position);
     					this.player.setGoals(goal_list);
-	    				PlayersContent.updatePlayer( this.player );
-	    				MainActivity.getBackend().updatePlayer( this.player );
 	    				
 	    				// Add the goal to the new player
 	    				Player new_scorer = PlayersContent.PLAYER_MAP.get( goal.getPlayer().getID() );
@@ -240,15 +243,23 @@ public class EditPlayerProperty extends ListActivity {
     				
     			case PlayerActivity.EXTRA_EDITABLE_PROPERTY_MINUTES :
 
-    				// Start the EditMinute activity
-    				System.out.println("Edit minutes: " + this.player.getMinutes().get(this.property_position) );
+    				// Start the EditRating activity
+    				Minute minute = (Minute) data.getSerializableExtra(EditPlayerProperty.EXTRA_PROPERTY);
+    				
+    				List<Minute> minute_list = this.player.getMinutes();
+    				minute_list.set(this.property_position, minute);
+    				this.player.setMinutes(minute_list);
     				
     				break;
     				
     			case PlayerActivity.EXTRA_EDITABLE_PROPERTY_RATINGS :
     				
     				// Start the EditRating activity
-    				System.out.println("Edit rating: " + this.player.getRatings().get(this.property_position) );
+    				Rating rating = (Rating) data.getSerializableExtra(EditPlayerProperty.EXTRA_PROPERTY);
+    				
+    				List<Rating> rating_list = this.player.getRatings();
+    				rating_list.set(this.property_position, rating);
+    				this.player.setRatings(rating_list);
     				
     				break;
     				
@@ -296,11 +307,12 @@ public class EditPlayerProperty extends ListActivity {
 					default:
 						break;
 				}
-        		
-				PlayersContent.updatePlayer( this.player );
-				MainActivity.getBackend().updatePlayer( this.player );
         	}
         }
+        
+        // Save the player
+		PlayersContent.updatePlayer( this.player );
+		MainActivity.getBackend().updatePlayer( this.player );
         
         // Update the property list
 		this.setAdapterContent();

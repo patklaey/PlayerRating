@@ -97,7 +97,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="football.scd.playerrating.EditPlayerProperty" />
         </activity>
-        <activity android:name=".SelectGame"></activity>
+        <activity android:name=".SelectGame" >
+        </activity>
+        <activity
+            android:name=".EditRating"
+            android:label="@string/title_activity_edit_rating" >
+        </activity>
+        <activity
+            android:name=".EditMinute"
+            android:label="@string/title_activity_edit_minute" >
+        </activity>
     </application>
 
 </manifest>
