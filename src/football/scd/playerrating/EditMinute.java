@@ -1,7 +1,9 @@
 package football.scd.playerrating;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -51,6 +53,26 @@ public class EditMinute extends Activity
 		intent.putExtra(EditPlayerProperty.EXTRA_PROPERTY, this.minute);
 		setResult(RESULT_OK, intent);
 		finish();
+	}
+	
+	public void delete(View view)
+	{
+		new AlertDialog.Builder(this)
+	    .setTitle("Delete Minutes")
+	    .setMessage("Are you sure you want to delete this minutes entry?")
+	    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int which) { 
+	    		setResult(EditPlayerProperty.RESULT_DELETED);
+	    		finish();
+	        }
+	     })
+	    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int which) { 
+	            // do nothing
+	        }
+	     })
+	    .setIcon(android.R.drawable.ic_dialog_alert)
+	     .show();
 	}
 
 	@Override

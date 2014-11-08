@@ -6,6 +6,8 @@ import football.scd.playerrating.contents.GamesContent;
 import football.scd.playerrating.contents.PlayersContent;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.view.Menu;
@@ -38,6 +40,9 @@ public class PlayerActivity extends Activity
 	public static final int EXTRA_EDITABLE_PROPERTY_MINUTES = 1;
 	public static final int EXTRA_EDITABLE_PROPERTY_RATINGS = 2;
 	public static final int EXTRA_EDIT_FINISHED = 0;
+	
+	// The current players ID
+	public static int current_player_id = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -81,6 +86,7 @@ public class PlayerActivity extends Activity
 		{
 			// Set the fields
 			this.player = (Player) intent.getSerializableExtra(MainActivity.EXTRA_PLAYER);
+			PlayerActivity.current_player_id = this.player.getID();
 			this.goals = new ArrayList<String>();
 	
 			setupUI();
@@ -235,13 +241,31 @@ public class PlayerActivity extends Activity
 	
 	public void deletePlayer(View view)
 	{
-		// Remove the player locally
-		PlayersContent.removePlayer( this.player.getID() );
-		
-		// Remove the player from the database
-		MainActivity.getBackend().removePlayer(this.player);
-		
-		finish();
+		new AlertDialog.Builder(this)
+	    .setTitle("Delete Player")
+	    .setMessage("Are you sure you want to delete this player with all its goals, minutes and ratings?")
+	    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener()
+	    {
+	        public void onClick(DialogInterface dialog, int which)
+	        {
+	    		// Remove the player locally
+	    		PlayersContent.removePlayer( PlayerActivity.current_player_id );
+	    		
+	    		// Remove the player from the database
+	    		MainActivity.getBackend().removePlayer( PlayerActivity.current_player_id );
+	    		
+	    		finish();
+	        }
+	     })
+	    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener()
+	    {
+	        public void onClick(DialogInterface dialog, int which)
+	        { 
+	            // do nothing
+	        }
+	     })
+	    .setIcon(android.R.drawable.ic_dialog_alert)
+	    .show();
 	}
 	
 	/**

@@ -37,6 +37,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
+        android:onClick="delete"
         android:text="@string/Delete" />
 
     <Button

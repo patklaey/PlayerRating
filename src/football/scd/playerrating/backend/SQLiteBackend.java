@@ -611,6 +611,9 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 	    success = db.delete(GOALS_TABLE, KEY_GAME_ID + " = ?", 
 	    		new String[] { String.valueOf( ID ) } );
 	    
+	    // Delete all the ratings and minutes belonging to this game
+	    success = db.delete(PLAYED_TABLE, KEY_GAME_ID + " = ?",  
+	    		new String[] { String.valueOf(ID)} );
 	    
 	    db.close();
 	    

@@ -2,6 +2,8 @@ package football.scd.playerrating;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -61,6 +63,26 @@ public class EditGoal extends Activity
 		// Get the player
 		Intent scorer = new Intent(this,SelectPlayer.class);
 		this.startActivityForResult(scorer, EditGoal.CHANGE_SCORER);
+	}
+	
+	public void delete(View view)
+	{
+		new AlertDialog.Builder(this)
+	    .setTitle("Delete Goal")
+	    .setMessage("Are you sure you want to delete this goal?")
+	    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int which) { 
+	    		setResult(EditPlayerProperty.RESULT_DELETED);
+	    		finish();
+	        }
+	     })
+	    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int which) { 
+	            // do nothing
+	        }
+	     })
+	    .setIcon(android.R.drawable.ic_dialog_alert)
+	     .show();
 	}
 
 	/**

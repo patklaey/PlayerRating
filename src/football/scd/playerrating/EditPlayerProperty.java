@@ -34,6 +34,7 @@ public class EditPlayerProperty extends ListActivity {
 	private static final int EDIT_PROPERTY_RESULT = 1;
 	private static final int ADD_PROPERTY_RESULT = 2; 
 	public static final String EXTRA_PROPERTY_PLAYER_ID = "football.scd.playerrating.editplayerproperty.extra_property_player_id";
+	public static final int RESULT_DELETED = 2;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -209,56 +210,77 @@ public class EditPlayerProperty extends ListActivity {
     	super.onActivityResult(request_code, result_code, data);
     	
         // If the result is from edit property
-        if ( request_code == EditPlayerProperty.EDIT_PROPERTY_RESULT && result_code == RESULT_OK )
+        if ( request_code == EditPlayerProperty.EDIT_PROPERTY_RESULT )
         {
         	switch ( EditPlayerProperty.property ) 
     		{
     			case PlayerActivity.EXTRA_EDITABLE_PROPERTY_GOALS :
     				
-    				// Replace the goal in the players goal list
-    				Goal goal = (Goal) data.getSerializableExtra(EditPlayerProperty.EXTRA_PROPERTY);
-    				
-    				// Check if it is the same player
-    				if ( ((Goal)this.old_property).getPlayer() == goal.getPlayer() )
+    				if ( result_code == RESULT_OK)
     				{
-	    				List<Goal> goal_list = this.player.getGoals();
-	    				goal_list.set(this.property_position, goal);
-	    				this.player.setGoals(goal_list);
+	    				// Replace the goal in the players goal list
+	    				Goal goal = (Goal) data.getSerializableExtra(EditPlayerProperty.EXTRA_PROPERTY);
 	    				
-    				} else
+	    				// Check if it is the same player
+	    				if ( ((Goal)this.old_property).getPlayer() == goal.getPlayer() )
+	    				{
+		    				List<Goal> goal_list = this.player.getGoals();
+		    				goal_list.set(this.property_position, goal);
+		    				this.player.setGoals(goal_list);
+		    				
+	    				} else
+	    				{
+	    					// Remove the goal from the old player
+	    					List<Goal> goal_list = this.player.getGoals();
+	    					goal_list.remove(this.property_position);
+	    					this.player.setGoals(goal_list);
+		    				
+		    				// Add the goal to the new player
+		    				Player new_scorer = PlayersContent.PLAYER_MAP.get( goal.getPlayer().getID() );
+		    				new_scorer.addGoal(goal);
+		    				PlayersContent.updatePlayer( new_scorer );
+		    				MainActivity.getBackend().updatePlayer( new_scorer );
+	    				}
+    				} else if ( result_code == RESULT_DELETED )
     				{
     					// Remove the goal from the old player
     					List<Goal> goal_list = this.player.getGoals();
     					goal_list.remove(this.property_position);
     					this.player.setGoals(goal_list);
-	    				
-	    				// Add the goal to the new player
-	    				Player new_scorer = PlayersContent.PLAYER_MAP.get( goal.getPlayer().getID() );
-	    				new_scorer.addGoal(goal);
-	    				PlayersContent.updatePlayer( new_scorer );
-	    				MainActivity.getBackend().updatePlayer( new_scorer );
     				}
     				
     				break;
     				
     			case PlayerActivity.EXTRA_EDITABLE_PROPERTY_MINUTES :
 
-    				// Start the EditRating activity
-    				Minute minute = (Minute) data.getSerializableExtra(EditPlayerProperty.EXTRA_PROPERTY);
-    				
     				List<Minute> minute_list = this.player.getMinutes();
-    				minute_list.set(this.property_position, minute);
-    				this.player.setMinutes(minute_list);
+    				if ( result_code == RESULT_OK )
+    				{
+	    				// Get the minute returned from EditMinute activity and set it
+	    				Minute minute = (Minute) data.getSerializableExtra(EditPlayerProperty.EXTRA_PROPERTY);
+	    				minute_list.set(this.property_position, minute);
+    				} else if ( result_code == RESULT_DELETED )
+    				{
+    					minute_list.remove(this.property_position);
+    				}
     				
+    				this.player.setMinutes(minute_list);
+
     				break;
     				
     			case PlayerActivity.EXTRA_EDITABLE_PROPERTY_RATINGS :
     				
     				// Start the EditRating activity
-    				Rating rating = (Rating) data.getSerializableExtra(EditPlayerProperty.EXTRA_PROPERTY);
-    				
     				List<Rating> rating_list = this.player.getRatings();
-    				rating_list.set(this.property_position, rating);
+    				if ( result_code == RESULT_OK )
+    				{
+        				Rating rating = (Rating) data.getSerializableExtra(EditPlayerProperty.EXTRA_PROPERTY);
+        				rating_list.set(this.property_position, rating);
+    				} else if (result_code == RESULT_DELETED )
+    				{
+    					rating_list.remove(this.property_position);
+    				}
+    				
     				this.player.setRatings(rating_list);
     				
     				break;

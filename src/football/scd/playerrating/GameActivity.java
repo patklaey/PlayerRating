@@ -9,7 +9,9 @@ import android.os.PowerManager.WakeLock;
 import android.os.SystemClock;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.util.Log;
@@ -34,6 +36,8 @@ public class GameActivity extends Activity
 	public static final String EXTRA_GAME = "football.scd.playerrating.GameActivity.Game";
 	public static final String EXTRA_GAME_TIME = "football.scd.playerrating.GameActivity.Game_Time";
 	private static final int SELF_GOAL_SCORED = 1;
+	public static int current_game_id;
+	
 	
 	private Game game;
 	private boolean new_game;
@@ -82,6 +86,7 @@ public class GameActivity extends Activity
 
 			// Set the fields
 			this.game = (Game) intent.getSerializableExtra(MainActivity.EXTRA_GAME);
+			GameActivity.current_game_id = this.game.getID();
 			
 			// Set the text fields accordingly
 			if ( this.game.isHomeGame() )
@@ -277,13 +282,31 @@ public class GameActivity extends Activity
 	// Delete the game 
 	public void deleteGame(View view)
 	{
-		// Delete the game locally
-		GamesContent.removeGame(this.game.getID());
-		
-		// Delete the game from the backend
-		MainActivity.getBackend().removeGame(this.game.getID());
-		
-		finish();
+		new AlertDialog.Builder(this)
+	    .setTitle("Delete Game")
+	    .setMessage("Are you sure you want to delete this game with all its goals, minutes and ratings?")
+	    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener()
+	    {
+	        public void onClick(DialogInterface dialog, int which)
+	        {
+	    		// Delete the game locally
+	    		GamesContent.removeGame( GameActivity.current_game_id );
+	    		
+	    		// Delete the game from the backend
+	    		MainActivity.getBackend().removeGame( GameActivity.current_game_id );
+	    		
+	    		finish();
+	        }
+	     })
+	    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener()
+	    {
+	        public void onClick(DialogInterface dialog, int which)
+	        { 
+	            // do nothing
+	        }
+	     })
+	    .setIcon(android.R.drawable.ic_dialog_alert)
+	    .show();
 	}
 	
 	// Cancle creating new game
