@@ -150,14 +150,14 @@ public class AddProperty extends Activity
 		if ( EditPlayerProperty.getProperty() == PlayerActivity.EXTRA_EDITABLE_PROPERTY_GOALS || 
 			 EditPlayerProperty.getProperty() == PlayerActivity.EXTRA_EDITABLE_PROPERTY_MINUTES )
 		{
-			// Minutes must be between 0 and MainActivity.HALF_TIME_DURATION x 2
+			// Minutes must be between 0 and HALF_TIME_DURATION x 2
 			int minutes = Integer.valueOf( ((TextView) findViewById(R.id.add_property_property_input )).getText().toString() );
 			System.out.println("Minute " + minutes );
-			if ( minutes < 0 || minutes > ( MainActivity.HALF_TIME_DURATION * 2 ) )
+			if ( minutes < 0 || minutes > ( MainActivity.getSettings().getHalfTimeDuration() * 2 ) )
 			{
 				Context context = getApplicationContext();
 				String message = "The entered minutes value is not valid!\nMinutes must be between 0 and ";
-				message += MainActivity.HALF_TIME_DURATION * 2;
+				message += MainActivity.getSettings().getHalfTimeDuration() * 2;
 				Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
 				toast.setGravity(Gravity.CENTER, 0, 0);
 				toast.show();

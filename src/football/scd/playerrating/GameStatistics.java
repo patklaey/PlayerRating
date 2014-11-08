@@ -89,34 +89,36 @@ public class GameStatistics extends Fragment
 			if ( game.getGoalsConceded().size() < game.getGoalsScored().size() )
 				this.wins++;
 			
+			// Get the half time duration
+			int half_time_duration = MainActivity.getSettings().getHalfTimeDuration();
 			// Collect goal statistics for all scored goals
 			for (Goal goal : game.getGoalsScored())
 			{
-				if ( goal.getMinute() <= MainActivity.HALF_TIME_DURATION / 3 )
+				if ( goal.getMinute() <= half_time_duration / 3 )
 				{
 					this.scoring[0]++;
 					continue;
 				}
 
-				if ( goal.getMinute() <= (MainActivity.HALF_TIME_DURATION / 3) * 2 )
+				if ( goal.getMinute() <= (half_time_duration / 3) * 2 )
 				{
 					this.scoring[1]++;
 					continue;
 				}
 				
-				if ( goal.getMinute() <= MainActivity.HALF_TIME_DURATION + 1 )
+				if ( goal.getMinute() <= half_time_duration + 1 )
 				{
 					this.scoring[2]++;
 					continue;
 				}
 				
-				if ( goal.getMinute() <= ( MainActivity.HALF_TIME_DURATION / 3 ) + MainActivity.HALF_TIME_DURATION )
+				if ( goal.getMinute() <= ( half_time_duration / 3 ) + half_time_duration )
 				{
 					this.scoring[3]++;
 					continue;
 				}
 				
-				if ( goal.getMinute() <= (MainActivity.HALF_TIME_DURATION / 3 * 2) + MainActivity.HALF_TIME_DURATION )
+				if ( goal.getMinute() <= (half_time_duration / 3 * 2) + half_time_duration )
 				{
 					this.scoring[4]++;
 					continue;
@@ -129,31 +131,31 @@ public class GameStatistics extends Fragment
 			// Collect goal statistics for all conceded goals
 			for ( Goal goal : game.getGoalsConceded() )
 			{
-				if ( goal.getMinute() <= MainActivity.HALF_TIME_DURATION / 3 )
+				if ( goal.getMinute() <= half_time_duration / 3 )
 				{
 					this.conceding[0]++;
 					continue;
 				}
 
-				if ( goal.getMinute() <= (MainActivity.HALF_TIME_DURATION / 3) * 2 )
+				if ( goal.getMinute() <= (half_time_duration / 3) * 2 )
 				{
 					this.conceding[1]++;
 					continue;
 				}
 				
-				if ( goal.getMinute() <= MainActivity.HALF_TIME_DURATION + 1 )
+				if ( goal.getMinute() <= half_time_duration + 1 )
 				{
 					this.conceding[2]++;
 					continue;
 				}
 				
-				if ( goal.getMinute() <= ( MainActivity.HALF_TIME_DURATION / 3 ) + MainActivity.HALF_TIME_DURATION )
+				if ( goal.getMinute() <= ( half_time_duration / 3 ) + half_time_duration )
 				{
 					this.conceding[3]++;
 					continue;
 				}
 				
-				if ( goal.getMinute() <= (MainActivity.HALF_TIME_DURATION / 3 * 2) + MainActivity.HALF_TIME_DURATION )
+				if ( goal.getMinute() <= (half_time_duration / 3 * 2) + half_time_duration )
 				{
 					this.conceding[4]++;
 					continue;

@@ -36,11 +36,11 @@ public class EditMinute extends Activity
 		int value = Integer.valueOf( this.minute_view.getText().toString() );
 		
 		// Check if the value is correct
-		if ( value < 0 || value > MainActivity.HALF_TIME_DURATION * 2 )
+		if ( value < 0 || value > MainActivity.getSettings().getHalfTimeDuration() * 2 )
 		{
 			Context context = getApplicationContext();
 			String message = "The entered minutes value is not valid!\nMinutes must be between 0 and ";
-			message += MainActivity.HALF_TIME_DURATION * 2;
+			message += MainActivity.getSettings().getHalfTimeDuration() * 2;
 			Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
 			toast.setGravity(Gravity.CENTER, 0, 0);
 			toast.show();

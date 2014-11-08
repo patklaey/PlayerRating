@@ -13,7 +13,9 @@ import football.scd.playerrating.contents.PlayersContent;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -26,8 +28,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener, OnGameFragmentInteractionListener, OnPlayerFragmentInteractionListener, OnStatsFragmentInteractionListener, OnGameStatsFragmentInteractionListener{
-
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener, OnGameFragmentInteractionListener, OnPlayerFragmentInteractionListener, OnStatsFragmentInteractionListener, OnGameStatsFragmentInteractionListener {
+	
 	// All extras
 	public static final String EXTRA_TYPE = "football.scd.playerrating.Type";
 	public static final String EXTRA_TYPE_SHOW = "football.scd.playerrating.Type_Show";
@@ -45,6 +47,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public static final int EXTRA_STATS_MINUTES_PER_GOALS = 3;
 	public static final int EXTRA_STATS_MATCH_RATINGS = 4;	
 	public static final String EXTRA_STATS_TYPE = "football.scd.playerrating.Stats_Type";
+	
+	// Setting keys
+	private static final String SETTINGS_TEAM_NAME = "football.scd.playerrating.settings.team_name";
+	private static final String SETTINGS_HALF_TIME = "football.scd.playerrating.settings.half_time";
 
 	// The sections
 	private static final int NUMBER_OF_TABS = 4;
@@ -59,11 +65,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
 	private static Backend backend;
 	
-	public static final String MY_TEAM_NAME = "SC Düdingen Cb";
-	public static final int HALF_TIME_DURATION = 1;
-	
 	// The evil player ;-)
 	public static final Player GOAL_AGAINS_PLAYER = new Player(-1, "Goal", "Against");
+	private static final int SETTINGS = 1;
+	
+	// The settings
+	private static Settings settings;
 	
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -87,6 +94,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        this.loadSettings();
 
         // Create the backend
         MainActivity.backend = new SQLiteBackend(this);
@@ -161,9 +170,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
+    	Intent intent;
         switch (item.getItemId()) {
             case R.id.action_add:
-            	Intent intent;
             	switch (currentTabSection) {
 					case PLAYER_TAB:
 						intent = new Intent(this,PlayerActivity.class);
@@ -185,6 +194,14 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 				}
             	
                 return true;
+                
+            case R.id.action_settings:
+            	
+            	// Simply start the SettingsActivity
+            	intent = new Intent(this,SettingsActivity.class);
+            	this.startActivityForResult(intent, MainActivity.SETTINGS);
+            	return true;
+            	
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -277,11 +294,50 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             return null;
         }
     }
+    
+    private void loadSettings()
+    {
+    	SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+    	String default_team_name = getResources().getString( R.string.my_team_name );
+    	String team_name = sharedPref.getString(MainActivity.SETTINGS_TEAM_NAME, default_team_name);
+    	int half_time = sharedPref.getInt(MainActivity.SETTINGS_HALF_TIME, 45);
+    	
+    	// Create a new settings objcet
+    	Settings settings = new Settings();
+    	settings.setHalfTimeDuration(half_time);
+    	settings.setTeamName(team_name);
+    	MainActivity.settings = settings;
+    }
+    
+    public void saveSettings(Settings settings)
+    {
+    	// Assign the settings variable
+    	MainActivity.settings = settings;
+    	
+    	// Write the application settings
+    	SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+    	SharedPreferences.Editor editor = sharedPref.edit();
+    	editor.putInt(MainActivity.SETTINGS_HALF_TIME, settings.getHalfTimeDuration() );
+    	editor.putString(MainActivity.SETTINGS_TEAM_NAME, settings.getTeamName() );
+    	editor.commit();
+    }
+    
+    @Override
+    protected void onActivityResult(int request_code, int result_code, Intent data)
+    {
+    	super.onActivityResult(request_code, result_code, data);
+    	
+        // If the result is from edit property
+        if ( request_code == MainActivity.SETTINGS && result_code == RESULT_OK )
+        {
+        	Settings settings = (Settings) data.getSerializableExtra(SettingsActivity.EXTRA_SETTINGS);
+        	this.saveSettings(settings);
+        }
+    }
 	
 	@Override
 	public void onGameSelected(int id)
 	{
-		// TODO Auto-generated method stub
     	Intent intent = new Intent(this,GameActivity.class);
     	intent.putExtra(MainActivity.EXTRA_TYPE, MainActivity.EXTRA_TYPE_SHOW);
     	intent.putExtra(MainActivity.EXTRA_GAME, GamesContent.GAME_MAP.get(id));
@@ -300,7 +356,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	@Override
 	public void onStatsFragmentInteraction(Uri uri)
 	{
-		// TODO Auto-generated method stub
 		Log.d("Callback", "Selected setting with uri " + uri);
 	}
 
@@ -309,6 +364,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		return MainActivity.backend;
 	}
 
+	public static Settings getSettings()
+	{
+		return MainActivity.settings;
+	}
+	
 	@Override
 	public void listTopScorer(View view) 
 	{

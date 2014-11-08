@@ -107,6 +107,10 @@
             android:name=".EditMinute"
             android:label="@string/title_activity_edit_minute" >
         </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings" >
+        </activity>
     </application>
 
 </manifest>

@@ -76,5 +76,10 @@
     <string name="Rating">Rating</string>
     <string name="title_activity_edit_rating">EditRating</string>
     <string name="title_activity_edit_minute">EditMinute</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="my_team_name">Team Name</string>
+    <string name="half_time_duration">Half time duration</string>
+    <string name="default_half_time_duration">45</string>
+    <string name="min">min</string>
 
 </resources>

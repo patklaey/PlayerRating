@@ -338,7 +338,7 @@ public class GameActivity extends Activity
 	public void saveGame(View view)
 	{
 		int game_ID = MainActivity.next_free_game_id++;
-		String my_team_name = MainActivity.MY_TEAM_NAME;
+		String my_team_name = MainActivity.getSettings().getTeamName();
 		String opponent = ((EditText)findViewById(R.id.opponent_name)).getEditableText().toString();
 		boolean is_home = ((CheckBox)findViewById(R.id.is_home_game)).isChecked();
 		
@@ -368,7 +368,7 @@ public class GameActivity extends Activity
     				
     		// Check if it is the second half
     		if ( ! this.first_half )
-    			minute += MainActivity.HALF_TIME_DURATION;
+    			minute += MainActivity.getSettings().getHalfTimeDuration();
     		
     		// Add one to the minutes
     		minute++;
@@ -402,7 +402,7 @@ public class GameActivity extends Activity
 					
 			// Check if it is the second half
 			if ( ! this.first_half )
-				minute += MainActivity.HALF_TIME_DURATION;
+				minute += MainActivity.getSettings().getHalfTimeDuration();
 			
 			// Add one to the minutes
 			minute++;
@@ -526,7 +526,7 @@ public class GameActivity extends Activity
 				return;
 				
 			// If the time is over
-			if ( minute == MainActivity.HALF_TIME_DURATION )
+			if ( minute == MainActivity.getSettings().getHalfTimeDuration() )
 			{
 				// Stop the chronometer
 				chronometer.stop();
@@ -577,7 +577,7 @@ public class GameActivity extends Activity
     				
     		// Check if it is the second half
     		if ( ! this.first_half )
-    			minute += MainActivity.HALF_TIME_DURATION;
+    			minute += MainActivity.getSettings().getHalfTimeDuration();
     		
     		// Add one to the minutes
     		minute++;
