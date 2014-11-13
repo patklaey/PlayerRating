@@ -272,4 +272,14 @@ public class Player implements Serializable
 		// Otherwise return the minutes per goal
 		return this.getTotalMinutes() / this.getTotalGoals();
 	}
+	
+	public double getMinutesPerGame()
+	{
+		// If the player did not score any goals, return infinity
+		if ( this.getMinutes().size() == 0)
+			return 0;
+		
+		// Otherwise return the minutes per goal
+		return this.getTotalMinutes() / this.getMinutes().size();
+	}
 }

@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/list_top_scorer_button"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:text="@string/MVP"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -75,7 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/list_mvp_button"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:text="@string/Most_Played"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -136,7 +136,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/list_most_played_button"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:text="@string/Minutes_Per_Goal"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -170,6 +170,49 @@
         android:layout_below="@+id/textView4"
         android:layout_marginTop="5dp"
         android:onClick="listMinutesPerGoal"
+        android:text="@string/List" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/button1"
+        android:layout_marginTop="20dp"
+        android:text="@string/minutes_per_game"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/minutes_per_game_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView5"
+        android:layout_alignBottom="@+id/textView5"
+        android:layout_toRightOf="@+id/textView5"
+        android:text="@string/minutes_per_game"
+        android:layout_marginLeft="10dp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/minutes_per_game_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/minutes_per_game_name"
+        android:layout_alignBottom="@+id/minutes_per_game_name"
+        android:layout_toRightOf="@+id/minutes_per_game_name"
+        android:layout_marginLeft="10dp"
+        android:text="@string/minutes_per_game"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Button
+        android:id="@+id/button2"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView5"
+        android:layout_below="@+id/textView5"
+        android:layout_marginTop="5dp"
+        android:onClick="listMinutesPerGame"
         android:text="@string/List" />
 
 </RelativeLayout>

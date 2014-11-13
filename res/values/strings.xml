@@ -54,7 +54,7 @@
     <string name="List">List</string>
     <string name="title_activity_statistics_list">StatisticsList</string>
     <string name="title_game_stats_section">Games Stats</string>
-    <string name="Minutes_Per_Goal">Min. per Goal:</string>
+    <string name="Minutes_Per_Goal">Min. per goal:</string>
     <string name="Win_Draw_Defeat">Wins-Draws-Defeats:</string>
     <string name="Goal_Diff">Goal difference:</string>
     <string name="Best_Average_Rating">Best Rating:</string>
@@ -81,5 +81,6 @@
     <string name="half_time_duration">Half time duration</string>
     <string name="default_half_time_duration">45</string>
     <string name="min">min</string>
+    <string name="minutes_per_game">Min. per game:</string>
 
 </resources>

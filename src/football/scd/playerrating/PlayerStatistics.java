@@ -30,7 +30,8 @@ public class PlayerStatistics extends Fragment
 	private static List<Player> mvp_list;
 	private static List<Player> most_played_list;
 	private static List<Player> minutes_per_goal_list;
-
+	private static List<Player> minutes_per_game_list;
+	
 	private OnStatsFragmentInteractionListener mListener;
 
 	/**
@@ -63,7 +64,10 @@ public class PlayerStatistics extends Fragment
 		{
 			((TextView) this.getView().findViewById(R.id.top_scorer_name)).setText(PlayerStatistics.top_scorer_list.get(0).toString());
 			((TextView) this.getView().findViewById(R.id.top_scorer_value)).setText(PlayerStatistics.top_scorer_list.get(0).getTotalGoals() + " Goals");
-			
+		}
+		
+		if ( PlayerStatistics.most_played_list.size() > 0 )
+		{
 			// Set the MVP labels
 			((TextView) this.getView().findViewById(R.id.mvp_name)).setText(PlayerStatistics.mvp_list.get(0).toString());
 			((TextView) this.getView().findViewById(R.id.mvp_value)).setText(PlayerStatistics.mvp_list.get(0).getAverageRating() +  "");
@@ -75,6 +79,10 @@ public class PlayerStatistics extends Fragment
 			// Set the minutes per goal labels
 			((TextView) this.getView().findViewById(R.id.minutes_per_goal_name)).setText(PlayerStatistics.minutes_per_goal_list.get(0).toString());
 			((TextView) this.getView().findViewById(R.id.minutes_per_goal_value)).setText(PlayerStatistics.minutes_per_goal_list.get(0).getMinutesPerGoal() + "");
+			
+			// Set the minutes per goal labels
+			((TextView) this.getView().findViewById(R.id.minutes_per_game_name)).setText(PlayerStatistics.minutes_per_game_list.get(0).toString());
+			((TextView) this.getView().findViewById(R.id.minutes_per_game_value)).setText(PlayerStatistics.minutes_per_game_list.get(0).getMinutesPerGame() + "");
 		}
 				
 	}
@@ -90,12 +98,14 @@ public class PlayerStatistics extends Fragment
 		PlayerStatistics.mvp_list = new ArrayList<Player>(PlayersContent.PLAYERS);
 		PlayerStatistics.most_played_list = new ArrayList<Player>(PlayersContent.PLAYERS);
 		PlayerStatistics.minutes_per_goal_list = new ArrayList<Player>(PlayersContent.PLAYERS);
+		PlayerStatistics.minutes_per_game_list = new ArrayList<Player>(PlayersContent.PLAYERS);
 
 		// Sort the given lists
 		Collections.sort(PlayerStatistics.top_scorer_list, new PlayerGoalComparator());
 		Collections.sort(PlayerStatistics.mvp_list, new PlayerRatingComparator());
 		Collections.sort(PlayerStatistics.most_played_list, new PlayerMinutesComparator());
 		Collections.sort(PlayerStatistics.minutes_per_goal_list, new PlayerMinutesPerGoalComparator());
+		Collections.sort(PlayerStatistics.minutes_per_game_list, new PlayerMinutesPerGameComparator());
 
 	}
 
@@ -162,6 +172,21 @@ public class PlayerStatistics extends Fragment
 	{
 		PlayerStatistics.minutes_per_goal_list = minutes_per_goal_list;
 	}
+	
+	
+	/**
+	 * @return the minutes_per_game_list
+	 */
+	public static List<Player> getMinutesPerGameList() {
+		return minutes_per_game_list;
+	}
+
+	/**
+	 * @param minutes_per_game_list the minutes_per_game_list to set
+	 */
+	public static void setMinutesPerGameList(List<Player> minutes_per_game_list) {
+		PlayerStatistics.minutes_per_game_list = minutes_per_game_list;
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -219,7 +244,8 @@ public class PlayerStatistics extends Fragment
 		public void listMVP(View view);
 		
 		public void listMinutesPerGoal(View view);
-
+		
+		public void listMinutesPerGame(View view);
 
 	}
 	
@@ -285,6 +311,23 @@ public class PlayerStatistics extends Fragment
 				return 1;
 			
 			if ( lhs.getMinutesPerGoal() < rhs.getMinutesPerGoal() )
+				return -1;
+			
+			return 0;
+		}
+		
+	}
+	
+	public static class PlayerMinutesPerGameComparator implements Comparator<Player>
+	{
+
+		@Override
+		public int compare(Player lhs, Player rhs)
+		{
+			if ( lhs.getMinutesPerGame() < rhs.getMinutesPerGame() )
+				return 1;
+			
+			if ( lhs.getMinutesPerGame() > rhs.getMinutesPerGame() )
 				return -1;
 			
 			return 0;

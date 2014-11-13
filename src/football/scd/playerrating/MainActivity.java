@@ -45,7 +45,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public static final int EXTRA_STATS_MVP = 1;
 	public static final int EXTRA_STATS_MINUTES = 2;
 	public static final int EXTRA_STATS_MINUTES_PER_GOALS = 3;
-	public static final int EXTRA_STATS_MATCH_RATINGS = 4;	
+	public static final int EXTRA_STATS_MATCH_RATINGS = 4;
+	public static final int EXTRA_STATS_MINUTES_PER_GAME = 5;
 	public static final String EXTRA_STATS_TYPE = "football.scd.playerrating.Stats_Type";
 	
 	// Setting keys
@@ -408,6 +409,15 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		// Create a new intent
 		Intent intent = new Intent(this, StatisticsList.class);
 		intent.putExtra( MainActivity.EXTRA_STATS_TYPE, MainActivity.EXTRA_STATS_MINUTES_PER_GOALS );
+		this.startActivity(intent);
+	}
+	
+	@Override
+	public void listMinutesPerGame(View view) 
+	{
+		// Create a new intent
+		Intent intent = new Intent(this, StatisticsList.class);
+		intent.putExtra( MainActivity.EXTRA_STATS_TYPE, MainActivity.EXTRA_STATS_MINUTES_PER_GAME );
 		this.startActivity(intent);
 	}
 
