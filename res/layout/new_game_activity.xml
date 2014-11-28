@@ -12,7 +12,7 @@
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/Opponent"
+        android:text="@string/opponent"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <EditText
@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:hint="@string/Opponent"
+        android:hint="@string/opponent"
         android:ems="10" >
 
         <requestFocus />
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:checked="true"
-        android:text="@string/Home_Game" />
+        android:text="@string/home_game" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -44,7 +44,7 @@
         	android:layout_width="100dp"
         	android:onClick="cancel"
         	android:layout_height="wrap_content"
-        	android:text="@string/Cancel" />
+        	android:text="@string/cancel" />
 
         <TextView
             android:id="@+id/textView2"
@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:onClick="saveGame"
             android:layout_marginTop="50dp"
-            android:text="@string/Save" />
+            android:text="@string/save" />
         
     </LinearLayout>
 

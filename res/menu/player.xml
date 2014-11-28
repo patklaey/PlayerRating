@@ -2,7 +2,7 @@
 
     <!-- Edit, should appear as action button -->
     <item android:id="@+id/action_edit"
-          android:title="@string/Edit"
+          android:title="@string/edit"
           android:showAsAction="always" />
     
 </menu>

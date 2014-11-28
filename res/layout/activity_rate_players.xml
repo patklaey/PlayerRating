@@ -16,7 +16,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:gravity="center_horizontal"
-        android:text="@string/Name"
+        android:text="@string/name"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <LinearLayout
@@ -87,7 +87,7 @@
         android:layout_alignLeft="@+id/linearLayout1"
         android:layout_below="@+id/textView2"
         android:layout_marginTop="20dp"
-        android:text="@string/Goals"
+        android:text="@string/goals"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView

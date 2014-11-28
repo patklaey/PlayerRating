@@ -243,7 +243,7 @@ public class GameActivity extends Activity
 		}
 		
 		// If the buttons text is finish game, then call the finishGame method
-		if ( ((Button)view).getText().equals(this.getString( R.string.StartGame) ) )
+		if ( ((Button)view).getText().equals(this.getString( R.string.start_game) ) )
 		{
 			this.power_manager = (PowerManager)this.getSystemService(Context.POWER_SERVICE);
 			this.wake_lock = this.power_manager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, GameActivity.WAKE_LOCK_NAME);
@@ -251,7 +251,7 @@ public class GameActivity extends Activity
 		}
 		
 		// If the button text is "Continue", then set second half
-		if ( ((Button)view).getText().equals(this.getString(R.string.Continue) ) )
+		if ( ((Button)view).getText().equals(this.getString(R.string.continue_string) ) )
 		{
 			this.setFirstHalf(false);
 		}
@@ -278,7 +278,7 @@ public class GameActivity extends Activity
 		if ( ((Button)findViewById(R.id.substitution_button)).getText().equals("Start 11") )
 		{
 			((Button)findViewById(R.id.start_end_game_button)).setEnabled(true);
-			((Button)findViewById(R.id.substitution_button)).setText(R.string.Substitution);
+			((Button)findViewById(R.id.substitution_button)).setText(R.string.substitution);
 		}
 		
 		Intent intent = new Intent(this,Substitution.class);
@@ -540,7 +540,7 @@ public class GameActivity extends Activity
 				// Set the according button text
 				if ( this.activity.isFirstHalf() )
 				{
-					((Button)this.activity.findViewById(R.id.start_end_game_button)).setText(R.string.Continue);
+					((Button)this.activity.findViewById(R.id.start_end_game_button)).setText(R.string.continue_string);
 					((TextView)this.activity.findViewById(R.id.half_time_text)).setText(R.string.second_half);
 				} else
 				{

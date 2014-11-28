@@ -35,17 +35,17 @@ public class AddProperty extends Activity
 		{
 			case PlayerActivity.EXTRA_EDITABLE_PROPERTY_GOALS:
 				
-				this.property_name.setText(R.string.Minute);
+				this.property_name.setText(R.string.minute);
 				break;
 				
 			case PlayerActivity.EXTRA_EDITABLE_PROPERTY_MINUTES:
 				
-				this.property_name.setText(R.string.Minutes);
+				this.property_name.setText(R.string.minutes);
 				break;
 				
 			case PlayerActivity.EXTRA_EDITABLE_PROPERTY_RATINGS:
 				
-				this.property_name.setText(R.string.Rating);
+				this.property_name.setText(R.string.rating);
 				break;
 				
 			default:

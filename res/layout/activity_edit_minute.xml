@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="@string/Minutes"
+        android:text="@string/minutes"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <EditText
@@ -38,7 +38,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:onClick="delete"
-        android:text="@string/Delete" />
+        android:text="@string/delete" />
 
     <Button
         android:id="@+id/button2"
@@ -49,6 +49,6 @@
         android:layout_below="@+id/edit_minute_minute"
         android:onClick="save"
         android:layout_marginTop="15dp"
-        android:text="@string/Save" />
+        android:text="@string/save" />
 
 </RelativeLayout>

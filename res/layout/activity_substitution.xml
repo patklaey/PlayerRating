@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="@string/Name"
+        android:text="@string/name"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <CheckBox
@@ -23,6 +23,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:text="@string/OnField" />
+        android:text="@string/on_field" />
 
 </RelativeLayout>

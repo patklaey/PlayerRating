@@ -16,7 +16,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="14dp"
-        android:text="@string/selectGame"
+        android:text="@string/select_game"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <Button
@@ -28,7 +28,7 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/add_goal_game_name"
         android:onClick="selectGame"
-        android:text="@string/selectGame" />
+        android:text="@string/select_game" />
 
     <TextView
         android:id="@+id/add_property_property"
@@ -38,7 +38,7 @@
         android:layout_alignRight="@+id/button1"
         android:layout_below="@+id/button1"
         android:layout_marginTop="30dp"
-        android:text="@string/Minute"
+        android:text="@string/minute"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <EditText
@@ -63,7 +63,7 @@
         android:layout_below="@+id/add_property_property_input"
         android:layout_marginTop="20dp"
         android:onClick="cancel"
-        android:text="@string/Cancel" />
+        android:text="@string/cancel" />
 
     <Button
         android:id="@+id/button3"
@@ -73,6 +73,6 @@
         android:layout_alignBottom="@+id/button2"
         android:layout_alignParentRight="true"
         android:onClick="save"
-        android:text="@string/Save" />
+        android:text="@string/save" />
 
 </RelativeLayout>

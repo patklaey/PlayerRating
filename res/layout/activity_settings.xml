@@ -15,7 +15,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:onClick="save"
-        android:text="@string/Save" />
+        android:text="@string/save" />
 
     <Button
         android:id="@+id/settings_cancel_button"
@@ -24,7 +24,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:onClick="cancel"
-        android:text="@string/Cancel" />
+        android:text="@string/cancel" />
 
     <TextView
         android:id="@+id/textView1"

@@ -15,7 +15,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:gravity="end"
-        android:text="@string/HomeName"
+        android:text="@string/home_team_name"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:text="@string/AwayName"
+        android:text="@string/away_team_name"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -35,7 +35,7 @@
         android:layout_alignBottom="@+id/home_team_name"
         android:layout_centerHorizontal="true"
         android:gravity="center_horizontal"
-        android:text="@string/Colon"
+        android:text="@string/colon"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -46,7 +46,7 @@
         android:layout_alignBottom="@+id/home_team_score"
         android:layout_centerHorizontal="true"
         android:gravity="center_horizontal"
-        android:text="@string/Colon"
+        android:text="@string/colon"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -57,7 +57,7 @@
         android:layout_below="@+id/home_team_name"
         android:layout_marginTop="20dp"
         android:gravity="end"
-        android:text="@string/Zero"
+        android:text="@string/zero"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -67,7 +67,7 @@
         android:layout_alignBaseline="@+id/textView4"
         android:layout_alignBottom="@+id/textView4"
         android:layout_alignLeft="@+id/away_team_name"
-        android:text="@string/Zero"
+        android:text="@string/zero"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <Button
@@ -77,7 +77,7 @@
         android:layout_height="35dp"
 		android:layout_below="@+id/away_team_name"
         android:layout_alignLeft="@+id/away_team_name"
-        android:text="@string/Plus"
+        android:text="@string/plus"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="12dp"
         android:onClick="increaseAwayScore"
@@ -89,7 +89,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:text="@string/Save"
+        android:text="@string/save"
         android:onClick="updateGame"
         android:visibility="invisible" />
 
@@ -101,7 +101,7 @@
         android:layout_alignParentLeft="true"
         android:enabled="false"
         android:onClick="startGame"
-        android:text="@string/StartGame" />
+        android:text="@string/start_game" />
 
     <Chronometer
         android:id="@+id/game_minutes_played"
@@ -112,7 +112,7 @@
         android:layout_below="@+id/increase_away_team_score"
         android:layout_marginTop="40dp"
         android:gravity="center_horizontal"
-        android:text="@string/Minutes" />
+        android:text="@string/minutes" />
 
     <Button
         android:id="@+id/substitution_button"
@@ -122,7 +122,7 @@
         android:layout_alignBottom="@+id/start_end_game_button"
         android:layout_alignParentRight="true"
         android:onClick="substitution"
-        android:text="@string/start11" />
+        android:text="@string/start_11" />
 
     <Button
         android:id="@+id/decrease_home_team_score"
@@ -134,7 +134,7 @@
         android:layout_toLeftOf="@+id/increase_home_team_score"
         android:onClick="decreaseHomeScore"
         android:layout_marginRight="10dp"
-        android:text="@string/Minus"
+        android:text="@string/minus"
         android:visibility="invisible" />
 
     <Button
@@ -146,7 +146,7 @@
         android:layout_alignBottom="@+id/increase_away_team_score"
 		android:layout_toRightOf="@+id/increase_away_team_score"
         android:onClick="decreaseAwayScore"
-        android:text="@string/Minus"
+        android:text="@string/minus"
         android:layout_marginLeft="10dp"
         android:visibility="invisible" />
 
@@ -159,7 +159,7 @@
         android:layout_alignLeft="@+id/start_end_game_button"
         android:visibility="invisible"
         android:onClick="deleteGame"
-        android:text="@string/Delete" />
+        android:text="@string/delete" />
 
     <Button
         android:id="@+id/cancel_edit_game_button"
@@ -168,7 +168,7 @@
         android:layout_alignBaseline="@+id/substitution_button"
         android:layout_alignBottom="@+id/substitution_button"
 		android:layout_centerHorizontal="true"
-        android:text="@string/Cancel"
+        android:text="@string/cancel"
         android:onClick="cancelEdit"
         android:visibility="invisible" />
 
@@ -194,7 +194,7 @@
         android:onClick="increaseHomeScore"
         android:layout_marginRight="20dp"
         android:layout_marginTop="12dp"
-        android:text="@string/Plus"
+        android:text="@string/plus"
         android:visibility="invisible" />
 
     <LinearLayout

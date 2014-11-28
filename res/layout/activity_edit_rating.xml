@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="@string/Rating"
+        android:text="@string/rating"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <Button
@@ -25,7 +25,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:onClick="delete"
-        android:text="@string/Delete" />
+        android:text="@string/delete" />
 
     <EditText
         android:id="@+id/edit_rating_rating"
@@ -49,6 +49,6 @@
         android:layout_below="@+id/edit_rating_rating"
         android:layout_marginTop="15dp"
         android:onClick="save"
-        android:text="@string/Save" />
+        android:text="@string/save" />
 
 </RelativeLayout>

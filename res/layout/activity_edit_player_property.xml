@@ -15,7 +15,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:onClick="addProperty"
-        android:text="@string/Add" />
+        android:text="@string/add" />
 
     <ListView
         android:id="@android:id/list"
@@ -35,7 +35,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/addProperty"
         android:layout_marginTop="5dp"
-        android:text="@string/SelectPropertyToEdit" />
+        android:text="@string/select_property_to_edit" />
 
     <Button
         android:id="@+id/button1"

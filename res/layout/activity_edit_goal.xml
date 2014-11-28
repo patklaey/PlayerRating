@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="@string/Player"
+        android:text="@string/player"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
@@ -24,7 +24,7 @@
         android:layout_alignLeft="@+id/textView1"
         android:layout_below="@+id/textView1"
         android:layout_marginTop="15dp"
-        android:text="@string/Player"
+        android:text="@string/player"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <EditText
@@ -49,7 +49,7 @@
         android:layout_below="@+id/edit_goal_minute"
         android:layout_marginTop="30dp"
         android:onClick="save"
-        android:text="@string/Save" />
+        android:text="@string/save" />
 
     <Button
         android:id="@+id/button3"
@@ -59,7 +59,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:onClick="delete"
-        android:text="@string/Delete" />
+        android:text="@string/delete" />
 
     <TextView
         android:id="@+id/textView3"
@@ -68,7 +68,7 @@
         android:layout_alignLeft="@+id/player_textview"
         android:layout_below="@+id/button1"
         android:layout_marginTop="30dp"
-        android:text="@string/Minute"
+        android:text="@string/minute"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <Button
@@ -80,6 +80,6 @@
         android:layout_alignBottom="@+id/player_textview"
         android:layout_alignParentRight="true"
         android:onClick="changePlayer"
-        android:text="@string/Edit" />
+        android:text="@string/edit" />
 
 </RelativeLayout>

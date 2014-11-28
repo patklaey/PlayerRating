@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="@string/Name"
+        android:text="@string/name"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <EditText
@@ -25,7 +25,7 @@
         android:layout_below="@id/player_name"
         android:ems="10"
         android:enabled="false"
-        android:hint="@string/Name" >
+        android:hint="@string/name" >
 
         <requestFocus />
     </EditText>
@@ -37,7 +37,7 @@
         android:layout_alignLeft="@id/player_edit_name"
         android:layout_below="@id/player_edit_name"
         android:layout_marginTop="10dp"
-        android:text="@string/Givenname"
+        android:text="@string/givenname"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <EditText
@@ -48,7 +48,7 @@
         android:layout_below="@id/player_givenname"
         android:ems="10"
         android:enabled="false"
-        android:hint="@string/Givenname" />
+        android:hint="@string/givenname" />
 
     <TextView
         android:id="@+id/player_rating"
@@ -56,7 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/players_minutes_list"
         android:layout_marginTop="10dp"
-        android:text="@string/Ratings"
+        android:text="@string/ratings"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -66,7 +66,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@id/player_edit_givenname"
         android:layout_marginTop="10dp"
-        android:text="@string/Minutes"
+        android:text="@string/minutes"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <ListView
@@ -92,7 +92,7 @@
         android:layout_alignBottom="@+id/player_minutes"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/player_minutes"
-        android:text="@string/Total"
+        android:text="@string/total"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -102,7 +102,7 @@
         android:layout_alignBottom="@+id/player_rating"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/player_rating"
-        android:text="@string/Average"
+        android:text="@string/average"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -112,7 +112,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/players_ratings_list"
         android:layout_marginTop="10dp"
-        android:text="@string/Goals"
+        android:text="@string/goals"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -122,7 +122,7 @@
         android:layout_alignBaseline="@+id/player_goals"
         android:layout_alignBottom="@+id/player_goals"
         android:layout_toRightOf="@+id/player_goals"
-        android:text="@string/Total"
+        android:text="@string/total"
         android:layout_marginLeft="10dp"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -143,7 +143,7 @@
         android:layout_below="@+id/players_goals_list"
         android:layout_marginTop="10dp"
         android:onClick="deletePlayer"
-        android:text="@string/Delete"
+        android:text="@string/delete"
         android:visibility="invisible" />
 
     <Button
@@ -156,7 +156,7 @@
 		android:visibility="invisible"
         android:layout_marginTop="10dp"
         android:onClick="savePlayer"
-        android:text="@string/Save" />
+        android:text="@string/save" />
     
     <Button
         android:id="@+id/cancel_edit_player"
@@ -168,7 +168,7 @@
         android:layout_centerHorizontal="true"
         android:visibility="invisible"
         android:onClick="cancelEdit"
-        android:text="@string/Cancel" />
+        android:text="@string/cancel" />
 
     <Button
         android:id="@+id/edit_ratings"
@@ -180,7 +180,7 @@
         android:layout_alignRight="@+id/edit_minutes"
 		android:onClick="editRatings"
         android:visibility="invisible"
-        android:text="@string/Edit" />
+        android:text="@string/edit" />
 
     <Button
         android:id="@+id/edit_goals"
@@ -192,7 +192,7 @@
         android:layout_alignRight="@+id/edit_ratings"
         android:visibility="invisible"
         android:onClick="editGoals"
-        android:text="@string/Edit" />
+        android:text="@string/edit" />
 
     <Button
         android:id="@+id/edit_minutes"
@@ -203,7 +203,7 @@
         android:layout_alignBottom="@+id/player_total_minutes"
         android:layout_alignParentRight="true"
         android:onClick="editMinutes"
-        android:text="@string/Edit"
+        android:text="@string/edit"
         android:visibility="invisible" />
 
 </RelativeLayout>

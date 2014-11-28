@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="@string/Win_Draw_Defeat"
+        android:text="@string/win_draw_defeat"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -35,7 +35,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/textView1"
         android:layout_marginTop="10dp"
-        android:text="@string/Goal_Diff"
+        android:text="@string/goal_diff"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -56,7 +56,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/goal_difference_values"
         android:layout_marginTop="30dp"
-        android:text="@string/Best_Average_Rating"
+        android:text="@string/best_average_rating"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -66,7 +66,7 @@
         android:layout_alignBottom="@+id/textView2"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/textView2"
-        android:text="@string/Best_Average_Rating"
+        android:text="@string/best_average_rating"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -76,7 +76,7 @@
         android:layout_alignBottom="@+id/best_rating_opponent_name"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/best_rating_opponent_name"
-        android:text="@string/Best_Average_Rating"
+        android:text="@string/best_average_rating"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <Button
@@ -87,7 +87,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/textView2"
         android:onClick="listBestRatings"
-        android:text="@string/List" />
+        android:text="@string/list" />
 
     <TextView
         android:id="@+id/textView4"
@@ -96,7 +96,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/button1"
         android:layout_marginTop="15dp"
-        android:text="@string/Goals"
+        android:text="@string/goals"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
@@ -106,7 +106,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/textView4"
         android:layout_marginTop="10dp"
-        android:text="Scoring"
+        android:text="@string/scoring"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <LinearLayout
@@ -124,7 +124,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="@string/First_half_first"
+            android:text="@string/first_half_first"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -133,7 +133,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="@string/First_half_second"
+            android:text="@string/first_half_second"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -142,7 +142,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="@string/First_half_third"
+            android:text="@string/first_half_third"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -151,7 +151,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="@string/Second_half_first"
+            android:text="@string/second_half_first"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -160,7 +160,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="@string/Second_half_second"
+            android:text="@string/second_half_second"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -169,7 +169,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="@string/Second_half_third"
+            android:text="@string/second_half_third"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 
@@ -188,7 +188,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="@string/First_half_first"
+            android:text="@string/first_half_first"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -197,7 +197,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="@string/First_half_second"
+            android:text="@string/first_half_second"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -206,7 +206,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="@string/First_half_third"
+            android:text="@string/first_half_third"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -215,7 +215,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="@string/Second_half_first"
+            android:text="@string/second_half_first"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -224,7 +224,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="@string/Second_half_second"
+            android:text="@string/second_half_second"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -233,7 +233,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="@string/Second_half_third"
+            android:text="@string/second_half_third"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 
@@ -251,7 +251,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="@string/First_half_first"
+            android:text="@string/first_half_first"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -260,7 +260,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="@string/First_half_second"
+            android:text="@string/first_half_second"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -269,7 +269,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="@string/First_half_third"
+            android:text="@string/first_half_third"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -278,7 +278,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="@string/Second_half_first"
+            android:text="@string/second_half_first"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -287,7 +287,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="@string/Second_half_second"
+            android:text="@string/second_half_second"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -296,7 +296,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="@string/Second_half_third"
+            android:text="@string/second_half_third"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 
@@ -313,7 +313,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="@string/First_half_first"
+            android:text="@string/first_half_first"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -322,7 +322,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="@string/First_half_second"
+            android:text="@string/first_half_second"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -331,7 +331,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="@string/First_half_third"
+            android:text="@string/first_half_third"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -340,7 +340,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="@string/Second_half_first"
+            android:text="@string/second_half_first"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -349,7 +349,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="@string/Second_half_second"
+            android:text="@string/second_half_second"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -358,7 +358,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="@string/Second_half_third"
+            android:text="@string/second_half_third"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 
@@ -369,7 +369,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/linearLayout2"
         android:layout_marginTop="10dp"
-        android:text="Conceding"
+        android:text="@string/conceding"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>

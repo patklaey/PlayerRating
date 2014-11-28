@@ -8,7 +8,7 @@
 
     <!-- New, should appear as action button -->
     <item android:id="@+id/action_add"
-          android:title="@string/New"
+          android:title="@string/new_string"
           android:showAsAction="always" />
     
 </menu>
