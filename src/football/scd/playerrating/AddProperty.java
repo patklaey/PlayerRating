@@ -152,7 +152,6 @@ public class AddProperty extends Activity
 		{
 			// Minutes must be between 0 and HALF_TIME_DURATION x 2
 			int minutes = Integer.valueOf( ((TextView) findViewById(R.id.add_property_property_input )).getText().toString() );
-			System.out.println("Minute " + minutes );
 			if ( minutes < 0 || minutes > ( MainActivity.getSettings().getHalfTimeDuration() * 2 ) )
 			{
 				Context context = getApplicationContext();

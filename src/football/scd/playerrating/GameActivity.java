@@ -1,6 +1,9 @@
 package football.scd.playerrating;
 
 import java.util.HashMap;
+
+import football.scd.playerrating.ListView.PlayerRatingPlayerListView;
+import football.scd.playerrating.ListView.RatingsOfGameListViewAdapter;
 import football.scd.playerrating.contents.GamesContent;
 import football.scd.playerrating.contents.PlayersContent;
 import android.os.Bundle;
@@ -484,7 +487,10 @@ public class GameActivity extends Activity
 	
 	public void showRatings(View view)
 	{
-		
+		// Create a new intent
+		Intent intent = new Intent(this, PlayerRatingPlayerListView.class);
+		intent.putExtra(MainActivity.EXTRA_STATS_TYPE, new RatingsOfGameListViewAdapter( this.game.getID() ) );
+		this.startActivity(intent);
 	}
 	
 	/**
