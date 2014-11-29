@@ -224,4 +224,14 @@
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/show_ratings_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:text="@string/show_ratings"
+        android:onClick="showRatings"
+        android:visibility="invisible" />
+
 </RelativeLayout>

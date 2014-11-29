@@ -84,5 +84,6 @@
     <string name="minutes_per_game">Min. per game:</string>
     <string name="scoring">Scoring</string>
     <string name="conceding">Conceding</string>
+    <string name="show_ratings">Show ratings</string>
 
 </resources>

@@ -44,6 +44,7 @@ public class PlayerStatistics extends Fragment
 	 *            Parameter 2.
 	 * @return A new instance of fragment Statistics.
 	 */
+	
 	// TODO: Rename and change types and number of parameters
 	public static PlayerStatistics newInstance(String param1, String param2)
 	{
@@ -84,7 +85,6 @@ public class PlayerStatistics extends Fragment
 			((TextView) this.getView().findViewById(R.id.minutes_per_game_name)).setText(PlayerStatistics.minutes_per_game_list.get(0).toString());
 			((TextView) this.getView().findViewById(R.id.minutes_per_game_value)).setText(PlayerStatistics.minutes_per_game_list.get(0).getMinutesPerGame() + "");
 		}
-				
 	}
 	
 	

@@ -4,6 +4,14 @@ import java.util.Locale;
 
 import football.scd.playerrating.GameStatistics.OnGameStatsFragmentInteractionListener;
 import football.scd.playerrating.GamesFragment.OnGameFragmentInteractionListener;
+import football.scd.playerrating.ListView.BestGameRatingListViewAdapter;
+import football.scd.playerrating.ListView.MVPListViewAdapter;
+import football.scd.playerrating.ListView.MinutesPerGameListViewAdapter;
+import football.scd.playerrating.ListView.MinutesPerGoalListViewAdapter;
+import football.scd.playerrating.ListView.MostPlayedListViewAdapter;
+import football.scd.playerrating.ListView.PlayerRatingGameListView;
+import football.scd.playerrating.ListView.PlayerRatingPlayerListView;
+import football.scd.playerrating.ListView.TopScorerListViewAdapter;
 import football.scd.playerrating.PlayersFragment.OnPlayerFragmentInteractionListener;
 import football.scd.playerrating.PlayerStatistics.OnStatsFragmentInteractionListener;
 import football.scd.playerrating.backend.Backend;
@@ -374,8 +382,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public void listTopScorer(View view) 
 	{
 		// Create a new intent
-		Intent intent = new Intent(this, StatisticsList.class);
-		intent.putExtra( MainActivity.EXTRA_STATS_TYPE, MainActivity.EXTRA_STATS_SCORER );
+		Intent intent = new Intent(this, PlayerRatingPlayerListView.class);
+		intent.putExtra(MainActivity.EXTRA_STATS_TYPE, new TopScorerListViewAdapter() );
 		this.startActivity(intent);
 	}
 	
@@ -383,8 +391,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public void listMostPlayed(View view) 
 	{
 		// Create a new intent
-		Intent intent = new Intent(this, StatisticsList.class);
-		intent.putExtra( MainActivity.EXTRA_STATS_TYPE, MainActivity.EXTRA_STATS_MINUTES );
+		Intent intent = new Intent(this, PlayerRatingPlayerListView.class);
+		intent.putExtra(MainActivity.EXTRA_STATS_TYPE, new MostPlayedListViewAdapter() );
 		this.startActivity(intent);
 	}
 	
@@ -392,8 +400,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public void listMVP(View view) 
 	{
 		// Create a new intent
-		Intent intent = new Intent(this, StatisticsList.class);
-		intent.putExtra( MainActivity.EXTRA_STATS_TYPE, MainActivity.EXTRA_STATS_MVP );
+		Intent intent = new Intent(this, PlayerRatingPlayerListView.class);
+		intent.putExtra(MainActivity.EXTRA_STATS_TYPE, new MVPListViewAdapter() );
 		this.startActivity(intent);
 	}
 
@@ -407,8 +415,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public void listMinutesPerGoal(View view) 
 	{
 		// Create a new intent
-		Intent intent = new Intent(this, StatisticsList.class);
-		intent.putExtra( MainActivity.EXTRA_STATS_TYPE, MainActivity.EXTRA_STATS_MINUTES_PER_GOALS );
+		Intent intent = new Intent(this, PlayerRatingPlayerListView.class);
+		intent.putExtra(MainActivity.EXTRA_STATS_TYPE, new MinutesPerGoalListViewAdapter() );
 		this.startActivity(intent);
 	}
 	
@@ -416,8 +424,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public void listMinutesPerGame(View view) 
 	{
 		// Create a new intent
-		Intent intent = new Intent(this, StatisticsList.class);
-		intent.putExtra( MainActivity.EXTRA_STATS_TYPE, MainActivity.EXTRA_STATS_MINUTES_PER_GAME );
+		Intent intent = new Intent(this, PlayerRatingPlayerListView.class);
+		intent.putExtra(MainActivity.EXTRA_STATS_TYPE, new MinutesPerGameListViewAdapter() );
 		this.startActivity(intent);
 	}
 
@@ -425,8 +433,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public void listBestRatings(View view)
 	{
 		// Create a new intent
-		Intent intent = new Intent(this, StatisticsList.class);
-		intent.putExtra( MainActivity.EXTRA_STATS_TYPE, MainActivity.EXTRA_STATS_MATCH_RATINGS );
-		this.startActivity(intent);		
+		Intent intent = new Intent(this, PlayerRatingGameListView.class);
+		intent.putExtra(MainActivity.EXTRA_STATS_TYPE, new BestGameRatingListViewAdapter() );
+		this.startActivity(intent);	
 	}
 }

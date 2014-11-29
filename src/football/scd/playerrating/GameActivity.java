@@ -138,6 +138,7 @@ public class GameActivity extends Activity
 				((Button)findViewById(R.id.substitution_button)).setVisibility(View.INVISIBLE);
 				((TextView)findViewById(R.id.half_time_text)).setText("Finished");
 				findViewById(R.id.game_minutes_played).setVisibility(View.INVISIBLE);
+				((Button)findViewById(R.id.show_ratings_button)).setVisibility(View.VISIBLE);
 			}
 			
 			// Assign chronometer
@@ -204,6 +205,7 @@ public class GameActivity extends Activity
 				findViewById(R.id.substitution_button).setVisibility(View.INVISIBLE);
 				findViewById(R.id.cancel_edit_game_button).setVisibility(View.VISIBLE);
 				findViewById(R.id.delete_game_button).setVisibility(View.VISIBLE);
+				findViewById(R.id.show_ratings_button).setVisibility(View.INVISIBLE);
 				
 				return true;
 				
@@ -337,6 +339,9 @@ public class GameActivity extends Activity
 		{
 			findViewById(R.id.start_end_game_button).setVisibility(View.VISIBLE);
 			findViewById(R.id.substitution_button).setVisibility(View.VISIBLE);
+		} else
+		{
+			findViewById(R.id.show_ratings_button).setVisibility(View.VISIBLE);
 		}
 	}
 	
@@ -475,6 +480,11 @@ public class GameActivity extends Activity
 		MainActivity.getBackend().updateGame(this.game);
 		
 		finish();
+	}
+	
+	public void showRatings(View view)
+	{
+		
 	}
 	
 	/**

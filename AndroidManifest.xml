@@ -66,7 +66,15 @@
                 android:value="football.scd.playerrating.GameActivity" />
         </activity>
         <activity
-            android:name=".StatisticsList"
+            android:name="football.scd.playerrating.ListView.PlayerRatingPlayerListView"
+            android:label="@string/title_activity_statistics_list"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="football.scd.playerrating.MainActivity" />
+        </activity>
+        <activity
+            android:name="football.scd.playerrating.ListView.PlayerRatingGameListView"
             android:label="@string/title_activity_statistics_list"
             android:parentActivityName=".MainActivity" >
             <meta-data
