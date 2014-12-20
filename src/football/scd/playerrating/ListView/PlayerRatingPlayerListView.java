@@ -10,7 +10,9 @@ import android.content.Intent;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 public class PlayerRatingPlayerListView extends ListActivity 
 {
@@ -51,6 +53,18 @@ public class PlayerRatingPlayerListView extends ListActivity
 		
 		// Show the Up button in the action bar.
 		setupActionBar();
+	}
+	
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) 
+	{
+		super.onListItemClick(l, v, position, id);
+
+		// Start the player activity
+		Intent intent = new Intent(this, PlayerActivity.class);
+		intent.putExtra(MainActivity.EXTRA_TYPE, MainActivity.EXTRA_TYPE_SHOW);
+		intent.putExtra(MainActivity.EXTRA_PLAYER, this.playerList.get(position));
+		this.startActivity(intent);
 	}
 
 	/**
