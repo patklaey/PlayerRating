@@ -75,14 +75,6 @@ public class Goal implements Serializable
 		this.player = player;
 	}
 
-	public int getGameID() {
-		return game_id;
-	}
-
-	public void setGameID(int game_id) {
-		this.game_id = game_id;
-	}
-
 	public int getID() {
 		return id;
 	}

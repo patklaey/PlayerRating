@@ -3,13 +3,16 @@ package football.scd.playerrating;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.support.v4.app.NavUtils;
 
 public class EditGoal extends Activity 
@@ -47,8 +50,22 @@ public class EditGoal extends Activity
 	
 	public void save(View view)
 	{
+		int minute_value = Integer.valueOf( this.goal_minute_view.getText().toString() );
+		
+		// Check if the value is correct
+		if ( minute_value < 0 || minute_value > MainActivity.getSettings().getHalfTimeDuration() * 2 )
+		{
+			Context context = getApplicationContext();
+			String message = "The entered minutes value is not valid!\nMinutes must be between 0 and ";
+			message += MainActivity.getSettings().getHalfTimeDuration() * 2;
+			Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.show();
+			return;
+		}
+		
 		// Set the goals minute
-		this.goal.setMinute( Integer.valueOf( this.goal_minute_view.getText().toString() ) );
+		this.goal.setMinute( minute_value );
 		this.goal.setPlayer( this.goal_scorer );
 		
 		// Set the result as OK and pass the game back

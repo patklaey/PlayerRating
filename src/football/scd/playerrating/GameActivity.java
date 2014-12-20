@@ -13,6 +13,7 @@ import android.os.SystemClock;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -32,13 +33,14 @@ import android.widget.TextView;
 
 @SuppressLint("UseSparseArrays")
 @SuppressWarnings("unchecked")
-public class GameActivity extends Activity
+public class GameActivity extends ListActivity
 {
 	public static final String EXTRA_PLAYED_LIST = "football.scd.playerrating.GameActivity.Played_List";
 	public static final String EXTRA_GAME_ID = "football.scd.playerrating.GameActivity.Game_ID";
 	public static final String EXTRA_GAME = "football.scd.playerrating.GameActivity.Game";
 	public static final String EXTRA_GAME_TIME = "football.scd.playerrating.GameActivity.Game_Time";
-	private static final int SELF_GOAL_SCORED = 1;
+	private static final int SELF_GOAL_SCORED_REQUEST_CODE = 1;
+	private static final int EDIT_GOAL_REQUEST_CODE = 2;
 	public static int current_game_id;
 	
 	
@@ -47,6 +49,7 @@ public class GameActivity extends Activity
 	private Chronometer chrono;
 	private long chrono_pause_base;
 	private boolean first_half = true;
+	private boolean editing_game = false;
 	public static HashMap<Integer, Player> played;
 	
 	// The goal list adapters
@@ -111,7 +114,7 @@ public class GameActivity extends Activity
 				this.away_goal_adapter = new ArrayAdapter<Goal>(this,
 						android.R.layout.simple_list_item_1,android.R.id.text1,
 						this.game.getGoalsConceded() );
-				((ListView)findViewById(R.id.away_goal_list_view)).setAdapter(this.away_goal_adapter);
+				((ListView)findViewById(android.R.id.list)).setAdapter(this.away_goal_adapter);
 				
 			} else
 			{
@@ -130,7 +133,7 @@ public class GameActivity extends Activity
 				this.away_goal_adapter = new ArrayAdapter<Goal>(this,
 						android.R.layout.simple_list_item_1,android.R.id.text1,
 						this.game.getGoalsScored() );
-				((ListView)findViewById(R.id.away_goal_list_view)).setAdapter(this.away_goal_adapter);
+				((ListView)findViewById(android.R.id.list)).setAdapter(this.away_goal_adapter);
 			}
 			
 			// If the game is finished, we don't want to show start game and 
@@ -209,6 +212,8 @@ public class GameActivity extends Activity
 				findViewById(R.id.cancel_edit_game_button).setVisibility(View.VISIBLE);
 				findViewById(R.id.delete_game_button).setVisibility(View.VISIBLE);
 				findViewById(R.id.show_ratings_button).setVisibility(View.INVISIBLE);
+				
+				this.editing_game = true;
 				
 				return true;
 				
@@ -346,6 +351,8 @@ public class GameActivity extends Activity
 		{
 			findViewById(R.id.show_ratings_button).setVisibility(View.VISIBLE);
 		}
+		
+		this.editing_game = false;
 	}
 	
 	// Save the new game
@@ -365,6 +372,7 @@ public class GameActivity extends Activity
 		// Save the game to the backend
 		MainActivity.getBackend().createGame(game);
 		
+		this.editing_game = false;
 		finish();
 	}
 
@@ -374,7 +382,7 @@ public class GameActivity extends Activity
 		if ( this.game.isHomeGame() )
 		{
 			Intent scorer = new Intent(this,SelectPlayer.class);
-			this.startActivityForResult(scorer, GameActivity.SELF_GOAL_SCORED);
+			this.startActivityForResult(scorer, GameActivity.SELF_GOAL_SCORED_REQUEST_CODE);
 		} else
 		{
     		// Get the current minute
@@ -390,7 +398,7 @@ public class GameActivity extends Activity
 			// Otherwise just add the minute and a dummy player
 			int id = MainActivity.next_free_goal_id++;
 			this.game.getGoalsConceded().add(new Goal(id, minute, MainActivity.GOAL_AGAINS_PLAYER , this.game.getID() ) );
-			((ArrayAdapter<Goal>)((ListView)findViewById(R.id.away_goal_list_view)).getAdapter()).notifyDataSetChanged();
+			((ArrayAdapter<Goal>)((ListView)findViewById(android.R.id.list)).getAdapter()).notifyDataSetChanged();
 			this.game.setOpponent_score( this.game.getOpponent_score() + 1 );
 			
 			// Get the text of the home score field
@@ -408,7 +416,7 @@ public class GameActivity extends Activity
 		if ( ! this.game.isHomeGame() )
 		{
 			Intent scorer = new Intent(this,SelectPlayer.class);
-			this.startActivityForResult(scorer, GameActivity.SELF_GOAL_SCORED);
+			this.startActivityForResult(scorer, GameActivity.SELF_GOAL_SCORED_REQUEST_CODE);
 		} else
 		{
 			// Get the current minute
@@ -424,7 +432,7 @@ public class GameActivity extends Activity
 			// Otherwise just add the minute and a dummy player
 			int id = MainActivity.next_free_goal_id++;
 			this.game.getGoalsConceded().add(new Goal(id, minute, MainActivity.GOAL_AGAINS_PLAYER, this.game.getID() ));
-			((ArrayAdapter<Goal>)((ListView)findViewById(R.id.away_goal_list_view)).getAdapter()).notifyDataSetChanged();
+			((ArrayAdapter<Goal>)((ListView)findViewById(android.R.id.list)).getAdapter()).notifyDataSetChanged();
 			this.game.setOpponent_score( this.game.getOpponent_score() + 1 );
 			
 			// Get the text of the home score field
@@ -585,7 +593,7 @@ public class GameActivity extends Activity
     	
         // If it was a SELF_GOAL_SCORED activity and it returned ok, add the
     	// goal to the goals scored list
-        if ( request_code == GameActivity.SELF_GOAL_SCORED && result_code == RESULT_OK )
+        if ( request_code == GameActivity.SELF_GOAL_SCORED_REQUEST_CODE && result_code == RESULT_OK )
         {
         	Player returned = (Player) data.getSerializableExtra(SelectPlayer.EXTRA_PLAYER);
         	
@@ -632,5 +640,30 @@ public class GameActivity extends Activity
 				away_score_text.setText( "" + (away_score + 1));
 			}
         }
+        
+        if ( request_code == GameActivity.EDIT_GOAL_REQUEST_CODE && result_code == Activity.RESULT_OK )
+        {
+        	Goal edited_goal = (Goal) data.getSerializableExtra(EditPlayerProperty.EXTRA_PROPERTY);
+        	for (Goal conceded_goal : this.game.getGoalsConceded() ) {
+				if ( conceded_goal.getID() == edited_goal.getID() ) {
+					conceded_goal.setMinute( edited_goal.getMinute() );
+				}
+			}
+        	this.away_goal_adapter.notifyDataSetChanged();
+        }
     }
+    
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) 
+	{
+		if ( ! this.editing_game )
+			return;
+		
+		super.onListItemClick(l, v, position, id);
+
+		// Start the player activity
+		Intent intent = new Intent(this, EditGoal.class);
+		intent.putExtra(EditPlayerProperty.EXTRA_PROPERTY, this.game.getGoalsConceded().get(position));
+		this.startActivityForResult(intent, GameActivity.EDIT_GOAL_REQUEST_CODE);
+	}
 }
