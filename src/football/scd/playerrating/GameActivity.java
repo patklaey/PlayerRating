@@ -693,9 +693,11 @@ public class GameActivity extends Activity
     		if ( ! GameActivity.this.editing_game )
     			return;
     		
-    		Goal goal_to_edit = GameActivity.this.game.getGoalsScored().get(position);
+    		Goal goal_to_edit;
     		if ( GameActivity.this.game.isHomeGame() )
     			goal_to_edit = GameActivity.this.game.getGoalsConceded().get(position);
+    		else
+    			goal_to_edit = GameActivity.this.game.getGoalsScored().get(position);
     		
     		// Start the player activity
     		Intent intent = new Intent(GameActivity.this, EditGoal.class);
@@ -713,9 +715,11 @@ public class GameActivity extends Activity
     		if ( ! GameActivity.this.editing_game )
     			return;
     		
-    		Goal goal_to_edit = GameActivity.this.game.getGoalsConceded().get(position);
+    		Goal goal_to_edit;
     		if ( GameActivity.this.game.isHomeGame() )
     			goal_to_edit = GameActivity.this.game.getGoalsScored().get(position);
+    		else
+    			goal_to_edit = GameActivity.this.game.getGoalsConceded().get(position);
     		
     		// Start the player activity
     		Intent intent = new Intent(GameActivity.this, EditGoal.class);
