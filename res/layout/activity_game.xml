@@ -215,7 +215,7 @@
         </ListView>
         
         <ListView
-            android:id="@android:id/list"
+            android:id="@+id/away_goal_list_view"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_marginTop="20dp"

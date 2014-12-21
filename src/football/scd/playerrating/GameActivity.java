@@ -1,6 +1,7 @@
 package football.scd.playerrating;
 
 import java.util.HashMap;
+import java.util.List;
 
 import football.scd.playerrating.ListView.PlayerRatingPlayerListView;
 import football.scd.playerrating.ListView.RatingsOfGameListViewAdapter;
@@ -13,7 +14,6 @@ import android.os.SystemClock;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,6 +22,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -33,14 +35,15 @@ import android.widget.TextView;
 
 @SuppressLint("UseSparseArrays")
 @SuppressWarnings("unchecked")
-public class GameActivity extends ListActivity
+public class GameActivity extends Activity
 {
 	public static final String EXTRA_PLAYED_LIST = "football.scd.playerrating.GameActivity.Played_List";
 	public static final String EXTRA_GAME_ID = "football.scd.playerrating.GameActivity.Game_ID";
 	public static final String EXTRA_GAME = "football.scd.playerrating.GameActivity.Game";
 	public static final String EXTRA_GAME_TIME = "football.scd.playerrating.GameActivity.Game_Time";
 	private static final int SELF_GOAL_SCORED_REQUEST_CODE = 1;
-	private static final int EDIT_GOAL_REQUEST_CODE = 2;
+	private static final int EDIT_HOME_GOAL_REQUEST_CODE = 2;
+	private static final int EDIT_AWAY_GOAL_REQUEST_CODE = 3;
 	public static int current_game_id;
 	
 	
@@ -114,7 +117,7 @@ public class GameActivity extends ListActivity
 				this.away_goal_adapter = new ArrayAdapter<Goal>(this,
 						android.R.layout.simple_list_item_1,android.R.id.text1,
 						this.game.getGoalsConceded() );
-				((ListView)findViewById(android.R.id.list)).setAdapter(this.away_goal_adapter);
+				((ListView)findViewById(R.id.away_goal_list_view)).setAdapter(this.away_goal_adapter);
 				
 			} else
 			{
@@ -133,8 +136,11 @@ public class GameActivity extends ListActivity
 				this.away_goal_adapter = new ArrayAdapter<Goal>(this,
 						android.R.layout.simple_list_item_1,android.R.id.text1,
 						this.game.getGoalsScored() );
-				((ListView)findViewById(android.R.id.list)).setAdapter(this.away_goal_adapter);
+				((ListView)findViewById(R.id.away_goal_list_view)).setAdapter(this.away_goal_adapter);
 			}
+			
+			((ListView)findViewById(R.id.away_goal_list_view)).setOnItemClickListener(edit_away_goal_list_listener);
+			((ListView)findViewById(R.id.home_goal_list_view)).setOnItemClickListener(edit_home_goal_list_listener);
 			
 			// If the game is finished, we don't want to show start game and 
 			// substitution button
@@ -398,7 +404,7 @@ public class GameActivity extends ListActivity
 			// Otherwise just add the minute and a dummy player
 			int id = MainActivity.next_free_goal_id++;
 			this.game.getGoalsConceded().add(new Goal(id, minute, MainActivity.GOAL_AGAINS_PLAYER , this.game.getID() ) );
-			((ArrayAdapter<Goal>)((ListView)findViewById(android.R.id.list)).getAdapter()).notifyDataSetChanged();
+			((ArrayAdapter<Goal>)((ListView)findViewById(R.id.away_goal_list_view)).getAdapter()).notifyDataSetChanged();
 			this.game.setOpponent_score( this.game.getOpponent_score() + 1 );
 			
 			// Get the text of the home score field
@@ -432,7 +438,7 @@ public class GameActivity extends ListActivity
 			// Otherwise just add the minute and a dummy player
 			int id = MainActivity.next_free_goal_id++;
 			this.game.getGoalsConceded().add(new Goal(id, minute, MainActivity.GOAL_AGAINS_PLAYER, this.game.getID() ));
-			((ArrayAdapter<Goal>)((ListView)findViewById(android.R.id.list)).getAdapter()).notifyDataSetChanged();
+			((ArrayAdapter<Goal>)((ListView)findViewById(R.id.away_goal_list_view)).getAdapter()).notifyDataSetChanged();
 			this.game.setOpponent_score( this.game.getOpponent_score() + 1 );
 			
 			// Get the text of the home score field
@@ -641,29 +647,80 @@ public class GameActivity extends ListActivity
 			}
         }
         
-        if ( request_code == GameActivity.EDIT_GOAL_REQUEST_CODE && result_code == Activity.RESULT_OK )
+        if ( request_code == GameActivity.EDIT_AWAY_GOAL_REQUEST_CODE && result_code == Activity.RESULT_OK )
         {
         	Goal edited_goal = (Goal) data.getSerializableExtra(EditPlayerProperty.EXTRA_PROPERTY);
-        	for (Goal conceded_goal : this.game.getGoalsConceded() ) {
-				if ( conceded_goal.getID() == edited_goal.getID() ) {
-					conceded_goal.setMinute( edited_goal.getMinute() );
+        	
+        	List<Goal> goals_in_list = this.game.getGoalsScored();
+        	if ( this.game.isHomeGame() )
+        		goals_in_list = this.game.getGoalsConceded();
+        	
+        	for (Goal current_goal : goals_in_list ) {
+				if ( current_goal.getID() == edited_goal.getID() ) {
+					current_goal.setMinute( edited_goal.getMinute() );
+					current_goal.setPlayer( edited_goal.getPlayer() );
 				}
 			}
+        	
         	this.away_goal_adapter.notifyDataSetChanged();
+        }
+        
+        if ( request_code == GameActivity.EDIT_HOME_GOAL_REQUEST_CODE && result_code == Activity.RESULT_OK )
+        {
+        	Goal edited_goal = (Goal) data.getSerializableExtra(EditPlayerProperty.EXTRA_PROPERTY);
+        	
+        	List<Goal> goals_in_list = this.game.getGoalsConceded();
+        	if ( this.game.isHomeGame() )
+        		goals_in_list = this.game.getGoalsScored();
+        	
+        	for (Goal current_goal : goals_in_list ) {
+				if ( current_goal.getID() == edited_goal.getID() ) {
+					current_goal.setMinute( edited_goal.getMinute() );
+					current_goal.setPlayer( edited_goal.getPlayer() );
+				}
+			}
+        	
+        	this.home_goal_adapter.notifyDataSetChanged();
         }
     }
     
-	@Override
-	public void onListItemClick(ListView l, View v, int position, long id) 
-	{
-		if ( ! this.editing_game )
-			return;
-		
-		super.onListItemClick(l, v, position, id);
-
-		// Start the player activity
-		Intent intent = new Intent(this, EditGoal.class);
-		intent.putExtra(EditPlayerProperty.EXTRA_PROPERTY, this.game.getGoalsConceded().get(position));
-		this.startActivityForResult(intent, GameActivity.EDIT_GOAL_REQUEST_CODE);
-	}
+    OnItemClickListener edit_away_goal_list_listener = new OnItemClickListener() {
+        
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+			
+    		if ( ! GameActivity.this.editing_game )
+    			return;
+    		
+    		Goal goal_to_edit = GameActivity.this.game.getGoalsScored().get(position);
+    		if ( GameActivity.this.game.isHomeGame() )
+    			goal_to_edit = GameActivity.this.game.getGoalsConceded().get(position);
+    		
+    		// Start the player activity
+    		Intent intent = new Intent(GameActivity.this, EditGoal.class);
+    		intent.putExtra(EditPlayerProperty.EXTRA_PROPERTY, goal_to_edit);
+    		GameActivity.this.startActivityForResult(intent, GameActivity.EDIT_AWAY_GOAL_REQUEST_CODE);			
+		}
+	};
+	
+    OnItemClickListener edit_home_goal_list_listener = new OnItemClickListener() {
+        
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+			
+    		if ( ! GameActivity.this.editing_game )
+    			return;
+    		
+    		Goal goal_to_edit = GameActivity.this.game.getGoalsConceded().get(position);
+    		if ( GameActivity.this.game.isHomeGame() )
+    			goal_to_edit = GameActivity.this.game.getGoalsScored().get(position);
+    		
+    		// Start the player activity
+    		Intent intent = new Intent(GameActivity.this, EditGoal.class);
+    		intent.putExtra(EditPlayerProperty.EXTRA_PROPERTY, goal_to_edit);
+    		GameActivity.this.startActivityForResult(intent, GameActivity.EDIT_HOME_GOAL_REQUEST_CODE);			
+		}
+	};
 }
