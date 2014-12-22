@@ -50,7 +50,7 @@ public class EditPlayerProperty extends ListActivity {
 		
 		// Get the player which is passed
 		int player_id = ((Player) this.getIntent().getSerializableExtra(MainActivity.EXTRA_PLAYER)).getID();
-		this.player = PlayersContent.PLAYER_MAP.get(player_id);
+		this.player = PlayersContent.getPlayerById(player_id);
 		
 		// Set the adapter content
 		this.setAdapterContent();
@@ -75,7 +75,7 @@ public class EditPlayerProperty extends ListActivity {
 				for (Goal goal : this.player.getGoals())
 				{
 					this.goals.add( goal );
-					this.goals_string.add(GamesContent.GAME_MAP.get(goal.getGameId()).getOpponent() + ": " + goal.toString() );
+					this.goals_string.add(GamesContent.getGameById(goal.getGameId()).getOpponent() + ": " + goal.toString() );
 				}
 						
 				// Set the players goals as array adapter content
@@ -222,7 +222,7 @@ public class EditPlayerProperty extends ListActivity {
 	    				Goal goal = (Goal) data.getSerializableExtra(EditPlayerProperty.EXTRA_PROPERTY);
 	    				
 	    				// Check if it is the same player
-	    				if ( ((Goal)this.old_property).getPlayer() == goal.getPlayer() )
+	    				if ( ((Goal)this.old_property).getPlayerId() == goal.getPlayerId() )
 	    				{
 		    				List<Goal> goal_list = this.player.getGoals();
 		    				goal_list.set(this.property_position, goal);
@@ -236,7 +236,7 @@ public class EditPlayerProperty extends ListActivity {
 	    					this.player.setGoals(goal_list);
 		    				
 		    				// Add the goal to the new player
-		    				Player new_scorer = PlayersContent.PLAYER_MAP.get( goal.getPlayer().getID() );
+		    				Player new_scorer = PlayersContent.getPlayerById( goal.getPlayerId() );
 		    				new_scorer.addGoal(goal);
 		    				PlayersContent.updatePlayer( new_scorer );
 		    				MainActivity.getBackend().updatePlayer( new_scorer );
@@ -303,7 +303,7 @@ public class EditPlayerProperty extends ListActivity {
 						
 						// Get the goal and add the correct player
 						Goal goal = (Goal) data.getSerializableExtra(AddProperty.EXTRA_NEW_PROPERTY);
-						goal.setPlayer(this.player);
+						goal.setPlayerId(this.player.getID());
 						this.player.addGoal(goal);
 						
 	    				break;

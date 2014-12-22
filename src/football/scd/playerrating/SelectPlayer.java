@@ -27,7 +27,7 @@ public class SelectPlayer extends ListActivity
 		
 		this.adapter = new ArrayAdapter<Player>(this,
 							android.R.layout.simple_list_item_1, android.R.id.text1,
-							PlayersContent.PLAYERS);
+							PlayersContent.getAllPlayers());
 		
 		this.setListAdapter(this.adapter);
 	}
@@ -75,7 +75,7 @@ public class SelectPlayer extends ListActivity
 		super.onListItemClick(l, v, position, id);
 
 		// Add the current goal to the selected player
-		Player player = PlayersContent.PLAYERS.get(position);
+		Player player = PlayersContent.getAllPlayers().get(position);
 		
 		// Set the result as ok and pass the game back
 		Intent intent = new Intent();

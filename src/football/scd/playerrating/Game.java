@@ -222,7 +222,7 @@ public class Game implements Serializable
 		 * To do so, iterate over all players and get the rating belonging to
 		 * the currents game id
 		 */
-		for( Player player : PlayersContent.PLAYERS )
+		for( Player player : PlayersContent.getAllPlayers() )
 		{
 			Rating rating = null;
 			

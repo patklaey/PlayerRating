@@ -2,6 +2,8 @@ package football.scd.playerrating;
 
 import java.io.Serializable;
 
+import football.scd.playerrating.contents.PlayersContent;
+
 public class Goal implements Serializable
 {
 	/**
@@ -9,22 +11,22 @@ public class Goal implements Serializable
 	 */
 	private static final long serialVersionUID = -6563522635304334751L;
 	private int minute;
-	private Player player;
+	private int player_id;
 	private int game_id;
 	private int id;
 	
-	public Goal( int id, int min, Player pl, int game )
+	public Goal( int id, int min, int pl, int game )
 	{
 		this.id = id;
 		this.minute = min;
-		this.player = pl;
+		this.player_id = pl;
 		this.game_id = game;
 	}
 	
 	@Override
 	public String toString()
 	{
-		return this.minute + "' " + this.player.toString();
+		return this.minute + "' " + PlayersContent.getPlayerById(this.player_id).toString();
 	}
 
 	/**
@@ -60,19 +62,19 @@ public class Goal implements Serializable
 	}
 
 	/**
-	 * @return the player
+	 * @return the player_id
 	 */
-	public Player getPlayer() 
+	public int getPlayerId() 
 	{
-		return player;
+		return player_id;
 	}
 
 	/**
 	 * @param player the player to set
 	 */
-	public void setPlayer(Player player)
+	public void setPlayerId(int player_id)
 	{
-		this.player = player;
+		this.player_id = player_id;
 	}
 
 	public int getID() {

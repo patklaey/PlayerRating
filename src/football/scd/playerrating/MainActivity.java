@@ -110,11 +110,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         MainActivity.backend = new SQLiteBackend(this);
 
         // Get all players from the backend if not already done
-        if ( PlayersContent.PLAYERS.size() == 0 )
+        if ( PlayersContent.getAllPlayers().size() == 0 )
         	PlayersContent.addPlayers(MainActivity.backend.getAllPlayers());
         
         // Get all games from the backend if not already done
-        if ( GamesContent.GAMES.size() == 0 )
+        if ( GamesContent.getAllGames().size() == 0 )
         	GamesContent.addGames(MainActivity.backend.getAllGames());
 
         // Get the next free uids
@@ -349,7 +349,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	{
     	Intent intent = new Intent(this,GameActivity.class);
     	intent.putExtra(MainActivity.EXTRA_TYPE, MainActivity.EXTRA_TYPE_SHOW);
-    	intent.putExtra(MainActivity.EXTRA_GAME, GamesContent.GAME_MAP.get(id));
+    	intent.putExtra(MainActivity.EXTRA_GAME, GamesContent.getGameById(id));
     	startActivity(intent);	
     }
 
@@ -358,7 +358,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	{
     	Intent intent = new Intent(this,PlayerActivity.class);
     	intent.putExtra(MainActivity.EXTRA_TYPE, MainActivity.EXTRA_TYPE_SHOW);
-    	intent.putExtra(MainActivity.EXTRA_PLAYER, PlayersContent.PLAYER_MAP.get(id) );
+    	intent.putExtra(MainActivity.EXTRA_PLAYER, PlayersContent.getPlayerById(id) );
     	startActivity(intent);
 	}
 

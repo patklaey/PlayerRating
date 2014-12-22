@@ -44,7 +44,7 @@ public class PlayersFragment extends ListFragment
 		// Display all players
 		adapter = new ArrayAdapter<Player>(getActivity(),
 				android.R.layout.simple_list_item_1, android.R.id.text1,
-				PlayersContent.PLAYERS);
+				PlayersContent.getAllPlayers());
 		
 		setListAdapter( adapter );
 
@@ -78,7 +78,7 @@ public class PlayersFragment extends ListFragment
 			// Notify the active callbacks interface (the activity, if the
 			// fragment is attached to one) that an item has been selected.
 			mListener
-					.onPlayerSelected(PlayersContent.PLAYERS.get(position).getID());
+					.onPlayerSelected(PlayersContent.getAllPlayers().get(position).getID());
 		}
 	}
 

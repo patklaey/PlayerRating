@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.annotation.SuppressLint;
+import football.scd.playerrating.MainActivity;
 import football.scd.playerrating.Player;
 import football.scd.playerrating.PlayersFragment;
 
@@ -16,12 +17,12 @@ public class PlayersContent
 	/**
 	 * An array of all players.
 	 */
-	public static List<Player> PLAYERS = new ArrayList<Player>();
+	private static List<Player> PLAYERS = new ArrayList<Player>();
 
 	/**
 	 * A map of all players, by ID.
 	 */
-	public static Map<Integer, Player> PLAYER_MAP = new HashMap<Integer, Player>();
+	private static Map<Integer, Player> PLAYER_MAP = new HashMap<Integer, Player>();
 	
 	public static void addPlayer(Player player)
 	{
@@ -85,5 +86,26 @@ public class PlayersContent
 				return;
 			}
 		}
+	}
+	
+	public static void updateAllPlayers() 
+	{
+		Player[] all_players = PlayersContent.PLAYERS.toArray(new Player[PlayersContent.PLAYERS.size()]);
+		for (Player player : all_players) 
+		{
+			PlayersContent.updatePlayer(player);
+			MainActivity.getBackend().updatePlayer(player);
+		}
+	}
+	
+	public static Player getPlayerById(int player_id) {
+		if ( player_id == -1 )
+			return MainActivity.GOAL_AGAINS_PLAYER;
+		
+		return PlayersContent.PLAYER_MAP.get(player_id);
+	}
+	
+	public static List<Player> getAllPlayers() {
+		return PlayersContent.PLAYERS;
 	}
 }

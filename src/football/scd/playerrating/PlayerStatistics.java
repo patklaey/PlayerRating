@@ -94,11 +94,11 @@ public class PlayerStatistics extends Fragment
 		super.onCreate(savedInstanceState);
 		
 		// Create the lists and copy the content
-		PlayerStatistics.top_scorer_list = new ArrayList<Player>(PlayersContent.PLAYERS);
-		PlayerStatistics.mvp_list = new ArrayList<Player>(PlayersContent.PLAYERS);
-		PlayerStatistics.most_played_list = new ArrayList<Player>(PlayersContent.PLAYERS);
-		PlayerStatistics.minutes_per_goal_list = new ArrayList<Player>(PlayersContent.PLAYERS);
-		PlayerStatistics.minutes_per_game_list = new ArrayList<Player>(PlayersContent.PLAYERS);
+		PlayerStatistics.top_scorer_list = new ArrayList<Player>(PlayersContent.getAllPlayers());
+		PlayerStatistics.mvp_list = new ArrayList<Player>(PlayersContent.getAllPlayers());
+		PlayerStatistics.most_played_list = new ArrayList<Player>(PlayersContent.getAllPlayers());
+		PlayerStatistics.minutes_per_goal_list = new ArrayList<Player>(PlayersContent.getAllPlayers());
+		PlayerStatistics.minutes_per_game_list = new ArrayList<Player>(PlayersContent.getAllPlayers());
 
 		// Sort the given lists
 		Collections.sort(PlayerStatistics.top_scorer_list, new PlayerGoalComparator());

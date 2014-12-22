@@ -81,7 +81,7 @@ public class Minute implements Serializable
 	@Override
 	public String toString() 
 	{
-		return GamesContent.GAME_MAP.get( this.getGameId() ).getOpponent() + ": " + this.getMinutes();
+		return GamesContent.getGameById( this.getGameId() ).getOpponent() + ": " + this.getMinutes();
 	}
 
 

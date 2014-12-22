@@ -69,11 +69,11 @@ public class GameStatistics extends Fragment
 		this.draws = 0;
 		
 		// Get all games in the average ratings list and sort it according to the ratings
-		GameStatistics.average_rating_list = new LinkedList<Game>( GamesContent.GAMES);
+		GameStatistics.average_rating_list = new LinkedList<Game>( GamesContent.getAllGames());
 		Collections.sort( GameStatistics.average_rating_list, new GameRatingComparator() );
 		
 		// Go through each game and collect base stats
-		for (Game game : GamesContent.GAMES )
+		for (Game game : GamesContent.getAllGames() )
 		{
 			// Add the goals conceded and scored
 			this.goals_conceded += game.getGoalsConceded().size();

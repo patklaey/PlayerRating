@@ -25,7 +25,7 @@ public class Substitution extends ListActivity
         // Third parameter - ID of the TextView to which the data is written
         // Forth - the Array of data
 
-        adapter = new InteractiveArrayAdapter(this, PlayersContent.PLAYERS);
+        adapter = new InteractiveArrayAdapter(this, PlayersContent.getAllPlayers());
 
         // Assign adapter to ListView
         setListAdapter(adapter); 

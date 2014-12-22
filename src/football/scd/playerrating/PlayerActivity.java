@@ -134,7 +134,7 @@ public class PlayerActivity extends Activity
 		// Fill the goals list
 		for (Goal goal : this.player.getGoals())
 		{
-			Game game = GamesContent.GAME_MAP.get(goal.getGameId());
+			Game game = GamesContent.getGameById(goal.getGameId());
 			this.goals.add(game.getOpponent() + ": " + goal.toString() );
 		}
 		
@@ -327,7 +327,7 @@ public class PlayerActivity extends Activity
         if ( request_code == PlayerActivity.EXTRA_EDIT_FINISHED && result_code == RESULT_OK )
         {
         	int player_id = (int) data.getIntExtra(EditPlayerProperty.EXTRA_PROPERTY_PLAYER_ID, 0);
-        	this.player = PlayersContent.PLAYER_MAP.get(player_id);
+        	this.player = PlayersContent.getPlayerById(player_id);
         	this.setupUI();
         }
     }

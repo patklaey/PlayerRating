@@ -35,7 +35,7 @@ public class RatingsOfGameListViewAdapter extends PlayerRatingPlayerListViewAdap
 	public List<Pair<Player, String>> buildListViewAdapterContent() {
 		
 		// Go through all players
-		for (Player player : PlayersContent.PLAYERS )
+		for (Player player : PlayersContent.getAllPlayers() )
 		{
 			boolean playedInGame = false;
 			int rating = 0;

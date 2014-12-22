@@ -41,7 +41,7 @@ public class GamesFragment extends ListFragment {
 		// Display all games
 		adapter = new ArrayAdapter<Game>(getActivity(),
 				android.R.layout.simple_list_item_1, android.R.id.text1,
-				GamesContent.GAMES);
+				GamesContent.getAllGames());
 		setListAdapter( adapter );
 	}
 
@@ -70,7 +70,7 @@ public class GamesFragment extends ListFragment {
 			// Notify the active callbacks interface (the activity, if the
 			// fragment is attached to one) that an item has been selected.
 			mListener
-					.onGameSelected(GamesContent.GAMES.get(position).getID());
+					.onGameSelected(GamesContent.getAllGames().get(position).getID());
 		}
 	}
 

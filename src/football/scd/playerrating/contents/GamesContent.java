@@ -16,12 +16,12 @@ public class GamesContent
 	/**
 	 * An array of all players.
 	 */
-	public static List<Game> GAMES = new ArrayList<Game>();
+	private static List<Game> GAMES = new ArrayList<Game>();
 
 	/**
 	 * A map of all players, by ID.
 	 */
-	public static Map<Integer, Game> GAME_MAP = new HashMap<Integer, Game>();
+	private static Map<Integer, Game> GAME_MAP = new HashMap<Integer, Game>();
 	
 	public static void addGame(Game game) 
 	{
@@ -84,5 +84,13 @@ public class GamesContent
 				return;
 			}
 		} 
+	}
+	
+	public static Game getGameById(int game_id) {
+		return GamesContent.GAME_MAP.get(game_id);
+	}
+	
+	public static List<Game> getAllGames() {
+		return GamesContent.GAMES;
 	}
 }

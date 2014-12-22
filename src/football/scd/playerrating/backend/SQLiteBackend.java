@@ -216,7 +216,7 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 				int id = cursor.getInt(INDEX_GOAL_ID);
 				
 				// Add the goal to the list
-				goals.add(new Goal(id, minute, player , game_id ));
+				goals.add(new Goal(id, minute, player.getID() , game_id ));
 			} while ( cursor.moveToNext() );
 		}
 		
@@ -309,10 +309,10 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 				// conceded list
 				if ( player_id != MainActivity.GOAL_AGAINS_PLAYER.getID() )
 				{
-					goals_scored.add(new Goal(id, min, PlayersContent.PLAYER_MAP.get(player_id), game.getID() ));
+					goals_scored.add(new Goal(id, min, PlayersContent.getPlayerById(player_id).getID(), game.getID() ));
 				} else
 				{
-					goals_conceded.add( new Goal(id, min, MainActivity.GOAL_AGAINS_PLAYER, game.getID() ) );
+					goals_conceded.add( new Goal(id, min, MainActivity.GOAL_AGAINS_PLAYER.getID(), game.getID() ) );
 				}
 				
 			} while ( cursor.moveToNext() );
@@ -500,7 +500,7 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 		{
 			ContentValues goal = new ContentValues();
 			goal.put(KEY_ID, self_goal.getID() );
-			goal.put(KEY_PLAYER_ID, self_goal.getPlayer().getID() );
+			goal.put(KEY_PLAYER_ID, self_goal.getPlayerId());
 			goal.put(KEY_GAME_ID, self_goal.getGameId() );
 			goal.put(KEY_TIME, self_goal.getMinute() );
 			
@@ -513,7 +513,7 @@ public class SQLiteBackend extends SQLiteOpenHelper implements Backend
 		{
 			ContentValues goal = new ContentValues();
 			goal.put(KEY_ID, goal_against.getID() );
-			goal.put(KEY_PLAYER_ID, goal_against.getPlayer().getID() );
+			goal.put(KEY_PLAYER_ID, goal_against.getPlayerId() );
 			goal.put(KEY_GAME_ID, goal_against.getGameId() );
 			goal.put(KEY_TIME, goal_against.getMinute() );
 			

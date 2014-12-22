@@ -403,7 +403,7 @@ public class GameActivity extends Activity
     		
 			// Otherwise just add the minute and a dummy player
 			int id = MainActivity.next_free_goal_id++;
-			this.game.getGoalsConceded().add(new Goal(id, minute, MainActivity.GOAL_AGAINS_PLAYER , this.game.getID() ) );
+			this.game.getGoalsConceded().add(new Goal(id, minute, MainActivity.GOAL_AGAINS_PLAYER.getID() , this.game.getID() ) );
 			((ArrayAdapter<Goal>)((ListView)findViewById(R.id.away_goal_list_view)).getAdapter()).notifyDataSetChanged();
 			this.game.setOpponent_score( this.game.getOpponent_score() + 1 );
 			
@@ -437,7 +437,7 @@ public class GameActivity extends Activity
 			
 			// Otherwise just add the minute and a dummy player
 			int id = MainActivity.next_free_goal_id++;
-			this.game.getGoalsConceded().add(new Goal(id, minute, MainActivity.GOAL_AGAINS_PLAYER, this.game.getID() ));
+			this.game.getGoalsConceded().add(new Goal(id, minute, MainActivity.GOAL_AGAINS_PLAYER.getID(), this.game.getID() ));
 			((ArrayAdapter<Goal>)((ListView)findViewById(R.id.away_goal_list_view)).getAdapter()).notifyDataSetChanged();
 			this.game.setOpponent_score( this.game.getOpponent_score() + 1 );
 			
@@ -495,6 +495,9 @@ public class GameActivity extends Activity
 		
 		// Update the game in the database
 		MainActivity.getBackend().updateGame(this.game);
+		
+		// Update all players to not lose the minutes and ratings value for this game
+		PlayersContent.updateAllPlayers();
 		
 		finish();
 	}
@@ -585,7 +588,7 @@ public class GameActivity extends Activity
 			this.current_minute = minute;
 
 			// Add the offset to all players which are currently playing
-			for (Player player : PlayersContent.PLAYERS)
+			for (Player player : PlayersContent.getAllPlayers())
 				if ( player.isPlaying() )
 					player.setCurrentGameMinutes( player.getCurrentGameMinutes() + offset );
 		}
@@ -604,7 +607,7 @@ public class GameActivity extends Activity
         	Player returned = (Player) data.getSerializableExtra(SelectPlayer.EXTRA_PLAYER);
         	
         	// Get the player from the map to not edit a copy of the player
-        	Player player = PlayersContent.PLAYER_MAP.get(returned.getID());
+        	Player player = PlayersContent.getPlayerById(returned.getID());
     		player.setCurrentGameGoals( player.getCurrentGameGoals() + 1 );
     		
     		// Get the current minute
@@ -618,7 +621,7 @@ public class GameActivity extends Activity
     		minute++;
     		
     		// Create a new goal object to return
-    		Goal goal = new Goal(MainActivity.next_free_goal_id++, minute, player, this.game.getID() );
+    		Goal goal = new Goal(MainActivity.next_free_goal_id++, minute, player.getID(), this.game.getID() );
     		
     		// Add the goal to the player
     		player.addGoal(goal);
@@ -658,9 +661,13 @@ public class GameActivity extends Activity
         	for (Goal current_goal : goals_in_list ) {
 				if ( current_goal.getID() == edited_goal.getID() ) {
 					current_goal.setMinute( edited_goal.getMinute() );
-					current_goal.setPlayer( edited_goal.getPlayer() );
+					current_goal.setPlayerId( edited_goal.getPlayerId() );
 				}
 			}
+        	
+        	Player player_who_scored = PlayersContent.getPlayerById(edited_goal.getPlayerId());
+        	PlayersContent.updatePlayer(player_who_scored);
+        	MainActivity.getBackend().updatePlayer(player_who_scored);
         	
         	this.away_goal_adapter.notifyDataSetChanged();
         }
@@ -676,9 +683,13 @@ public class GameActivity extends Activity
         	for (Goal current_goal : goals_in_list ) {
 				if ( current_goal.getID() == edited_goal.getID() ) {
 					current_goal.setMinute( edited_goal.getMinute() );
-					current_goal.setPlayer( edited_goal.getPlayer() );
+					current_goal.setPlayerId( edited_goal.getPlayerId() );
 				}
 			}
+        	
+        	Player player_who_scored = PlayersContent.getPlayerById(edited_goal.getPlayerId());
+        	PlayersContent.updatePlayer(player_who_scored);
+        	MainActivity.getBackend().updatePlayer(player_who_scored);
         	
         	this.home_goal_adapter.notifyDataSetChanged();
         }

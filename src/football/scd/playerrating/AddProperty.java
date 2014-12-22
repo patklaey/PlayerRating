@@ -95,7 +95,7 @@ public class AddProperty extends Activity
 				
 				// Create a new goal and add it to the intent
 				minutes = Integer.valueOf( ((TextView) findViewById(R.id.add_property_property_input )).getText().toString() );
-				Goal goal = new Goal(MainActivity.next_free_goal_id, minutes, new Player(0), this.game.getID() );
+				Goal goal = new Goal(MainActivity.next_free_goal_id, minutes, 0, this.game.getID() );
 				intent.putExtra(AddProperty.EXTRA_NEW_PROPERTY, goal);
 				
 				break;

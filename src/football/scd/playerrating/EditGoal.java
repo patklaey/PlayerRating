@@ -1,5 +1,6 @@
 package football.scd.playerrating;
 
+import football.scd.playerrating.contents.PlayersContent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -32,7 +33,7 @@ public class EditGoal extends Activity
 		
 		// Get the goal extra
 		this.goal = (Goal) this.getIntent().getSerializableExtra(EditPlayerProperty.EXTRA_PROPERTY);
-		this.goal_scorer = goal.getPlayer();
+		this.goal_scorer = PlayersContent.getPlayerById(goal.getPlayerId());
 		
 		// Assing the views
 		this.goal_minute_view = (EditText) this.findViewById(R.id.edit_goal_minute);
@@ -66,7 +67,7 @@ public class EditGoal extends Activity
 		
 		// Set the goals minute
 		this.goal.setMinute( minute_value );
-		this.goal.setPlayer( this.goal_scorer );
+		this.goal.setPlayerId( this.goal_scorer.getID() );
 		
 		// Set the result as OK and pass the game back
 		Intent intent = new Intent();
