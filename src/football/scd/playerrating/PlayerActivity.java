@@ -85,8 +85,8 @@ public class PlayerActivity extends Activity
 		} else if ( extra_type.equals(MainActivity.EXTRA_TYPE_SHOW) )
 		{
 			// Set the fields
-			this.player = (Player) intent.getSerializableExtra(MainActivity.EXTRA_PLAYER);
-			PlayerActivity.current_player_id = this.player.getID();
+			PlayerActivity.current_player_id = intent.getIntExtra(MainActivity.EXTRA_PLAYER_ID, 0);
+			this.player = PlayersContent.getPlayerById(PlayerActivity.current_player_id);
 			this.goals = new ArrayList<String>();
 	
 			setupUI();
@@ -190,7 +190,7 @@ public class PlayerActivity extends Activity
 	public void editGoals(View view)
 	{
 		Intent intent = new Intent(this, EditPlayerProperty.class);
-		intent.putExtra(MainActivity.EXTRA_PLAYER, this.player);
+		intent.putExtra(MainActivity.EXTRA_PLAYER_ID, this.player.getID());
 		intent.putExtra(PlayerActivity.EXTRA_EDITABLE_PROPERTY,PlayerActivity.EXTRA_EDITABLE_PROPERTY_GOALS);
 		this.startActivityForResult(intent, EXTRA_EDIT_FINISHED);
 	}
@@ -199,7 +199,7 @@ public class PlayerActivity extends Activity
 	public void editMinutes(View view)
 	{
 		Intent intent = new Intent(this, EditPlayerProperty.class);
-		intent.putExtra(MainActivity.EXTRA_PLAYER, this.player);
+		intent.putExtra(MainActivity.EXTRA_PLAYER_ID, this.player.getID());
 		intent.putExtra(PlayerActivity.EXTRA_EDITABLE_PROPERTY,PlayerActivity.EXTRA_EDITABLE_PROPERTY_MINUTES);
 		this.startActivityForResult(intent, EXTRA_EDIT_FINISHED);
 	}
@@ -208,7 +208,7 @@ public class PlayerActivity extends Activity
 	public void editRatings(View view)
 	{
 		Intent intent = new Intent(this, EditPlayerProperty.class);
-		intent.putExtra(MainActivity.EXTRA_PLAYER, this.player);
+		intent.putExtra(MainActivity.EXTRA_PLAYER_ID, this.player.getID());
 		intent.putExtra(PlayerActivity.EXTRA_EDITABLE_PROPERTY,PlayerActivity.EXTRA_EDITABLE_PROPERTY_RATINGS);
 		this.startActivityForResult(intent, EXTRA_EDIT_FINISHED);
 	}

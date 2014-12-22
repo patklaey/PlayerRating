@@ -49,7 +49,7 @@ public class EditPlayerProperty extends ListActivity {
 		this.goals = new ArrayList<Goal>();
 		
 		// Get the player which is passed
-		int player_id = ((Player) this.getIntent().getSerializableExtra(MainActivity.EXTRA_PLAYER)).getID();
+		int player_id = this.getIntent().getIntExtra(MainActivity.EXTRA_PLAYER_ID, 0);
 		this.player = PlayersContent.getPlayerById(player_id);
 		
 		// Set the adapter content

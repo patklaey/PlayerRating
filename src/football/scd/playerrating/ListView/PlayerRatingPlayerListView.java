@@ -21,8 +21,8 @@ public class PlayerRatingPlayerListView extends ListActivity
 	private PlayerRatingPlayerListViewAdapter contentAdapter;
 	
 	// Create an emtpy list of strings
-	private List<String> stringList = new ArrayList<String>();
-	private List<Player> playerList = new ArrayList<Player>();
+	private List<String> playerNameList = new ArrayList<String>();
+	private List<Integer> playerIdList = new ArrayList<Integer>();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -37,18 +37,18 @@ public class PlayerRatingPlayerListView extends ListActivity
 		this.contentAdapter= (PlayerRatingPlayerListViewAdapter) intent.getSerializableExtra(MainActivity.EXTRA_STATS_TYPE);
 		
 		// Build the list from the passed class
-		List<Pair<Player,String>> content = this.contentAdapter.buildListViewAdapterContent();
+		List<Pair<Integer,String>> content = this.contentAdapter.buildListViewAdapterContent();
 		
 		// Go through the list and extract the player and the string from each map
-		for( Pair<Player,String> tmp : content )
+		for( Pair<Integer,String> tmp : content )
 		{
-			this.stringList.add( tmp.second );
-			this.playerList.add( tmp.first );
+			this.playerNameList.add( tmp.second );
+			this.playerIdList.add( tmp.first );
 		}
 		
 		// Create the adapter and set it
 		this.adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, 
-												android.R.id.text1, stringList);
+												android.R.id.text1, playerNameList);
 		this.setListAdapter(this.adapter);
 		
 		// Show the Up button in the action bar.
@@ -63,7 +63,7 @@ public class PlayerRatingPlayerListView extends ListActivity
 		// Start the player activity
 		Intent intent = new Intent(this, PlayerActivity.class);
 		intent.putExtra(MainActivity.EXTRA_TYPE, MainActivity.EXTRA_TYPE_SHOW);
-		intent.putExtra(MainActivity.EXTRA_PLAYER, this.playerList.get(position));
+		intent.putExtra(MainActivity.EXTRA_PLAYER_ID, this.playerIdList.get(position));
 		this.startActivity(intent);
 	}
 

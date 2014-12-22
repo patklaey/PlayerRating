@@ -25,7 +25,7 @@ public class MostPlayedListViewAdapter extends PlayerRatingPlayerListViewAdapter
 	 * @see football.scd.playerrating.ListView.PlayerRatingListViewAdapter#buildListViewAdapterContent()
 	 */
 	@Override
-	public List<Pair<Player, String>> buildListViewAdapterContent() {
+	public List<Pair<Integer, String>> buildListViewAdapterContent() {
 
 		// Go through the players, sorted by goals scored
 		for (Player player : PlayerStatistics.getMostPlayedList() )
@@ -46,7 +46,7 @@ public class MostPlayedListViewAdapter extends PlayerRatingPlayerListViewAdapter
 			// Add the composed sting to the list which will be
 			// set as adapter later
 			String adapterContent = this.position + ".      " + this.current_val + " " + minutes + "       " +  player.toString();
-			Pair<Player, String> listContent = new Pair<Player, String>(player, adapterContent);
+			Pair<Integer, String> listContent = new Pair<Integer, String>(player.getID(), adapterContent);
 			this.listViewContentList.add( listContent );
 		}
 		
