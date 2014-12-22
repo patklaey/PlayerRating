@@ -43,7 +43,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public static final String EXTRA_TYPE_SHOW = "football.scd.playerrating.Type_Show";
 	public static final String EXTRA_TYPE_NEW = "football.scd.playerrating.Type_New";
 	public static final String EXTRA_PLAYER_ID = "football.scd.playerrating.PlayerId";
-	public static final String EXTRA_GAME = "football.scd.playerrating.Game";
+	public static final String EXTRA_GAME_ID = "football.scd.playerrating.GameId";
 	public static final String EXTRA_SELF_SCORE = "football.scd.playerrating.Self_Score";
 	public static final String EXTRA_OPPONENT_SCORE = "football.scd.playerrating.Opponent_Score";
 	public static final String EXTRA_SELF_NAME = "football.scd.playerrating.Self_Name";
@@ -345,11 +345,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     }
 	
 	@Override
-	public void onGameSelected(int id)
+	public void onGameSelected(int game_id)
 	{
     	Intent intent = new Intent(this,GameActivity.class);
     	intent.putExtra(MainActivity.EXTRA_TYPE, MainActivity.EXTRA_TYPE_SHOW);
-    	intent.putExtra(MainActivity.EXTRA_GAME, GamesContent.getGameById(id));
+    	intent.putExtra(MainActivity.EXTRA_GAME_ID, game_id);
     	startActivity(intent);	
     }
 

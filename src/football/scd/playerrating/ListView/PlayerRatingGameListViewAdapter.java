@@ -16,8 +16,8 @@ public abstract class PlayerRatingGameListViewAdapter implements Serializable {
 	private static final long serialVersionUID = -5098407910508679552L;
 	protected int current_val = 0;
 	protected int position = 0;
-	protected List<Pair<Game,String>> listViewContentList = new ArrayList<Pair<Game,String>>();
+	protected List<Pair<Integer,String>> listViewContentList = new ArrayList<Pair<Integer,String>>();
 	
-	public abstract List<Pair<Game, String>> buildListViewAdapterContent();
+	public abstract List<Pair<Integer, String>> buildListViewAdapterContent();
 
 }

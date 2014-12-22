@@ -25,7 +25,7 @@ public class BestGameRatingListViewAdapter extends PlayerRatingGameListViewAdapt
 	 * @see football.scd.playerrating.ListView.PlayerRatingListViewAdapter#buildListViewAdapterContent()
 	 */
 	@Override
-	public List<Pair<Game, String>> buildListViewAdapterContent() {
+	public List<Pair<Integer, String>> buildListViewAdapterContent() {
 		
 		// We need a double to remember the current value
 		double average_match_rating = 0;
@@ -49,7 +49,7 @@ public class BestGameRatingListViewAdapter extends PlayerRatingGameListViewAdapt
 			if ( game.isHomeGame() ) {
 				adapterContent = this.position + ".      " + String.format("%.2f", average_match_rating) + "       " +  game.getSelf_name() + " - " + game.getOpponent();
 			}
-			Pair<Game, String> listContent = new Pair<Game, String>(game, adapterContent);
+			Pair<Integer, String> listContent = new Pair<Integer, String>(game.getID(), adapterContent);
 			this.listViewContentList.add( listContent );
 		}
 		

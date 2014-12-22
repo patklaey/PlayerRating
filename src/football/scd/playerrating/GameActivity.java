@@ -94,9 +94,9 @@ public class GameActivity extends Activity
 			setContentView(R.layout.activity_game);
 
 			// Set the fields
-			this.game = (Game) intent.getSerializableExtra(MainActivity.EXTRA_GAME);
-			GameActivity.current_game_id = this.game.getID();
-			
+			GameActivity.current_game_id = intent.getIntExtra(MainActivity.EXTRA_GAME_ID, 0);
+			this.game = GamesContent.getGameById(GameActivity.current_game_id);
+
 			// Set the text fields accordingly
 			if ( this.game.isHomeGame() )
 			{
