@@ -130,11 +130,8 @@ public class RatePlayers extends Activity
 		// Add the players rating  to the list of ratings
 		player.addRating( new Rating(player.getID(), this.game_id, rating) );
 		
-		// Update the player locally
+		// Update the player
 		PlayersContent.updatePlayer(player);
-		
-		// Update the player in the backend
-		MainActivity.getBackend().updatePlayer(player);
 		
 		// Reset the current game values
 		player.setCurrentGameGoals(0);

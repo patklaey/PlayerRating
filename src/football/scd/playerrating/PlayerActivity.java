@@ -221,18 +221,12 @@ public class PlayerActivity extends Activity
 		
 		if ( this.new_player )
 		{
-			// Save it locally
+			// Save the player
 			PlayersContent.addPlayer(this.player);
-			
-			// And save it to the database
-			MainActivity.getBackend().createPlayer(this.player);
+
 		} else
 		{
-			// Save it locally
 			PlayersContent.updatePlayer(this.player);
-			
-			// And save it to the database
-			MainActivity.getBackend().updatePlayer(this.player);
 		}
 		
 		PlayersFragment.updateList();
@@ -248,12 +242,8 @@ public class PlayerActivity extends Activity
 	    {
 	        public void onClick(DialogInterface dialog, int which)
 	        {
-	    		// Remove the player locally
-	    		PlayersContent.removePlayer( PlayerActivity.current_player_id );
-	    		
-	    		// Remove the player from the database
-	    		MainActivity.getBackend().removePlayer( PlayerActivity.current_player_id );
-	    		
+	    		// Remove the player
+	    		PlayersContent.removePlayer( PlayerActivity.current_player_id );	
 	    		finish();
 	        }
 	     })

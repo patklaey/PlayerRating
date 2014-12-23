@@ -9,10 +9,15 @@ import android.annotation.SuppressLint;
 import football.scd.playerrating.MainActivity;
 import football.scd.playerrating.Player;
 import football.scd.playerrating.PlayersFragment;
+import football.scd.playerrating.backend.Backend;
 
 @SuppressLint("UseSparseArrays") 
 public class PlayersContent 
 {
+	/**
+	 * The backend we're connected with
+	 */
+	private static Backend backend;
 	
 	/**
 	 * An array of all players.
@@ -24,12 +29,27 @@ public class PlayersContent
 	 */
 	private static Map<Integer, Player> PLAYER_MAP = new HashMap<Integer, Player>();
 	
+	public static void setBackend(Backend new_backend) {
+		PlayersContent.backend = new_backend;
+	}
+	
+	public static void initializePlayersFromBackend() {
+		for (Player backend_player : PlayersContent.backend.getAllPlayers()) {
+			PLAYERS.add(backend_player);
+			PLAYER_MAP.put(backend_player.getID(), backend_player);
+		}
+	}
+	
+	public static int getMaxPlayerId() {
+		return PlayersContent.backend.getMaxPlayerID();
+	}
+	
 	public static void addPlayer(Player player)
 	{
 		// Add the player to the local maps
 		PLAYERS.add(player);
 		PLAYER_MAP.put(player.getID(), player);
-		//PlayersFragment.updateList();
+		PlayersContent.backend.createPlayer(player);
 	}
 	
 	public static void updatePlayer(Player player)
@@ -46,6 +66,7 @@ public class PlayersContent
 			{
 				PLAYERS.remove(i);
 				PLAYERS.add(i, player);
+				PlayersContent.backend.updatePlayer(player);
 				PlayersFragment.updateList();
 				return;
 			}
@@ -82,6 +103,7 @@ public class PlayersContent
 			if ( PLAYERS.get(i).getID() == player_ID )
 			{
 				PLAYERS.remove(i);
+				PlayersContent.backend.removePlayer(player_ID);
 				PlayersFragment.updateList();
 				return;
 			}
@@ -94,7 +116,6 @@ public class PlayersContent
 		for (Player player : all_players) 
 		{
 			PlayersContent.updatePlayer(player);
-			MainActivity.getBackend().updatePlayer(player);
 		}
 	}
 	

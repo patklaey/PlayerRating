@@ -239,7 +239,6 @@ public class EditPlayerProperty extends ListActivity {
 		    				Player new_scorer = PlayersContent.getPlayerById( goal.getPlayerId() );
 		    				new_scorer.addGoal(goal);
 		    				PlayersContent.updatePlayer( new_scorer );
-		    				MainActivity.getBackend().updatePlayer( new_scorer );
 	    				}
     				} else if ( result_code == RESULT_DELETED )
     				{
@@ -334,7 +333,6 @@ public class EditPlayerProperty extends ListActivity {
         
         // Save the player
 		PlayersContent.updatePlayer( this.player );
-		MainActivity.getBackend().updatePlayer( this.player );
         
         // Update the property list
 		this.setAdapterContent();

@@ -6,8 +6,6 @@ import java.util.List;
 
 import android.util.Pair;
 
-import football.scd.playerrating.Game;
-
 public abstract class PlayerRatingGameListViewAdapter implements Serializable {
 
 	/**

@@ -8,10 +8,15 @@ import java.util.Map;
 import android.annotation.SuppressLint;
 import football.scd.playerrating.Game;
 import football.scd.playerrating.GamesFragment;
+import football.scd.playerrating.backend.Backend;
 
 @SuppressLint("UseSparseArrays") 
 public class GamesContent 
 {
+	/**
+	 * The backend we're connected with
+	 */
+	private static Backend backend;
 	
 	/**
 	 * An array of all players.
@@ -23,10 +28,30 @@ public class GamesContent
 	 */
 	private static Map<Integer, Game> GAME_MAP = new HashMap<Integer, Game>();
 	
+	public static void setBackend(Backend new_backend) {
+		GamesContent.backend = new_backend;
+	}
+	
+	public static void initializeGamesFromBackend() {
+		for (Game backend_game : GamesContent.backend.getAllGames()) {
+			GAMES.add(backend_game);
+			GAME_MAP.put(backend_game.getID(), backend_game);
+		}
+	}
+	
+	public static int getMaxGameId() {
+		return GamesContent.backend.getMaxGameID();
+	}
+	
+	public static int getMaxGoalId() {
+		return GamesContent.backend.getMaxGoalID();
+	}
+	
 	public static void addGame(Game game) 
 	{
 		GAMES.add(game);
 		GAME_MAP.put(game.getID(), game);
+		GamesContent.backend.createGame(game);
 		//GamesFragment.updateList();
 	}
 
@@ -55,6 +80,7 @@ public class GamesContent
 			{
 				GAMES.remove(i);
 				GAMES.add(i, game);
+				GamesContent.backend.updateGame(game);
 				GamesFragment.updateList();
 				return;
 			}
@@ -80,6 +106,7 @@ public class GamesContent
 			if ( GAMES.get(i).getID() == game_ID )
 			{
 				GAMES.remove(i);
+				GamesContent.backend.removeGame(game_ID);
 				GamesFragment.updateList();
 				return;
 			}

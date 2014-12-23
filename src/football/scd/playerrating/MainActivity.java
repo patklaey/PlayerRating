@@ -72,7 +72,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public static int next_free_game_id = 0;
 	public static int next_free_goal_id = 0;
 
-	private static Backend backend;
+	private Backend backend;
 	
 	// The evil player ;-)
 	public static final Player GOAL_AGAINS_PLAYER = new Player(-1, "Goal", "Against");
@@ -107,20 +107,22 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         this.loadSettings();
 
         // Create the backend
-        MainActivity.backend = new SQLiteBackend(this);
+        this.backend = new SQLiteBackend(this);
+        PlayersContent.setBackend(this.backend);
+        GamesContent.setBackend(this.backend);
 
         // Get all players from the backend if not already done
         if ( PlayersContent.getAllPlayers().size() == 0 )
-        	PlayersContent.addPlayers(MainActivity.backend.getAllPlayers());
+        	PlayersContent.initializePlayersFromBackend();
         
         // Get all games from the backend if not already done
         if ( GamesContent.getAllGames().size() == 0 )
-        	GamesContent.addGames(MainActivity.backend.getAllGames());
+        	GamesContent.initializeGamesFromBackend();
 
         // Get the next free uids
-        MainActivity.next_free_game_id = MainActivity.backend.getMaxGameID() + 1;
-        MainActivity.next_free_player_id = MainActivity.backend.getMaxPlayerID() + 1;
-        MainActivity.next_free_goal_id = MainActivity.backend.getMaxGoalID() + 1;
+        MainActivity.next_free_game_id = GamesContent.getMaxGameId() + 1;
+        MainActivity.next_free_player_id = PlayersContent.getMaxPlayerId() + 1;
+        MainActivity.next_free_goal_id = GamesContent.getMaxGoalId() + 1;
         
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();
@@ -366,11 +368,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public void onStatsFragmentInteraction(Uri uri)
 	{
 		Log.d("Callback", "Selected setting with uri " + uri);
-	}
-
-	public static Backend getBackend()
-	{
-		return MainActivity.backend;
 	}
 
 	public static Settings getSettings()

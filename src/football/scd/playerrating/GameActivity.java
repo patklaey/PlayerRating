@@ -311,12 +311,8 @@ public class GameActivity extends Activity
 	    {
 	        public void onClick(DialogInterface dialog, int which)
 	        {
-	    		// Delete the game locally
+	    		// Delete the game
 	    		GamesContent.removeGame( GameActivity.current_game_id );
-	    		
-	    		// Delete the game from the backend
-	    		MainActivity.getBackend().removeGame( GameActivity.current_game_id );
-	    		
 	    		finish();
 	        }
 	     })
@@ -374,9 +370,6 @@ public class GameActivity extends Activity
 		
 		// Save the game locally
 		GamesContent.addGame(game);
-
-		// Save the game to the backend
-		MainActivity.getBackend().createGame(game);
 		
 		this.editing_game = false;
 		finish();
@@ -490,11 +483,8 @@ public class GameActivity extends Activity
 	
 	public void updateGame(View view)
 	{	
-		// Update the game locally
+		// Update the game
 		GamesContent.updateGame(this.game);
-		
-		// Update the game in the database
-		MainActivity.getBackend().updateGame(this.game);
 		
 		// Update all players to not lose the minutes and ratings value for this game
 		PlayersContent.updateAllPlayers();
@@ -667,8 +657,6 @@ public class GameActivity extends Activity
         	
         	Player player_who_scored = PlayersContent.getPlayerById(edited_goal.getPlayerId());
         	PlayersContent.updatePlayer(player_who_scored);
-        	MainActivity.getBackend().updatePlayer(player_who_scored);
-        	
         	this.away_goal_adapter.notifyDataSetChanged();
         }
         
@@ -688,9 +676,7 @@ public class GameActivity extends Activity
 			}
         	
         	Player player_who_scored = PlayersContent.getPlayerById(edited_goal.getPlayerId());
-        	PlayersContent.updatePlayer(player_who_scored);
-        	MainActivity.getBackend().updatePlayer(player_who_scored);
-        	
+        	PlayersContent.updatePlayer(player_who_scored);        	
         	this.home_goal_adapter.notifyDataSetChanged();
         }
     }
