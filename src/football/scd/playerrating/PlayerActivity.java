@@ -79,6 +79,14 @@ public class PlayerActivity extends Activity
 			// Show the save player button
 			((Button)findViewById(R.id.save_player_button)).setVisibility(View.VISIBLE);
 			
+			// Hide the minutes,ratings and goals labels (as their is nothing to show for a new player)
+			findViewById(R.id.player_minutes).setVisibility(View.INVISIBLE);
+			findViewById(R.id.player_goals).setVisibility(View.INVISIBLE);
+			findViewById(R.id.player_rating).setVisibility(View.INVISIBLE);
+			findViewById(R.id.player_total_goals).setVisibility(View.INVISIBLE);
+			findViewById(R.id.player_total_minutes).setVisibility(View.INVISIBLE);
+			findViewById(R.id.player_average_rating).setVisibility(View.INVISIBLE);
+			
 			// Remember that it is a new player
 			this.new_player = true;
 			
