@@ -25,6 +25,8 @@
         android:layout_below="@id/player_name"
         android:ems="10"
         android:enabled="false"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
         android:hint="@string/name" >
 
         <requestFocus />
@@ -48,6 +50,8 @@
         android:layout_below="@id/player_givenname"
         android:ems="10"
         android:enabled="false"
+        android:imeOptions="actionDone"
+		android:singleLine="true"
         android:hint="@string/givenname" />
 
     <TextView

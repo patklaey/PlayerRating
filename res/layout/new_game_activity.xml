@@ -21,6 +21,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:hint="@string/opponent"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
         android:ems="10" >
 
         <requestFocus />

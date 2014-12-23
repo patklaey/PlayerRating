@@ -43,6 +43,8 @@
         android:layout_alignLeft="@+id/textView1"
         android:layout_alignParentRight="true"
         android:hint="@string/my_team_name"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
         android:layout_below="@+id/textView1"
         android:ems="10" >
 
