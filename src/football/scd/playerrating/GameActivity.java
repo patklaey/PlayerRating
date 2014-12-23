@@ -67,7 +67,8 @@ public class GameActivity extends Activity
 	@Override
 	public void onBackPressed() 
 	{
-		if ( this.game.isFinished() || this.wake_lock == null )
+		// If it is a running game do nothing, otherwise go back
+		if ( this.new_game || this.game.isFinished() || this.wake_lock == null )
 			super.onBackPressed();
 	}
 	
@@ -656,7 +657,15 @@ public class GameActivity extends Activity
 			}
         	
         	Player player_who_scored = PlayersContent.getPlayerById(edited_goal.getPlayerId());
-        	PlayersContent.updatePlayer(player_who_scored);
+        	if ( ! player_who_scored.equals(MainActivity.GOAL_AGAINS_PLAYER) ) {
+				List<Goal> goal_list = player_who_scored.getGoals();
+				for (Goal goal : goal_list) {
+					if ( goal.getID() == edited_goal.getID() )
+						goal_list.set(goal_list.indexOf(goal), edited_goal);
+				}
+				player_who_scored.setGoals(goal_list);
+        	}
+        	
         	this.away_goal_adapter.notifyDataSetChanged();
         }
         
@@ -676,7 +685,15 @@ public class GameActivity extends Activity
 			}
         	
         	Player player_who_scored = PlayersContent.getPlayerById(edited_goal.getPlayerId());
-        	PlayersContent.updatePlayer(player_who_scored);        	
+        	if ( ! player_who_scored.equals(MainActivity.GOAL_AGAINS_PLAYER) ) {
+				List<Goal> goal_list = player_who_scored.getGoals();
+				for (Goal goal : goal_list) {
+					if ( goal.getID() == edited_goal.getID() )
+						goal_list.set(goal_list.indexOf(goal), edited_goal);
+				}
+				player_who_scored.setGoals(goal_list);
+        	};
+        	
         	this.home_goal_adapter.notifyDataSetChanged();
         }
     }
