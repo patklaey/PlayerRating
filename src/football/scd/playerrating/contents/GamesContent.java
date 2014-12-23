@@ -33,7 +33,12 @@ public class GamesContent
 	}
 	
 	public static void initializeGamesFromBackend() {
-		for (Game backend_game : GamesContent.backend.getAllGames()) {
+		List<Game> backend_games = GamesContent.backend.getAllGames();
+		
+		if ( backend_games == null )
+			return;
+		
+		for (Game backend_game : backend_games ) {
 			GAMES.add(backend_game);
 			GAME_MAP.put(backend_game.getID(), backend_game);
 		}

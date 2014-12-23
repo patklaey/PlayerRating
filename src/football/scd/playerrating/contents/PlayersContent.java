@@ -34,7 +34,12 @@ public class PlayersContent
 	}
 	
 	public static void initializePlayersFromBackend() {
-		for (Player backend_player : PlayersContent.backend.getAllPlayers()) {
+		List<Player> backend_players = PlayersContent.backend.getAllPlayers();
+		
+		if ( backend_players == null )
+			return;
+		
+		for (Player backend_player : backend_players) {
 			PLAYERS.add(backend_player);
 			PLAYER_MAP.put(backend_player.getID(), backend_player);
 		}
