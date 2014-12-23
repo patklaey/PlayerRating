@@ -76,7 +76,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	
 	// The evil player ;-)
 	public static final Player GOAL_AGAINS_PLAYER = new Player(-1, "Goal", "Against");
-	private static final int SETTINGS = 1;
+	private static final int SETTINGS_REQUEST_CODE = 1;
 	
 	// The settings
 	private static Settings settings;
@@ -210,7 +210,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             	
             	// Simply start the SettingsActivity
             	intent = new Intent(this,SettingsActivity.class);
-            	this.startActivityForResult(intent, MainActivity.SETTINGS);
+            	this.startActivityForResult(intent, MainActivity.SETTINGS_REQUEST_CODE);
             	return true;
             	
             default:
@@ -318,6 +318,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     	settings.setHalfTimeDuration(half_time);
     	settings.setTeamName(team_name);
     	MainActivity.settings = settings;
+    	
+    	// If the default team name is set, immediately start the settings activity
+    	if ( settings.getTeamName() == default_team_name ) {
+        	Intent intent = new Intent(this,SettingsActivity.class);
+        	this.startActivityForResult(intent, MainActivity.SETTINGS_REQUEST_CODE);
+    	}
     }
     
     public void saveSettings(Settings settings)
@@ -339,7 +345,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     	super.onActivityResult(request_code, result_code, data);
     	
         // If the result is from edit property
-        if ( request_code == MainActivity.SETTINGS && result_code == RESULT_OK )
+        if ( request_code == MainActivity.SETTINGS_REQUEST_CODE && result_code == RESULT_OK )
         {
         	Settings settings = (Settings) data.getSerializableExtra(SettingsActivity.EXTRA_SETTINGS);
         	this.saveSettings(settings);
