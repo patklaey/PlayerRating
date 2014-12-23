@@ -644,6 +644,7 @@ public class GameActivity extends Activity
         if ( request_code == GameActivity.EDIT_AWAY_GOAL_REQUEST_CODE && result_code == Activity.RESULT_OK )
         {
         	Goal edited_goal = (Goal) data.getSerializableExtra(EditPlayerProperty.EXTRA_PROPERTY);
+        	int old_goal_scorer_player_id = -2;
         	
         	List<Goal> goals_in_list = this.game.getGoalsScored();
         	if ( this.game.isHomeGame() )
@@ -651,6 +652,7 @@ public class GameActivity extends Activity
         	
         	for (Goal current_goal : goals_in_list ) {
 				if ( current_goal.getID() == edited_goal.getID() ) {
+					old_goal_scorer_player_id = current_goal.getPlayerId();
 					current_goal.setMinute( edited_goal.getMinute() );
 					current_goal.setPlayerId( edited_goal.getPlayerId() );
 				}
@@ -658,12 +660,23 @@ public class GameActivity extends Activity
         	
         	Player player_who_scored = PlayersContent.getPlayerById(edited_goal.getPlayerId());
         	if ( ! player_who_scored.equals(MainActivity.GOAL_AGAINS_PLAYER) ) {
-				List<Goal> goal_list = player_who_scored.getGoals();
-				for (Goal goal : goal_list) {
-					if ( goal.getID() == edited_goal.getID() )
-						goal_list.set(goal_list.indexOf(goal), edited_goal);
-				}
-				player_who_scored.setGoals(goal_list);
+        		if ( old_goal_scorer_player_id == edited_goal.getPlayerId() ) {
+					List<Goal> goal_list = player_who_scored.getGoals();
+					for (Goal goal : goal_list) {
+						if ( goal.getID() == edited_goal.getID() ) 
+							goal_list.set(goal_list.indexOf(goal), edited_goal);
+					}
+					player_who_scored.setGoals(goal_list);
+        		} else {
+        			Player old_scorer = PlayersContent.getPlayerById(old_goal_scorer_player_id);
+        			List<Goal> old_scorer_goals = old_scorer.getGoals();
+        			for( Goal goal : old_scorer_goals ) {
+        				if ( goal.getID() == edited_goal.getID() )
+        					old_scorer_goals.remove(goal);
+        			}
+        			old_scorer.setGoals(old_scorer_goals);
+        			player_who_scored.addGoal(edited_goal);
+        		}
         	}
         	
         	this.away_goal_adapter.notifyDataSetChanged();
@@ -672,13 +685,15 @@ public class GameActivity extends Activity
         if ( request_code == GameActivity.EDIT_HOME_GOAL_REQUEST_CODE && result_code == Activity.RESULT_OK )
         {
         	Goal edited_goal = (Goal) data.getSerializableExtra(EditPlayerProperty.EXTRA_PROPERTY);
-        	
+        	int old_goal_scorer_player_id = -2;
+
         	List<Goal> goals_in_list = this.game.getGoalsConceded();
         	if ( this.game.isHomeGame() )
         		goals_in_list = this.game.getGoalsScored();
         	
         	for (Goal current_goal : goals_in_list ) {
 				if ( current_goal.getID() == edited_goal.getID() ) {
+					old_goal_scorer_player_id = current_goal.getPlayerId();
 					current_goal.setMinute( edited_goal.getMinute() );
 					current_goal.setPlayerId( edited_goal.getPlayerId() );
 				}
@@ -686,13 +701,24 @@ public class GameActivity extends Activity
         	
         	Player player_who_scored = PlayersContent.getPlayerById(edited_goal.getPlayerId());
         	if ( ! player_who_scored.equals(MainActivity.GOAL_AGAINS_PLAYER) ) {
-				List<Goal> goal_list = player_who_scored.getGoals();
-				for (Goal goal : goal_list) {
-					if ( goal.getID() == edited_goal.getID() )
-						goal_list.set(goal_list.indexOf(goal), edited_goal);
-				}
-				player_who_scored.setGoals(goal_list);
-        	};
+        		if ( old_goal_scorer_player_id == edited_goal.getPlayerId() ) {
+					List<Goal> goal_list = player_who_scored.getGoals();
+					for (Goal goal : goal_list) {
+						if ( goal.getID() == edited_goal.getID() ) 
+							goal_list.set(goal_list.indexOf(goal), edited_goal);
+					}
+					player_who_scored.setGoals(goal_list);
+        		} else {
+        			Player old_scorer = PlayersContent.getPlayerById(old_goal_scorer_player_id);
+        			List<Goal> old_scorer_goals = old_scorer.getGoals();
+        			for( Goal goal : old_scorer_goals ) {
+        				if ( goal.getID() == edited_goal.getID() )
+        					old_scorer_goals.remove(goal);
+        			}
+        			old_scorer.setGoals(old_scorer_goals);
+        			player_who_scored.addGoal(edited_goal);
+        		}
+        	}
         	
         	this.home_goal_adapter.notifyDataSetChanged();
         }
