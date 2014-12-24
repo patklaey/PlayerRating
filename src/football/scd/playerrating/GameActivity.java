@@ -294,7 +294,8 @@ public class GameActivity extends Activity
 		// Enable the start game button
 		if ( ((Button)findViewById(R.id.substitution_button)).getText().equals("Start 11") )
 		{
-			((Button)findViewById(R.id.start_end_game_button)).setEnabled(true);
+			((Button)findViewById(R.id.start_end_game_button)).setVisibility(View.VISIBLE);
+			((Button)findViewById(R.id.delete_game_button)).setVisibility(View.INVISIBLE);
 			((Button)findViewById(R.id.substitution_button)).setText(R.string.substitution);
 		}
 		

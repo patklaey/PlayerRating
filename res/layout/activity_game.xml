@@ -99,8 +99,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:enabled="false"
+        android:enabled="true"
         android:onClick="startGame"
+        android:visibility="invisible"
         android:text="@string/start_game" />
 
     <Chronometer
@@ -157,7 +158,6 @@
         android:layout_alignBaseline="@+id/start_end_game_button"
         android:layout_alignBottom="@+id/start_end_game_button"
         android:layout_alignLeft="@+id/start_end_game_button"
-        android:visibility="invisible"
         android:onClick="deleteGame"
         android:text="@string/delete" />
 
