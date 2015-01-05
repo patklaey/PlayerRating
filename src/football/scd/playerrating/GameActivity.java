@@ -152,6 +152,7 @@ public class GameActivity extends Activity
 				((TextView)findViewById(R.id.half_time_text)).setText("Finished");
 				findViewById(R.id.game_minutes_played).setVisibility(View.INVISIBLE);
 				((Button)findViewById(R.id.show_ratings_button)).setVisibility(View.VISIBLE);
+				findViewById(R.id.delete_game_button).setVisibility(View.INVISIBLE);
 			}
 			
 			// Assign chronometer
