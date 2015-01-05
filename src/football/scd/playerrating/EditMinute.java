@@ -15,25 +15,22 @@ import android.widget.Toast;
 
 public class EditMinute extends Activity
 {
-
 	private Minute minute;
-	private TextView minute_view;
+	private TextView minuteView;
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit_minute);
 		
 		this.minute = (Minute) getIntent().getSerializableExtra(EditPlayerProperty.EXTRA_PROPERTY);
-		this.minute_view = (TextView) findViewById(R.id.edit_minute_minute);
-		this.minute_view.setText("" + this.minute.getMinutes());
+		this.minuteView = (TextView) findViewById(R.id.edit_minute_minute);
+		this.minuteView.setText("" + this.minute.getMinutes());
 		
 	}
 	
-	public void save(View view)
-	{
-		int value = Integer.valueOf( this.minute_view.getText().toString() );
+	public void save(View view) {
+		int value = Integer.valueOf( this.minuteView.getText().toString() );
 		
 		// Check if the value is correct
 		if ( value < 0 || value > MainActivity.getSettings().getHalfTimeDuration() * 2 )
@@ -55,8 +52,7 @@ public class EditMinute extends Activity
 		finish();
 	}
 	
-	public void delete(View view)
-	{
+	public void delete(View view) {
 		new AlertDialog.Builder(this)
 	    .setTitle("Delete Minutes")
 	    .setMessage("Are you sure you want to delete this minutes entry?")
@@ -76,22 +72,19 @@ public class EditMinute extends Activity
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
-	{
+	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.edit_minute, menu);
 		return true;
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) 
-	{
+	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings)
-		{
+		if (id == R.id.action_settings) {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

@@ -16,8 +16,8 @@ public class AddProperty extends Activity
 	public static final int GAME_SELECTED = 1;
 	public static final String EXTRA_NEW_PROPERTY = "football.scd.playerrating.AddProperty.newProperty";
 	
-	private TextView game_name;
-	private TextView property_name;
+	private TextView gameName;
+	private TextView propertyName;
 	private Game game;
 	
 	@Override
@@ -25,27 +25,26 @@ public class AddProperty extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_property);
 		
-		this.property_name = (TextView) findViewById(R.id.add_property_property);
-		this.game_name = (TextView) findViewById(R.id.add_goal_game_name);
+		this.propertyName = (TextView) findViewById(R.id.add_property_property);
+		this.gameName = (TextView) findViewById(R.id.add_goal_game_name);
 		this.game = null;
 		
 		// Check which property is currently beeing edited and set the label
 		// accordingly
-		switch (EditPlayerProperty.getProperty() )
-		{
+		switch (EditPlayerProperty.getProperty() ) {
 			case PlayerActivity.EXTRA_EDITABLE_PROPERTY_GOALS:
 				
-				this.property_name.setText(R.string.minute);
+				this.propertyName.setText(R.string.minute);
 				break;
 				
 			case PlayerActivity.EXTRA_EDITABLE_PROPERTY_MINUTES:
 				
-				this.property_name.setText(R.string.minutes);
+				this.propertyName.setText(R.string.minutes);
 				break;
 				
 			case PlayerActivity.EXTRA_EDITABLE_PROPERTY_RATINGS:
 				
-				this.property_name.setText(R.string.rating);
+				this.propertyName.setText(R.string.rating);
 				break;
 				
 			default:
@@ -66,31 +65,27 @@ public class AddProperty extends Activity
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
+		if (id == R.id.action_settings) return true;
+		
 		return super.onOptionsItemSelected(item);
 	}
 	
-	public void selectGame(View view)
-	{
+	public void selectGame(View view) {
 		Intent intent = new Intent(this, SelectGame.class);
 		this.startActivityForResult(intent, AddProperty.GAME_SELECTED);
 	}
 	
-	public void save(View view)
-	{
+	public void save(View view) {
+		
 		// Validate the input
-		if ( ! this.validatePropertyInput() )
-			return;
+		if ( ! this.validatePropertyInput() ) return;
 		
 		// Create the intent
 		Intent intent = new Intent();
 		
 		// Check which property it is and act accordingly
 		int minutes;
-		switch ( EditPlayerProperty.getProperty() )
-		{
+		switch ( EditPlayerProperty.getProperty() ) {
 			case PlayerActivity.EXTRA_EDITABLE_PROPERTY_GOALS:
 				
 				// Create a new goal and add it to the intent
@@ -126,18 +121,15 @@ public class AddProperty extends Activity
 		finish();
 	}
 	
-	public void cancel(View view)
-	{
+	public void cancel(View view) {
 		Intent intent = new Intent();
 		setResult(RESULT_CANCELED, intent);
 		finish();
 	}
 	
-	private boolean validatePropertyInput()
-	{
+	private boolean validatePropertyInput() {
 		// First check if a game is set
-		if ( this.game == null )
-		{
+		if ( this.game == null ) {
 			Context context = getApplicationContext();
 			String message = "Please select a game!";
 			Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
@@ -148,12 +140,10 @@ public class AddProperty extends Activity
 		
 		// Validate the input
 		if ( EditPlayerProperty.getProperty() == PlayerActivity.EXTRA_EDITABLE_PROPERTY_GOALS || 
-			 EditPlayerProperty.getProperty() == PlayerActivity.EXTRA_EDITABLE_PROPERTY_MINUTES )
-		{
+			 EditPlayerProperty.getProperty() == PlayerActivity.EXTRA_EDITABLE_PROPERTY_MINUTES ) {
 			// Minutes must be between 0 and HALF_TIME_DURATION x 2
 			int minutes = Integer.valueOf( ((TextView) findViewById(R.id.add_property_property_input )).getText().toString() );
-			if ( minutes < 0 || minutes > ( MainActivity.getSettings().getHalfTimeDuration() * 2 ) )
-			{
+			if ( minutes < 0 || minutes > ( MainActivity.getSettings().getHalfTimeDuration() * 2 ) ) {
 				Context context = getApplicationContext();
 				String message = "The entered minutes value is not valid!\nMinutes must be between 0 and ";
 				message += MainActivity.getSettings().getHalfTimeDuration() * 2;
@@ -162,12 +152,10 @@ public class AddProperty extends Activity
 				toast.show();
 				return false;
 			}
-		} else
-		{
+		} else {
 			// Rating must be between 1 and 4
 			int rating = Integer.valueOf( (String)((TextView) findViewById(R.id.add_property_property_input )).getText().toString() );
-			if ( rating < 1 || rating > 4 )
-			{
+			if ( rating < 1 || rating > 4 ) {
 				Context context = getApplicationContext();
 				String message = "The entered rating value is not valid!\nRatings must be between 1 and 4";
 				Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
@@ -181,14 +169,12 @@ public class AddProperty extends Activity
 	}
 	
 	@Override
-    protected void onActivityResult(int request_code, int result_code, Intent data)
-    {
+    protected void onActivityResult(int request_code, int result_code, Intent data) {
     	super.onActivityResult(request_code, result_code, data);
     	
-    	if ( request_code == AddProperty.GAME_SELECTED && result_code == RESULT_OK )
-    	{
+    	if ( request_code == AddProperty.GAME_SELECTED && result_code == RESULT_OK ) {
     		Game game = (Game) data.getSerializableExtra(SelectGame.EXTRA_GAME);
-    		this.game_name.setText(game.getOpponent());
+    		this.gameName.setText(game.getOpponent());
     		this.game = game;
     	}
     }

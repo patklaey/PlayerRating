@@ -1,9 +1,5 @@
 package football.scd.playerrating;
 
-import java.util.ArrayList;
-import java.util.List;
-import football.scd.playerrating.contents.GamesContent;
-import football.scd.playerrating.contents.PlayersContent;
 import android.os.Bundle;
 import android.app.ListActivity;
 import android.content.Intent;
@@ -13,21 +9,27 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import football.scd.playerrating.contents.GamesContent;
+import football.scd.playerrating.contents.PlayersContent;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class EditPlayerProperty extends ListActivity {
 
 	private Player player;
-	private ArrayAdapter<Minute> minute_adapter;
-	private ArrayAdapter<Rating> rating_adapter;
-	private ArrayAdapter<String> goal_adapter;
+	private ArrayAdapter<Minute> minuteAdapter;
+	private ArrayAdapter<Rating> ratingAdapter;
+	private ArrayAdapter<String> goalAdapter;
 	
 	// The goals, minutes, and ratings list are all separate lists
-	private List<String> goals_string;
+	private List<String> goalsString;
 	private List<Goal> goals;
 
 	// The property
 	private static int property;
-	private int property_position;
-	private Object old_property;
+	private int propertyPosition;
+	private Object oldProperty;
 
 	// The extra to pass to the edit activity
 	public static final String EXTRA_PROPERTY = "football.scd.playerrating.editplayerproperty.extra_property";
@@ -37,8 +39,7 @@ public class EditPlayerProperty extends ListActivity {
 	public static final int RESULT_DELETED = 2;
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) 
-	{
+	protected void onCreate(Bundle savedInstanceState) {
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit_player_property);
@@ -60,31 +61,28 @@ public class EditPlayerProperty extends ListActivity {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void setAdapterContent()
-	{
+	public void setAdapterContent() {
 		// Setup the list view adapter according to the property which is to 
 		// edit
-		switch ( EditPlayerProperty.property ) 
-		{
+		switch ( EditPlayerProperty.property ) {
 			case PlayerActivity.EXTRA_EDITABLE_PROPERTY_GOALS :
 						
 				// Set the minutes list
-				this.goals_string = new ArrayList<String>();
+				this.goalsString = new ArrayList<String>();
 						
 				// Fill the goals list
-				for (Goal goal : this.player.getGoals())
-				{
+				for (Goal goal : this.player.getGoals()) {
 					this.goals.add( goal );
-					this.goals_string.add(GamesContent.getGameById(goal.getGameId()).getOpponent() + ": " + goal.toString() );
+					this.goalsString.add(GamesContent.getGameById(goal.getGameId()).getOpponent() + ": " + goal.toString() );
 				}
 						
 				// Set the players goals as array adapter content
-				this.goal_adapter = new ArrayAdapter<String>(this,
+				this.goalAdapter = new ArrayAdapter<String>(this,
 						android.R.layout.simple_list_item_1,android.R.id.text1,
-						this.goals_string );
+						this.goalsString );
 				
 				// Set the listvies adapter
-				((ListView)findViewById(android.R.id.list)).setAdapter(this.goal_adapter);
+				((ListView)findViewById(android.R.id.list)).setAdapter(this.goalAdapter);
 				((ArrayAdapter<String>)((ListView)findViewById(android.R.id.list)).getAdapter()).notifyDataSetChanged();
 				
 				break;
@@ -92,24 +90,24 @@ public class EditPlayerProperty extends ListActivity {
 			case PlayerActivity.EXTRA_EDITABLE_PROPERTY_MINUTES :
 
 				// Set the players minutes as array adapter content
-				this.minute_adapter = new ArrayAdapter<Minute>(this,
+				this.minuteAdapter = new ArrayAdapter<Minute>(this,
 						android.R.layout.simple_list_item_1,android.R.id.text1,
 						this.player.getMinutes() );
 				
 				// Set the listvies adapter
-				((ListView)findViewById(android.R.id.list)).setAdapter(this.minute_adapter);
+				((ListView)findViewById(android.R.id.list)).setAdapter(this.minuteAdapter);
 	
 				break;
 				
 			case PlayerActivity.EXTRA_EDITABLE_PROPERTY_RATINGS :
 				
 				// Set the players ratings as array adapter content
-				this.rating_adapter = new ArrayAdapter<Rating>(this,
+				this.ratingAdapter = new ArrayAdapter<Rating>(this,
 						android.R.layout.simple_list_item_1,android.R.id.text1,
 						this.player.getRatings() );
 				
 				// Set the listvies adapter
-				((ListView)findViewById(android.R.id.list)).setAdapter(this.rating_adapter);
+				((ListView)findViewById(android.R.id.list)).setAdapter(this.ratingAdapter);
 				
 				break;
 				
@@ -118,8 +116,7 @@ public class EditPlayerProperty extends ListActivity {
 		}
 	}
 	
-	public void finishEdit(View view) 
-	{
+	public void finishEdit(View view) {
 		// Set the result as OK and pass the player back
 		Intent intent = new Intent();
 		intent.putExtra( EditPlayerProperty.EXTRA_PROPERTY_PLAYER_ID, this.player.getID() );
@@ -161,20 +158,18 @@ public class EditPlayerProperty extends ListActivity {
 	}
 	
 	@Override
-	public void onListItemClick(ListView l, View v, int position, long id) 
-	{
+	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		Intent intent;
 		
-		switch ( EditPlayerProperty.property ) 
-		{
+		switch ( EditPlayerProperty.property ) {
 			case PlayerActivity.EXTRA_EDITABLE_PROPERTY_GOALS :
 				
 				// Start the EditGoal activity
 				intent = new Intent(this, EditGoal.class);
 				intent.putExtra(EditPlayerProperty.EXTRA_PROPERTY, this.goals.get(position) );
-				this.old_property = this.goals.get(position);
-				this.property_position = position;
+				this.oldProperty = this.goals.get(position);
+				this.propertyPosition = position;
 				this.startActivityForResult(intent, EditPlayerProperty.EDIT_PROPERTY_RESULT);
 				
 				break;
@@ -184,7 +179,7 @@ public class EditPlayerProperty extends ListActivity {
 				// Start the EditRating activity
 				intent = new Intent(this, EditMinute.class);
 				intent.putExtra(EditPlayerProperty.EXTRA_PROPERTY, this.player.getMinutes().get(position) );
-				this.property_position = position;
+				this.propertyPosition = position;
 				this.startActivityForResult(intent, EditPlayerProperty.EDIT_PROPERTY_RESULT);
 				
 				break;
@@ -194,7 +189,7 @@ public class EditPlayerProperty extends ListActivity {
 				// Start the EditRating activity
 				intent = new Intent(this, EditRating.class);
 				intent.putExtra(EditPlayerProperty.EXTRA_PROPERTY, this.player.getRatings().get(position) );
-				this.property_position = position;
+				this.propertyPosition = position;
 				this.startActivityForResult(intent, EditPlayerProperty.EDIT_PROPERTY_RESULT);
 				
 				break;
@@ -205,34 +200,29 @@ public class EditPlayerProperty extends ListActivity {
 	}
 	
 	@Override
-    protected void onActivityResult(int request_code, int result_code, Intent data)
-    {
+    protected void onActivityResult(int request_code, int result_code, Intent data) {
     	super.onActivityResult(request_code, result_code, data);
     	
         // If the result is from edit property
-        if ( request_code == EditPlayerProperty.EDIT_PROPERTY_RESULT )
-        {
-        	switch ( EditPlayerProperty.property ) 
-    		{
+        if ( request_code == EditPlayerProperty.EDIT_PROPERTY_RESULT ) {
+        	switch ( EditPlayerProperty.property ) {
+        	
     			case PlayerActivity.EXTRA_EDITABLE_PROPERTY_GOALS :
     				
-    				if ( result_code == RESULT_OK)
-    				{
+    				if ( result_code == RESULT_OK) {
 	    				// Replace the goal in the players goal list
 	    				Goal goal = (Goal) data.getSerializableExtra(EditPlayerProperty.EXTRA_PROPERTY);
 	    				
 	    				// Check if it is the same player
-	    				if ( ((Goal)this.old_property).getPlayerId() == goal.getPlayerId() )
-	    				{
+	    				if ( ((Goal)this.oldProperty).getPlayerId() == goal.getPlayerId() ) {
 		    				List<Goal> goal_list = this.player.getGoals();
-		    				goal_list.set(this.property_position, goal);
+		    				goal_list.set(this.propertyPosition, goal);
 		    				this.player.setGoals(goal_list);
 		    				
-	    				} else
-	    				{
+	    				} else {
 	    					// Remove the goal from the old player
 	    					List<Goal> goal_list = this.player.getGoals();
-	    					goal_list.remove(this.property_position);
+	    					goal_list.remove(this.propertyPosition);
 	    					this.player.setGoals(goal_list);
 		    				
 		    				// Add the goal to the new player
@@ -240,11 +230,10 @@ public class EditPlayerProperty extends ListActivity {
 		    				new_scorer.addGoal(goal);
 		    				PlayersContent.updatePlayer( new_scorer );
 	    				}
-    				} else if ( result_code == RESULT_DELETED )
-    				{
+    				} else if ( result_code == RESULT_DELETED ) {
     					// Remove the goal from the old player
     					List<Goal> goal_list = this.player.getGoals();
-    					goal_list.remove(this.property_position);
+    					goal_list.remove(this.propertyPosition);
     					this.player.setGoals(goal_list);
     				}
     				
@@ -253,14 +242,12 @@ public class EditPlayerProperty extends ListActivity {
     			case PlayerActivity.EXTRA_EDITABLE_PROPERTY_MINUTES :
 
     				List<Minute> minute_list = this.player.getMinutes();
-    				if ( result_code == RESULT_OK )
-    				{
+    				if ( result_code == RESULT_OK ) {
 	    				// Get the minute returned from EditMinute activity and set it
 	    				Minute minute = (Minute) data.getSerializableExtra(EditPlayerProperty.EXTRA_PROPERTY);
-	    				minute_list.set(this.property_position, minute);
-    				} else if ( result_code == RESULT_DELETED )
-    				{
-    					minute_list.remove(this.property_position);
+	    				minute_list.set(this.propertyPosition, minute);
+    				} else if ( result_code == RESULT_DELETED ) {
+    					minute_list.remove(this.propertyPosition);
     				}
     				
     				this.player.setMinutes(minute_list);
@@ -271,13 +258,11 @@ public class EditPlayerProperty extends ListActivity {
     				
     				// Start the EditRating activity
     				List<Rating> rating_list = this.player.getRatings();
-    				if ( result_code == RESULT_OK )
-    				{
+    				if ( result_code == RESULT_OK ) {
         				Rating rating = (Rating) data.getSerializableExtra(EditPlayerProperty.EXTRA_PROPERTY);
-        				rating_list.set(this.property_position, rating);
-    				} else if (result_code == RESULT_DELETED )
-    				{
-    					rating_list.remove(this.property_position);
+        				rating_list.set(this.propertyPosition, rating);
+    				} else if (result_code == RESULT_DELETED ) {
+    					rating_list.remove(this.propertyPosition);
     				}
     				
     				this.player.setRatings(rating_list);
@@ -290,14 +275,13 @@ public class EditPlayerProperty extends ListActivity {
         }
         
         // If the result is from add property
-        if ( request_code == EditPlayerProperty.ADD_PROPERTY_RESULT )
-        {
+        if ( request_code == EditPlayerProperty.ADD_PROPERTY_RESULT ) {
+        	
         	// Did the user save?
-        	if ( result_code == RESULT_OK )
-        	{
+        	if ( result_code == RESULT_OK ) {
+        		
         		// Check which property it is
-        		switch ( EditPlayerProperty.property )
-        		{
+        		switch ( EditPlayerProperty.property ) {
 					case PlayerActivity.EXTRA_EDITABLE_PROPERTY_GOALS:
 						
 						// Get the goal and add the correct player
@@ -338,15 +322,13 @@ public class EditPlayerProperty extends ListActivity {
 		this.setAdapterContent();
     }
 	
-	public void addProperty(View view)
-	{
+	public void addProperty(View view) {
 		// Start the add property activity
 		Intent intent = new Intent(this, AddProperty.class);
 		this.startActivityForResult(intent, EditPlayerProperty.ADD_PROPERTY_RESULT);
 	}
 	
-	public static int getProperty() 
-	{
+	public static int getProperty() {
 		return EditPlayerProperty.property;
 	}
 }

@@ -1,12 +1,5 @@
 package football.scd.playerrating;
 
-import java.util.HashMap;
-import java.util.List;
-
-import football.scd.playerrating.ListView.PlayerRatingPlayerListView;
-import football.scd.playerrating.ListView.RatingsOfGameListViewAdapter;
-import football.scd.playerrating.contents.GamesContent;
-import football.scd.playerrating.contents.PlayersContent;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
@@ -32,6 +25,14 @@ import android.widget.Chronometer.OnChronometerTickListener;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import football.scd.playerrating.ListView.PlayerRatingPlayerListView;
+import football.scd.playerrating.ListView.RatingsOfGameListViewAdapter;
+import football.scd.playerrating.contents.GamesContent;
+import football.scd.playerrating.contents.PlayersContent;
+
+import java.util.HashMap;
+import java.util.List;
 
 @SuppressLint("UseSparseArrays")
 @SuppressWarnings("unchecked")

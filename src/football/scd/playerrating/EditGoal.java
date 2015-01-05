@@ -1,6 +1,5 @@
 package football.scd.playerrating;
 
-import football.scd.playerrating.contents.PlayersContent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -16,46 +15,45 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v4.app.NavUtils;
 
-public class EditGoal extends Activity 
-{
+import football.scd.playerrating.contents.PlayersContent;
+
+public class EditGoal extends Activity {
 
 	private static final int CHANGE_SCORER = 1;
+	
 	private Goal goal;
-	private EditText goal_minute_view;
-	private Player goal_scorer;
-	private TextView goal_scorer_view;
+	private EditText goalMinuteView;
+	private Player goalScorer;
+	private TextView goalScorerView;
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) 
-	{
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit_goal);
 		
 		// Get the goal extra
 		this.goal = (Goal) this.getIntent().getSerializableExtra(EditPlayerProperty.EXTRA_PROPERTY);
-		this.goal_scorer = PlayersContent.getPlayerById(goal.getPlayerId());
+		this.goalScorer = PlayersContent.getPlayerById(goal.getPlayerId());
 		
 		// Assing the views
-		this.goal_minute_view = (EditText) this.findViewById(R.id.edit_goal_minute);
-		this.goal_scorer_view = (TextView) this.findViewById(R.id.player_textview);
+		this.goalMinuteView = (EditText) this.findViewById(R.id.edit_goal_minute);
+		this.goalScorerView = (TextView) this.findViewById(R.id.player_textview);
 		
 		
 		// Set the values of label and minute edit text
-		this.goal_minute_view.setText( "" + this.goal.getMinute() );
-		this.goal_scorer_view.setText( this.goal_scorer.getGivenname() + " " + this.goal_scorer.getName() );	
+		this.goalMinuteView.setText( "" + this.goal.getMinute() );
+		this.goalScorerView.setText( this.goalScorer.getGivenname() + " " + this.goalScorer.getName() );	
 		
 		
 		// Show the Up button in the action bar.
 		setupActionBar();
 	}
 	
-	public void save(View view)
-	{
-		int minute_value = Integer.valueOf( this.goal_minute_view.getText().toString() );
+	public void save(View view) {
+		int minute_value = Integer.valueOf( this.goalMinuteView.getText().toString() );
 		
 		// Check if the value is correct
-		if ( minute_value < 0 || minute_value > MainActivity.getSettings().getHalfTimeDuration() * 2 )
-		{
+		if ( minute_value < 0 || minute_value > MainActivity.getSettings().getHalfTimeDuration() * 2 ) {
 			Context context = getApplicationContext();
 			String message = "The entered minutes value is not valid!\nMinutes must be between 0 and ";
 			message += MainActivity.getSettings().getHalfTimeDuration() * 2;
@@ -67,7 +65,7 @@ public class EditGoal extends Activity
 		
 		// Set the goals minute
 		this.goal.setMinute( minute_value );
-		this.goal.setPlayerId( this.goal_scorer.getID() );
+		this.goal.setPlayerId( this.goalScorer.getID() );
 		
 		// Set the result as OK and pass the game back
 		Intent intent = new Intent();
@@ -76,15 +74,13 @@ public class EditGoal extends Activity
 		finish();
 	}
 	
-	public void changePlayer(View view)
-	{
+	public void changePlayer(View view) {
 		// Get the player
 		Intent scorer = new Intent(this,SelectPlayer.class);
 		this.startActivityForResult(scorer, EditGoal.CHANGE_SCORER);
 	}
 	
-	public void delete(View view)
-	{
+	public void delete(View view) {
 		new AlertDialog.Builder(this)
 	    .setTitle("Delete Goal")
 	    .setMessage("Are you sure you want to delete this goal?")
@@ -143,11 +139,10 @@ public class EditGoal extends Activity
     	
         // If it was a SELF_GOAL_SCORED activity and it returned ok, add the
     	// goal to the goals scored list
-        if ( request_code == EditGoal.CHANGE_SCORER && result_code == RESULT_OK )
-        {
+        if ( request_code == EditGoal.CHANGE_SCORER && result_code == RESULT_OK ) {
         	Player returned = (Player) data.getSerializableExtra(SelectPlayer.EXTRA_PLAYER);
-        	this.goal_scorer = returned;
-        	this.goal_scorer_view.setText( this.goal_scorer.getGivenname() + " " + this.goal_scorer.getName() );	
+        	this.goalScorer = returned;
+        	this.goalScorerView.setText( this.goalScorer.getGivenname() + " " + this.goalScorer.getName() );	
         }
     }
 
